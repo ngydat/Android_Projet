@@ -6,7 +6,7 @@ package ipl.android_projet;
 public class Test {
 
     public void on(){
-        
+
     }
 }
 
