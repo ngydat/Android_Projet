@@ -10,9 +10,20 @@
     tools:showIn="@layout/activity_main" tools:context=".MainActivity">
 
     <WebView
-        android:id="@+id/main"
+        android:id="@+id/webView_content_main"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent">
-
+        android:layout_height="wrap_content">
     </WebView>
+
+    <Button
+        android:id="@+id/localiser_content_main"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+
+        android:layout_below="@id/webView_content_main"
+        android:layout_alignParentRight="true"
+        android:text="Localiser"
+        android:onClick="Localiser"
+        />
+
 </RelativeLayout>
