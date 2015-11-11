@@ -2,6 +2,7 @@ package ipl.android_projet;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
@@ -31,6 +32,10 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        Toolbar toolBar = (Toolbar) findViewById(R.id.toolbar);
+
+        toolBar.setTitle(R.string.app_titre);
 
         String htmlUrl = "file:///android_asset/Explication.html";
         WebView webView = (WebView) findViewById(R.id.webView_content_main);
@@ -64,6 +69,14 @@ public class MainActivity extends AppCompatActivity {
 
 
     public void Localiser(View view){
+
+        double latitude = 43.7792500 ;
+        double longitude = 11.2462600;
+
+        Intent intentLocaliser = new Intent(MainActivity.this,LocalisationActivity.class);
+        intentLocaliser.putExtra("latitude",latitude);
+        intentLocaliser.putExtra("longitude",longitude);
+        startActivity(intentLocaliser);
 
 
 
