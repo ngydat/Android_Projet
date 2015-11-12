@@ -13,6 +13,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme" >
         <uses-library android:name="com.google.android.maps" />
+
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"
@@ -26,6 +27,11 @@
         <activity
             android:name=".LocalisationActivity"
             android:label="@string/title_activity_localisation"
+            android:theme="@style/AppTheme.NoActionBar" >
+        </activity>
+        <activity
+            android:name=".ListingEpreuvesActivity"
+            android:label="@string/title_activity_listing_epreuves"
             android:theme="@style/AppTheme.NoActionBar" >
         </activity>
     </application>

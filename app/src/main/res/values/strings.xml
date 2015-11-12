@@ -4,4 +4,7 @@
     <string name="app_titre">Hunter Game</string>
     <string name="titre_tool_localisation">Localisation</string>
     <string name="title_activity_localisation">LocalisationActivity</string>
+    <string name="title_activity_listing_epreuves">ListingEpreuvesActivity</string>
+    <string name="titre_tool_listing">Epreuves</string>
+
 </resources>

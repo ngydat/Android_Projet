@@ -13,6 +13,8 @@ import android.widget.TextView;
 
 public class LocalisationActivity extends AppCompatActivity {
 
+    private double latitude;
+    private double longitude;
 
         @Override
         protected void onCreate(Bundle savedInstanceState) {
@@ -23,8 +25,8 @@ public class LocalisationActivity extends AppCompatActivity {
             toolBar.setTitle(R.string.titre_tool_localisation);
 
             Intent intent = getIntent();
-            double latitude = intent.getDoubleExtra("latitude", 0);
-            double longitude = intent.getDoubleExtra("longitude",0);
+            latitude = intent.getDoubleExtra("latitude", 0);
+            longitude = intent.getDoubleExtra("longitude",0);
 
 
             TextView latitudeView = (TextView) findViewById(R.id.latitude);
@@ -55,6 +57,16 @@ public class LocalisationActivity extends AppCompatActivity {
             }
             return super.onOptionsItemSelected(item);
         }
+
+
+        public void commencer(View v){
+
+            Intent intentListing = new Intent(LocalisationActivity.this,ListingEpreuvesActivity.class);
+            intentListing.putExtra("latitude",latitude);
+            intentListing.putExtra("longitude",longitude);
+            startActivity(intentListing);
+        }
+
     }
 
 

@@ -68,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    public void Localiser(View view){
+    public void localiser(View view){
 
         double latitude = 50.8494611 ;
         double longitude = 4.4507495;

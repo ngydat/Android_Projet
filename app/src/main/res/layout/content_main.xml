@@ -38,7 +38,7 @@
             android:layout_below="@id/webView_content_main"
             android:layout_alignParentRight="true"
             android:text="Localiser"
-            android:onClick="Localiser"
+            android:onClick="localiser"
             />
 
     </RelativeLayout>
