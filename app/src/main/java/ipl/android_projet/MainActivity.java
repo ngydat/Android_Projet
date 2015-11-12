@@ -70,8 +70,8 @@ public class MainActivity extends AppCompatActivity {
 
     public void Localiser(View view){
 
-        double latitude = 43.7792500 ;
-        double longitude = 11.2462600;
+        double latitude = 50.8494611 ;
+        double longitude = 4.4507495;
 
         Intent intentLocaliser = new Intent(MainActivity.this,LocalisationActivity.class);
         intentLocaliser.putExtra("latitude",latitude);
