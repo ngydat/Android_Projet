@@ -22,6 +22,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -41,7 +42,6 @@ public class MainActivity extends AppCompatActivity {
         WebView webView = (WebView) findViewById(R.id.webView_content_main);
         WebSettings webSettings = webView.getSettings();
         webSettings.setJavaScriptEnabled(true);
-
         webView.loadUrl(htmlUrl);
 
     }
@@ -68,15 +68,15 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    public void localiser(View view){
+    public void demarrer(View view){
+        EditText editText = (EditText) findViewById(R.id.edit_prenom_content_main);
+        String prenom = editText.getText().toString();
 
-        double latitude = 50.8494611 ;
-        double longitude = 4.4507495;
+        Intent intentDemarrer = new Intent(MainActivity.this,ListingEpreuvesActivity.class);
+        intentDemarrer.putExtra("prenom",prenom);
 
-        Intent intentLocaliser = new Intent(MainActivity.this,LocalisationActivity.class);
-        intentLocaliser.putExtra("latitude",latitude);
-        intentLocaliser.putExtra("longitude",longitude);
-        startActivity(intentLocaliser);
+
+        startActivity(intentDemarrer);
 
 
 

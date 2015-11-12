@@ -10,4 +10,13 @@
     tools:showIn="@layout/activity_listing_epreuves"
     tools:context="ipl.android_projet.ListingEpreuvesActivity">
 
+
+
+    <TextView
+        android:id="@+id/prenom_content_listing"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+
+
 </RelativeLayout>

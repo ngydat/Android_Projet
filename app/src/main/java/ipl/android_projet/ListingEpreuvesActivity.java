@@ -1,12 +1,14 @@
 package ipl.android_projet;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.w3c.dom.Document;
@@ -33,6 +35,13 @@ public class ListingEpreuvesActivity extends AppCompatActivity {
         setContentView(R.layout.activity_listing_epreuves);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle(R.string.titre_tool_listing);
+
+        Intent intent = getIntent();
+        String prenom = intent.getStringExtra("prenom");
+
+        TextView prenomView = (TextView) findViewById(R.id.prenom_content_listing);
+        prenomView.setText(prenom);
+
 
 
         //Source : http://www.mkyong.com/java/how-to-read-xml-file-in-java-dom-parser/
@@ -75,35 +84,6 @@ public class ListingEpreuvesActivity extends AppCompatActivity {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-
-
-
-
-
-
-        /*if (root == null){
-            CharSequence text = "Hello toast!";
-            int duration = Toast.LENGTH_SHORT;
-
-            Toast toast = Toast.makeText(c, text, duration);
-            toast.show();
-        } else {
-            root.normalize();
-
-            NodeList items = root.getElementsByTagName("Latitude");
-
-            Node item =items.item(0);  //on récupère la première balise Latitude
-            String id = item.getNodeValue();
-
-
-
-            int du = Toast.LENGTH_LONG;
-
-            Toast toast = Toast.makeText(c,id,du);
-            toast.show();
-        }*/
-
 
 
 

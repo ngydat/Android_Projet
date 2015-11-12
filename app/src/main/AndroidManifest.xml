@@ -27,14 +27,8 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".LocalisationActivity"
-            android:label="@string/title_activity_localisation"
-            android:theme="@style/AppTheme.NoActionBar" >
-        </activity>
-        <activity
             android:name=".ListingEpreuvesActivity"
             android:label="@string/title_activity_listing_epreuves"
-            android:parentActivityName="LocalisationActivity"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
     </application>

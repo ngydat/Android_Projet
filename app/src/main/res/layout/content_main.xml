@@ -31,14 +31,28 @@
             >
         </WebView>
 
+
+
+        <EditText
+            android:id="@+id/edit_prenom_content_main"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/webView_content_main"
+            android:textSize="30dp"
+            android:layout_centerInParent="true"
+            android:hint="Prenom"
+            android:maxLength="20"
+            android:inputType="text"
+            />
+
         <Button
-            android:id="@+id/localiser_content_main"
+            android:id="@+id/demarrer_content_main"
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
-            android:layout_below="@id/webView_content_main"
-            android:layout_alignParentRight="true"
-            android:text="Localiser"
-            android:onClick="localiser"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@id/edit_prenom_content_main"
+            android:text="Demarrer"
+            android:onClick="demarrer"
             />
 
     </RelativeLayout>
