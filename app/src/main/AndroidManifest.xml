@@ -5,6 +5,8 @@
     <!-- demander la permission dans le Manifest pour utiliser les fonctionnalités de localisation. -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+
 
     <application
         android:allowBackup="true"
@@ -32,7 +34,8 @@
         <activity
             android:name=".ListingEpreuvesActivity"
             android:label="@string/title_activity_listing_epreuves"
-            android:theme="@style/AppTheme.NoActionBar" >
+            android:parentActivityName="LocalisationActivity"
+            android:theme="@style/AppTheme.NoActionBar">
         </activity>
     </application>
 
