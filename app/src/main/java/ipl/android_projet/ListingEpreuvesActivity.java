@@ -8,6 +8,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -43,7 +45,6 @@ public class ListingEpreuvesActivity extends AppCompatActivity {
         prenomView.setText(prenom);
 
 
-
         //Source : http://www.mkyong.com/java/how-to-read-xml-file-in-java-dom-parser/
         //http://stackoverflow.com/questions/11820142/how-to-pass-a-file-path-which-is-in-assets-folder-to-filestring-path
         Context context = getApplicationContext();
@@ -62,18 +63,11 @@ public class ListingEpreuvesActivity extends AppCompatActivity {
             DocumentBuilder builder = facto.newDocumentBuilder();
             doc = builder.parse(in);
             doc.getDocumentElement().normalize();
-            NodeList nList = doc.getElementsByTagName("Etape");
 
-            Node node = nList.item(0);
-
-            Element e = (Element) node;
-
-            CharSequence text = e.getAttribute("url");
-            int duration = Toast.LENGTH_LONG;
-
+            /*int duration = Toast.LENGTH_LONG;
             Toast toast = Toast.makeText(context, text, duration);
             toast.setGravity(Gravity.TOP | Gravity.CENTER, 0, 0);
-            toast.show();
+            toast.show();*/
 
         } catch (ParserConfigurationException e) {
             e.printStackTrace();
@@ -84,6 +78,17 @@ public class ListingEpreuvesActivity extends AppCompatActivity {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        NodeList nList = doc.getElementsByTagName("Etape");
+        Node node = nList.item(0);
+        Element e = (Element) node;
+        String url = e.getAttribute("url");
+
+
+        WebView webView = (WebView) findViewById(R.id.webView_content_listing);
+        WebSettings webSettings = webView.getSettings();
+        webSettings.setJavaScriptEnabled(true);
+        webView.loadUrl(url);
 
 
 

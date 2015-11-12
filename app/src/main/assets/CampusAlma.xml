@@ -1,5 +1,5 @@
 <Jeu>
-    <Etape num="1" url="file://etape1.html" >
+    <Etape num="1" url="file:///android_asset/Etape1.html" >
         <!-- L'url référence un fichier présent dans les assets -->
         <Zone> <!-- Zone dans laquelle se déroule cette étape -->
             <Latitude>50.8494611</Latitude>
@@ -11,21 +11,22 @@
             <Epreuve points="5" type="QCM" uri="http://epreuve1.jeux-piste.mobile.ipl.be">
                 <!-- l'uri sera utilisée un hyperlien dans la page html -->
                 <Question>Où se situe le campus Alma?</Question>
-                <Reponse bonne="false">Louvain-La-Neuve</Reponse>
-                <Reponse bonne="false">Woluwe-Saint-Pierre</Reponse>
-                <Reponse bonne="true">Woluwe-Saint-Lambert</Reponse>
+                    <Reponse bonne="false">Louvain-La-Neuve</Reponse>
+                    <Reponse bonne="false">Woluwe-Saint-Pierre</Reponse>
+                    <Reponse bonne="true">Woluwe-Saint-Lambert</Reponse>
+            </Epreuve>
+
+
+            <Epreuve points="6" type="Photo" uri="http://epreuve2.jeux-piste.mobile.ipl.be">
+                <Question>Prenez en photo l'entrée principale de l'ipl</Question>
+                <Zone>
+                    <Latitude>50.8494611</Latitude>
+                    <Longitude>4.4507495</Longitude>
+                    <Rayon>10</Rayon>
+                    <!-- Zone de tolérance en m -->
+                </Zone>
             </Epreuve>
         </Epreuves>
-
-        <Epreuve points="6" type="Photo" uri="http://epreuve2.jeux-piste.mobile.ipl.be">
-        <Question>Prenez en photo l'entrée principale de l'ipl</Question>
-        <Zone>
-            <Latitude>50.8494611</Latitude>
-            <Longitude>4.4507495</Longitude>
-            <Rayon>10</Rayon>
-            <!-- Zone de tolérance en m -->
-        </Zone>
-        </Epreuve>
     </Etape>
 
     <Etape num="2" url="file://etape2.html">
