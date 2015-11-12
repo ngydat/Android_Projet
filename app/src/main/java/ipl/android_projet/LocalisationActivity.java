@@ -62,8 +62,8 @@ public class LocalisationActivity extends AppCompatActivity {
         public void commencer(View v){
 
             Intent intentListing = new Intent(LocalisationActivity.this,ListingEpreuvesActivity.class);
-            intentListing.putExtra("latitude",latitude);
-            intentListing.putExtra("longitude",longitude);
+            //intentListing.putExtra("latitude",latitude);
+            //intentListing.putExtra("longitude",longitude);
             startActivity(intentListing);
         }
 

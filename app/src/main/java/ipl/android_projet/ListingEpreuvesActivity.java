@@ -1,6 +1,8 @@
 package ipl.android_projet;
 
+import android.content.Context;
 import android.os.Bundle;
+import android.provider.DocumentsContract;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -8,6 +10,22 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 
 public class ListingEpreuvesActivity extends AppCompatActivity {
     double latitude;
@@ -19,6 +37,40 @@ public class ListingEpreuvesActivity extends AppCompatActivity {
         setContentView(R.layout.activity_listing_epreuves);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle(R.string.titre_tool_listing);
+
+        String xmlUrl = "file:///android_asset/CampusAlma.xml";
+        File fichierXML = new File(xmlUrl);
+        Document dom = null;
+
+        DocumentBuilderFactory facto = DocumentBuilderFactory.newInstance();
+        try {
+            DocumentBuilder builder = facto.newDocumentBuilder();
+             dom = builder.parse(new FileInputStream(fichierXML));
+        } catch (ParserConfigurationException e) {
+            e.printStackTrace();
+        } catch (SAXException e) {
+            e.printStackTrace();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        Element root = dom.getDocumentElement();
+
+        NodeList items = root.getElementsByTagName("Latitude");
+
+        Node item =items.item(0);
+        String id = item.getNodeValue();
+
+       Context c = getApplicationContext();
+        int du = Toast.LENGTH_LONG;
+
+        Toast toast = Toast.makeText(c,id,du);
+        toast.show();
+
+
+
 
 
 
