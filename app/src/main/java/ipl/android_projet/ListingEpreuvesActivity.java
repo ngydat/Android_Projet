@@ -5,12 +5,14 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -46,7 +48,6 @@ public class ListingEpreuvesActivity extends AppCompatActivity {
         Document doc = this.parseAsset("CampusAlma.xml");
         doc.getDocumentElement().normalize();
 
-
         String urlEtape1 = this.getUrlEtape(doc, 0);
 
         WebView webView = (WebView) findViewById(R.id.webView_content_listing);
@@ -59,17 +60,14 @@ public class ListingEpreuvesActivity extends AppCompatActivity {
         WebViewClient yourWebClient = new WebViewClient() {
             // you tell the webclient you want to catch when a url is about to load
             Context context = getApplicationContext();
-            Document doc = ListingEpreuvesActivity.this.parseAsset("CampusAlma.xml");
-
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
 
                 if (url.contains("http://epreuve1_etape1.qcm")) {
-                    Element epreuve1 = ListingEpreuvesActivity.this.getEpreuve(doc, 0, 0);
-                    Intent itnt = new Intent(ListingEpreuvesActivity.this, Etape01Epreuve01Activity.class);
-                    String question = epreuve1.getFirstChild().getNodeValue();
-                    itnt.putExtra("question", question);
-                    startActivity(itnt);
+                    CharSequence text = "Epreuve_1";
+                    int duration = Toast.LENGTH_SHORT;
+                    Toast toast = Toast.makeText(context, text, duration);
+                    toast.show();
                 }
 
 
@@ -131,18 +129,9 @@ public class ListingEpreuvesActivity extends AppCompatActivity {
 
     public String getUrlEtape(Document doc, int indice){
         NodeList nList = doc.getElementsByTagName("Etape");
-        Node node = nList.item(indice);
+        Node node = nList.item(0);
         Element e = (Element) node;
         return e.getAttribute("url");
-    }
-
-    public Element getEpreuve(Document doc, int indiceEtape, int indiceEpreuve) {
-        NodeList nList = doc.getElementsByTagName("Etape");
-        Node node = nList.item(indiceEtape);
-        Node enfantsDeEtape = node.getChildNodes().item(1); //on récupère la balise "Épreuves" de l'étape à l'indice indiceEtape
-        return (Element) enfantsDeEtape.getChildNodes().item(indiceEpreuve);
-
-
     }
 
 
