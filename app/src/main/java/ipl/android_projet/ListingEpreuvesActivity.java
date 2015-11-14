@@ -5,11 +5,14 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -31,7 +34,7 @@ public class ListingEpreuvesActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_listing_epreuves);
+        setContentView(R.layout.activity_listing_etapes);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle(R.string.titre_tool_listing);
 
@@ -45,11 +48,41 @@ public class ListingEpreuvesActivity extends AppCompatActivity {
         Document doc = this.parseAsset("CampusAlma.xml");
         doc.getDocumentElement().normalize();
 
-        String urlEtape1 = this.getUrlEtape(doc);
+        String urlEtape1 = this.getUrlEtape(doc, 0);
+
         WebView webView = (WebView) findViewById(R.id.webView_content_listing);
         WebSettings webSettings = webView.getSettings();
         webSettings.setJavaScriptEnabled(true);
         webView.loadUrl(urlEtape1);
+
+
+        // somewhere on your code...
+        WebViewClient yourWebClient = new WebViewClient() {
+            // you tell the webclient you want to catch when a url is about to load
+            Context context = getApplicationContext();
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+
+                if (url.contains("http://epreuve1_etape1.qcm")) {
+                    CharSequence text = "Epreuve 1";
+                    int duration = Toast.LENGTH_SHORT;
+                    Toast toast = Toast.makeText(context, text, duration);
+                    toast.show();
+                }
+
+
+                return true;
+            }
+
+            // here you execute an action when the URL you want is about to load
+            @Override
+            public void onLoadResource(WebView view, String url) {
+            }
+
+        };
+
+
+        webView.setWebViewClient(yourWebClient);
 
 
     }
@@ -94,11 +127,13 @@ public class ListingEpreuvesActivity extends AppCompatActivity {
     }
 
 
-    public String getUrlEtape(Document doc){
+    public String getUrlEtape(Document doc, int indice){
         NodeList nList = doc.getElementsByTagName("Etape");
         Node node = nList.item(0);
         Element e = (Element) node;
         return e.getAttribute("url");
     }
+
+
 
 }

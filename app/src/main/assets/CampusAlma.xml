@@ -8,7 +8,7 @@
             <!-- Zone de tolérance en m -->
         </Zone>
         <Epreuves>
-            <Epreuve points="5" type="QCM" uri="http://epreuve1.jeux-piste.mobile.ipl.be" termine="false">
+            <Epreuve points="5" type="QCM" uri="http://epreuve1_etape1.qcm" termine="false">
                 <!-- l'uri sera utilisée un hyperlien dans la page html -->
                 <Question>Où se situe le campus Alma?</Question>
                     <Reponse bonne="false">Louvain-La-Neuve</Reponse>
@@ -17,7 +17,7 @@
             </Epreuve>
 
 
-            <Epreuve points="6" type="Photo" uri="http://epreuve2.jeux-piste.mobile.ipl.be" termine="false">
+            <Epreuve points="6" type="Photo" uri="http://epreuve2_etape1.photo" termine="false">
                 <Question>Prenez en photo l'entrée principale de l'ipl</Question>
                 <Zone>
                     <Latitude>50.8494611</Latitude>

@@ -15,7 +15,7 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <include layout="@layout/content_listing_epreuves" />
+    <include layout="@layout/content_listing_etapes" />
 
 
 </android.support.design.widget.CoordinatorLayout>

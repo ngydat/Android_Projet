@@ -7,3 +7,5 @@ http://stackoverflow.com/questions/7203668/how-permission-can-be-checked-at-runt
 http://romain.raveaux.free.fr/document/Android/TD/TutorielAndroidXMLParserWriter.pdf
 
 http://www.mkyong.com/java/how-to-read-xml-file-in-java-dom-parser
+
+http://stackoverflow.com/questions/3250034/android-webview-intercept-clicks
