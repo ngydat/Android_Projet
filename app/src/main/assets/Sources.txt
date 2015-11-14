@@ -1,0 +1,7 @@
+http://stackoverflow.com/questions/13659442/relativelayout-scrollable
+
+https://openclassrooms.com/courses/creez-des-applications-pour-android/la-localisation-et-les-cartes
+
+http://stackoverflow.com/questions/7203668/how-permission-can-be-checked-at-runtime-without-throwing-securityexception
+
+http://romain.raveaux.free.fr/document/Android/TD/TutorielAndroidXMLParserWriter.pdf
