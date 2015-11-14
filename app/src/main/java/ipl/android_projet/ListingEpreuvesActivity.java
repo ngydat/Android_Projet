@@ -39,28 +39,17 @@ public class ListingEpreuvesActivity extends AppCompatActivity {
         String prenom = intent.getStringExtra("prenom");
 
         TextView prenomView = (TextView) findViewById(R.id.prenom_content_listing);
-        prenomView.setText(prenom);
+        prenomView.setText("Bienvenue " + prenom);
 
 
-        //Source : http://www.mkyong.com/java/how-to-read-xml-file-in-java-dom-parser/
-        //http://stackoverflow.com/questions/11820142/how-to-pass-a-file-path-which-is-in-assets-folder-to-filestring-path
         Document doc = this.parseAsset("CampusAlma.xml");
-            doc.getDocumentElement().normalize();
+        doc.getDocumentElement().normalize();
 
-
-        NodeList nList = doc.getElementsByTagName("Etape");
-        Node node = nList.item(0);
-        Element e = (Element) node;
-        String url = e.getAttribute("url");
-
-
+        String urlEtape1 = this.getUrlEtape(doc);
         WebView webView = (WebView) findViewById(R.id.webView_content_listing);
         WebSettings webSettings = webView.getSettings();
         webSettings.setJavaScriptEnabled(true);
-        webView.loadUrl(url);
-
-
-
+        webView.loadUrl(urlEtape1);
 
 
     }
@@ -102,7 +91,14 @@ public class ListingEpreuvesActivity extends AppCompatActivity {
             e.printStackTrace();
         }
         return doc;
+    }
 
+
+    public String getUrlEtape(Document doc){
+        NodeList nList = doc.getElementsByTagName("Etape");
+        Node node = nList.item(0);
+        Element e = (Element) node;
+        return e.getAttribute("url");
     }
 
 }

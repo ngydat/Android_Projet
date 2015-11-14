@@ -69,14 +69,23 @@ public class MainActivity extends AppCompatActivity {
 
 
     public void demarrer(View view){
+        Context context = getApplicationContext();
+        CharSequence text = "Veuillez entrer un nom.";
+        int duration = Toast.LENGTH_SHORT;
+
+
         EditText editText = (EditText) findViewById(R.id.edit_prenom_content_main);
         String prenom = editText.getText().toString();
+        if(prenom.isEmpty()){
+            Toast toast = Toast.makeText(context, text, duration);
+            toast.show();
+        }
+        else{
+            Intent intentDemarrer = new Intent(MainActivity.this,ListingEpreuvesActivity.class);
+            intentDemarrer.putExtra("prenom",prenom);
+            startActivity(intentDemarrer);
+        }
 
-        Intent intentDemarrer = new Intent(MainActivity.this,ListingEpreuvesActivity.class);
-        intentDemarrer.putExtra("prenom",prenom);
-
-
-        startActivity(intentDemarrer);
 
 
 
