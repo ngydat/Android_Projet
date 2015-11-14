@@ -17,7 +17,7 @@ public class Etape01Epreuve01Activity extends AppCompatActivity {
 
         Intent intent = getIntent();
         String question = intent.getStringExtra("question");
-        //coucou
+
         TextView questionTv = (TextView) findViewById(R.id.question_etape01_epreuve01);
         questionTv.setText(question);
 

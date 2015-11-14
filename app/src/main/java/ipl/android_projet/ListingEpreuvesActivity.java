@@ -38,6 +38,8 @@ public class ListingEpreuvesActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle(R.string.titre_tool_listing);
 
+
+
         Intent intent = getIntent();
         String prenom = intent.getStringExtra("prenom");
 
@@ -45,8 +47,9 @@ public class ListingEpreuvesActivity extends AppCompatActivity {
         prenomView.setText("Bienvenue " + prenom);
 
 
-        Document doc = this.parseAsset("CampusAlma.xml");
+        final Document doc = this.parseAsset("CampusAlma.xml");
         doc.getDocumentElement().normalize();
+
 
         String urlEtape1 = this.getUrlEtape(doc, 0);
 
@@ -59,15 +62,17 @@ public class ListingEpreuvesActivity extends AppCompatActivity {
         // somewhere on your code...
         WebViewClient yourWebClient = new WebViewClient() {
             // you tell the webclient you want to catch when a url is about to load
-            Context context = getApplicationContext();
+
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
 
                 if (url.contains("http://epreuve1_etape1.qcm")) {
-                    CharSequence text = "Epreuve_1";
-                    int duration = Toast.LENGTH_SHORT;
-                    Toast toast = Toast.makeText(context, text, duration);
-                    toast.show();
+
+                    Element epreuve1 = ListingEpreuvesActivity.this.getEpreuve(doc, 0, 0);
+                    Intent itnt = new Intent(ListingEpreuvesActivity.this, Etape01Epreuve01Activity.class);
+                    String question = epreuve1.getChildNodes().item(3).getTextContent();
+                    itnt.putExtra("question", question);
+                    startActivity(itnt);
                 }
 
 
@@ -129,9 +134,19 @@ public class ListingEpreuvesActivity extends AppCompatActivity {
 
     public String getUrlEtape(Document doc, int indice){
         NodeList nList = doc.getElementsByTagName("Etape");
-        Node node = nList.item(0);
+        Node node = nList.item(indice);
         Element e = (Element) node;
         return e.getAttribute("url");
+    }
+
+    public Element getEpreuve(Document doc, int indiceEtape, int indiceEpreuve) {
+        NodeList nList = doc.getElementsByTagName("Etape");
+        Node etapeChoisie = nList.item(indiceEtape);
+        Element element = (Element) etapeChoisie;
+        NodeList epreuves = element.getElementsByTagName("Epreuve");
+        return (Element)epreuves.item(indiceEpreuve);
+
+
     }
 
 
