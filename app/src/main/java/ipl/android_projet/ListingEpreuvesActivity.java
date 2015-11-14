@@ -26,6 +26,10 @@ import java.io.InputStream;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.xpath.XPathConstants;
+import javax.xml.xpath.XPathExpression;
+import javax.xml.xpath.XPathExpressionException;
+import javax.xml.xpath.XPathFactory;
 
 public class ListingEpreuvesActivity extends AppCompatActivity {
     double latitude;
@@ -70,7 +74,7 @@ public class ListingEpreuvesActivity extends AppCompatActivity {
 
                     Element epreuve1 = ListingEpreuvesActivity.this.getEpreuve(doc, 0, 0);
                     Intent itnt = new Intent(ListingEpreuvesActivity.this, Etape01Epreuve01Activity.class);
-                    String question = epreuve1.getChildNodes().item(3).getTextContent();
+                    String question = epreuve1.getFirstChild().getTextContent();
                     itnt.putExtra("question", question);
                     startActivity(itnt);
                 }
@@ -121,11 +125,25 @@ public class ListingEpreuvesActivity extends AppCompatActivity {
             DocumentBuilderFactory facto = DocumentBuilderFactory.newInstance();
             DocumentBuilder builder = facto.newDocumentBuilder();
             doc = builder.parse(in);
+
+            XPathFactory xpathFactory = XPathFactory.newInstance();
+            // XPath to find empty text nodes.
+            XPathExpression xpathExp = xpathFactory.newXPath().compile(
+                    "//text()[normalize-space(.) = '']");
+            NodeList emptyTextNodes = (NodeList)
+                    xpathExp.evaluate(doc, XPathConstants.NODESET);
+            // Remove each empty text node from document.
+            for (int i = 0; i < emptyTextNodes.getLength(); i++) {
+                Node emptyTextNode = emptyTextNodes.item(i);
+                emptyTextNode.getParentNode().removeChild(emptyTextNode);
+            }
         } catch (IOException e) {
             e.printStackTrace();
         } catch (ParserConfigurationException e) {
             e.printStackTrace();
         } catch (SAXException e) {
+            e.printStackTrace();
+        } catch (XPathExpressionException e) {
             e.printStackTrace();
         }
         return doc;

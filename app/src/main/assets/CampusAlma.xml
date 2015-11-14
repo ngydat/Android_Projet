@@ -9,7 +9,6 @@
         </Zone>
         <Epreuves>
             <Epreuve points="5" type="QCM" uri="http://epreuve1_etape1.qcm" termine="false">
-                <!-- l'uri sera utilisée un hyperlien dans la page html -->
                 <Question>Où se situe le campus Alma?</Question>
                     <Reponse bonne="false">Louvain-La-Neuve</Reponse>
                     <Reponse bonne="false">Woluwe-Saint-Pierre</Reponse>
