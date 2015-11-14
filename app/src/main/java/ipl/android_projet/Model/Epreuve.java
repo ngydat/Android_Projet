@@ -1,4 +1,4 @@
-package ipl.android_projet.model;
+package ipl.android_projet.Model;
 
 import java.net.URI;
 

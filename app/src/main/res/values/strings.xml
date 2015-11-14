@@ -5,5 +5,6 @@
     <string name="titre_tool_localisation">Localisation</string>
     <string name="title_activity_listing_epreuves">ListingEpreuvesActivity</string>
     <string name="titre_tool_listing">Epreuves</string>
+    <string name="title_activity_etape01_epreuve01">Etape01Epreuve01Activity</string>
 
 </resources>
