@@ -5,13 +5,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -19,7 +17,6 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -47,37 +44,9 @@ public class ListingEpreuvesActivity extends AppCompatActivity {
 
         //Source : http://www.mkyong.com/java/how-to-read-xml-file-in-java-dom-parser/
         //http://stackoverflow.com/questions/11820142/how-to-pass-a-file-path-which-is-in-assets-folder-to-filestring-path
-        Context context = getApplicationContext();
-        InputStream in = null;
-        try {
-            in = context.getAssets().open("CampusAlma.xml");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-
-        Document doc = null;
-
-        DocumentBuilderFactory facto = DocumentBuilderFactory.newInstance();
-        try {
-            DocumentBuilder builder = facto.newDocumentBuilder();
-            doc = builder.parse(in);
+        Document doc = this.parseAsset("CampusAlma.xml");
             doc.getDocumentElement().normalize();
 
-            /*int duration = Toast.LENGTH_LONG;
-            Toast toast = Toast.makeText(context, text, duration);
-            toast.setGravity(Gravity.TOP | Gravity.CENTER, 0, 0);
-            toast.show();*/
-
-        } catch (ParserConfigurationException e) {
-            e.printStackTrace();
-        } catch (SAXException e) {
-            e.printStackTrace();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
 
         NodeList nList = doc.getElementsByTagName("Etape");
         Node node = nList.item(0);
@@ -114,6 +83,26 @@ public class ListingEpreuvesActivity extends AppCompatActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    public Document parseAsset(String fileName) {
+        Context context = getApplicationContext();
+        InputStream in = null;
+        Document doc = null;
+        try {
+            in = context.getAssets().open(fileName);
+            DocumentBuilderFactory facto = DocumentBuilderFactory.newInstance();
+            DocumentBuilder builder = facto.newDocumentBuilder();
+            doc = builder.parse(in);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ParserConfigurationException e) {
+            e.printStackTrace();
+        } catch (SAXException e) {
+            e.printStackTrace();
+        }
+        return doc;
+
     }
 
 }
