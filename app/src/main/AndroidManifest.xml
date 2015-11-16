@@ -30,8 +30,8 @@
             android:label="@string/title_activity_listing_epreuves"
             android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
-            android:name=".Etape01Epreuve01Activity"
-            android:label="@string/title_activity_etape01_epreuve01"
+            android:name=".EpreuveQCMActivity"
+            android:label="@string/title_activity_epreuveQCM"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
     </application>

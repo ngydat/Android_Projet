@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context="ipl.android_projet.Etape01Epreuve01Activity">
+    tools:context="ipl.android_projet.EpreuveQCMActivity">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
@@ -21,7 +21,7 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <include layout="@layout/content_etape01_epreuve01" />
+    <include layout="@layout/content_epreuve_qcm" />
 
 
 </android.support.design.widget.CoordinatorLayout>

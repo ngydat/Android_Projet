@@ -12,7 +12,6 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -73,7 +72,7 @@ public class ListingEpreuvesActivity extends AppCompatActivity {
                 if (url.contains("http://epreuve1_etape1.qcm")) {
 
                     Element epreuve1 = ListingEpreuvesActivity.this.getEpreuve(doc, 0, 0);
-                    Intent itnt = new Intent(ListingEpreuvesActivity.this, Etape01Epreuve01Activity.class);
+                    Intent itnt = new Intent(ListingEpreuvesActivity.this, EpreuveQCMActivity.class);
                     String question = epreuve1.getFirstChild().getTextContent();
                     itnt.putExtra("question", question);
 
