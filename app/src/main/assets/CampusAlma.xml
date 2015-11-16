@@ -10,9 +10,9 @@
         <Epreuves>
             <Epreuve points="5" type="QCM" uri="http://epreuve1_etape1.qcm" termine="false">
                 <Question>Où se situe le campus Alma?</Question>
-                    <Reponse bonne="false">Louvain-La-Neuve</Reponse>
-                    <Reponse bonne="false">Woluwe-Saint-Pierre</Reponse>
-                    <Reponse bonne="true">Woluwe-Saint-Lambert</Reponse>
+                <Reponse bonne="false">Louvain-La-Neuve</Reponse>
+                <Reponse bonne="false">Woluwe-Saint-Pierre</Reponse>
+                <Reponse bonne="true">Woluwe-Saint-Lambert</Reponse>
             </Epreuve>
 
 

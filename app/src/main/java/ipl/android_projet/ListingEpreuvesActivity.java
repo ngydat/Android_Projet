@@ -76,6 +76,22 @@ public class ListingEpreuvesActivity extends AppCompatActivity {
                     Intent itnt = new Intent(ListingEpreuvesActivity.this, Etape01Epreuve01Activity.class);
                     String question = epreuve1.getFirstChild().getTextContent();
                     itnt.putExtra("question", question);
+
+
+                    String [] reponses = new String[2];
+                    String bonneRep = "";
+                    for(int i = 1 ; i<4;i++){
+                        if(epreuve1.getChildNodes().item(i).getAttributes().getNamedItem("bonne").getTextContent().contains("true")){
+                            bonneRep = epreuve1.getChildNodes().item(i).getTextContent();
+                        }else{
+                            reponses [i-1]= epreuve1.getChildNodes().item(i).getTextContent();
+                        }
+                    }
+
+                    Log.i("TEST",epreuve1.getChildNodes().item(1).getTextContent());
+                    itnt.putExtra("bonneRep",bonneRep);
+                    itnt.putExtra("reponses",reponses);
+
                     startActivity(itnt);
                 }
 

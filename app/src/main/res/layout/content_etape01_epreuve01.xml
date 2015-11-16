@@ -18,4 +18,28 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
+
+    <RadioGroup
+        android:id="@+id/reponses_etape01_epreuve01"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/question_etape01_epreuve01"
+        >
+
+        <RadioButton
+            android:id="@+id/reponse1_etape01_epreuve01"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <RadioButton
+            android:id="@+id/reponse2_etape01_epreuve01"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <RadioButton
+            android:id="@+id/reponse3_etape01_epreuve01"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </RadioGroup>
+
 </RelativeLayout>
