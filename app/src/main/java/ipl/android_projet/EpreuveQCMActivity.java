@@ -1,13 +1,23 @@
 package ipl.android_projet;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
 import android.widget.RadioButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class EpreuveQCMActivity extends AppCompatActivity {
+
+
+    private RadioButton bonneRepRb;
+    private RadioButton reponse2Rb;
+    private RadioButton reponse3Rb;
+    private int etape;
+    private int epreuve;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,21 +29,46 @@ public class EpreuveQCMActivity extends AppCompatActivity {
         Intent intent = getIntent();
         String question = intent.getStringExtra("question");
 
-        TextView questionTv = (TextView) findViewById(R.id.question_etape01_epreuve01);
+        etape = intent.getIntExtra("etape",0);
+        epreuve = intent.getIntExtra("epreuve",0);
+
+        TextView questionTv = (TextView) findViewById(R.id.question_epreuveQCM);
         questionTv.setText(question);
 
         String bonneRep = intent.getStringExtra("bonneRep");
-        RadioButton bonneRepRb = (RadioButton) findViewById(R.id.reponse1_etape01_epreuve01);
+        bonneRepRb = (RadioButton) findViewById(R.id.reponse1_epreuveQCM);
         bonneRepRb.setText(bonneRep);
 
         String [] reponses = intent.getStringArrayExtra("reponses");
-        RadioButton reponse2Rb = (RadioButton) findViewById(R.id.reponse2_etape01_epreuve01);
+        reponse2Rb = (RadioButton) findViewById(R.id.reponse2_epreuveQCM);
         reponse2Rb.setText(reponses[0]);
 
-        RadioButton reponse3Rb = (RadioButton) findViewById(R.id.reponse3_etape01_epreuve01);
+        reponse3Rb = (RadioButton) findViewById(R.id.reponse3_epreuveQCM);
         reponse3Rb.setText(reponses[1]);
 
 
+    }
+
+
+    public void confirmer(View v){
+        Context context = getApplicationContext();
+        CharSequence text ;
+        int duration = Toast.LENGTH_SHORT;
+
+       if(bonneRepRb.isChecked()){
+           text = "Bonne reponse !";
+           Toast toast = Toast.makeText(context, text, duration);
+           toast.show();
+          /* Intent itnt = new Intent(EpreuveQCMActivity.this, ListingEpreuvesActivity.class);
+           itnt.putExtra("epreuveOK_KO", "OK");
+           itnt.putExtra("etape", etape);
+           itnt.putExtra("epreuve", epreuve);
+           startActivity(itnt);*/
+       }else{
+           text = "Mauvaise reponse !";
+           Toast toast = Toast.makeText(context, text, duration);
+           toast.show();
+       }
     }
 
 

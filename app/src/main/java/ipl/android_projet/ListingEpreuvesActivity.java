@@ -8,10 +8,12 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -33,6 +35,7 @@ import javax.xml.xpath.XPathFactory;
 public class ListingEpreuvesActivity extends AppCompatActivity {
     double latitude;
     double longitude;
+    private Document doc;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,7 +53,7 @@ public class ListingEpreuvesActivity extends AppCompatActivity {
         prenomView.setText("Bienvenue " + prenom);
 
 
-        final Document doc = this.parseAsset("CampusAlma.xml");
+        doc = this.parseAsset("CampusAlma.xml");
         doc.getDocumentElement().normalize();
 
 
@@ -73,6 +76,10 @@ public class ListingEpreuvesActivity extends AppCompatActivity {
 
                     Element epreuve1 = ListingEpreuvesActivity.this.getEpreuve(doc, 0, 0);
                     Intent itnt = new Intent(ListingEpreuvesActivity.this, EpreuveQCMActivity.class);
+
+                    itnt.putExtra("epreuve",1);
+                    itnt.putExtra("etape",1);
+
                     String question = epreuve1.getFirstChild().getTextContent();
                     itnt.putExtra("question", question);
 
@@ -93,6 +100,17 @@ public class ListingEpreuvesActivity extends AppCompatActivity {
 
                     startActivity(itnt);
                 }
+                else if(url.contains("http://epreuve2_etape1.photo")){
+                    if(ListingEpreuvesActivity.this.getEpreuve(doc,0,0).getAttributes().getNamedItem("termine").getTextContent().contains("false")){
+                        Context context = getApplicationContext();
+                        CharSequence text = "Veuillez terminer l'epreuve n°1";
+                        int duration = Toast.LENGTH_SHORT;
+                        Toast toast = Toast.makeText(context, text, duration);
+                        toast.show();
+                    }else{
+                        //TO DO
+                    }
+                }
 
 
                 return true;
@@ -103,10 +121,12 @@ public class ListingEpreuvesActivity extends AppCompatActivity {
             public void onLoadResource(WebView view, String url) {
             }
 
+
+
         };
 
-
         webView.setWebViewClient(yourWebClient);
+
 
 
     }
@@ -129,6 +149,12 @@ public class ListingEpreuvesActivity extends AppCompatActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
     }
 
     public Document parseAsset(String fileName) {
@@ -178,9 +204,15 @@ public class ListingEpreuvesActivity extends AppCompatActivity {
         Element element = (Element) etapeChoisie;
         NodeList epreuves = element.getElementsByTagName("Epreuve");
         return (Element)epreuves.item(indiceEpreuve);
-
-
     }
+
+    public Element getEtape(Document doc, int indiceEtape){
+        NodeList nList = doc.getElementsByTagName("Etape");
+        Node node = nList.item(indiceEtape);
+        Element e = (Element) node;
+        return (Element) node;
+    }
+
 
 
 
