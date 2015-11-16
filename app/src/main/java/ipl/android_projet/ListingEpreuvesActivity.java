@@ -8,7 +8,6 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -87,11 +86,13 @@ public class ListingEpreuvesActivity extends AppCompatActivity {
                     String [] reponses = new String[2];
                     String bonneRep = "";
                     for(int i = 1 ; i<4;i++){
-                        if(epreuve1.getChildNodes().item(i).getAttributes().getNamedItem("bonne").getTextContent().contains("true")){
+                        Element elem = (Element) epreuve1.getChildNodes().item(i);
+                        if (elem.getAttribute("bonne").equals("true")) {
                             bonneRep = epreuve1.getChildNodes().item(i).getTextContent();
                         }else{
                             reponses [i-1]= epreuve1.getChildNodes().item(i).getTextContent();
                         }
+
                     }
 
                     Log.i("TEST",epreuve1.getChildNodes().item(1).getTextContent());
