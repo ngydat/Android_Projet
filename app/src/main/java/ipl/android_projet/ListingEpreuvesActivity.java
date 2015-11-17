@@ -32,8 +32,7 @@ import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
 
 public class ListingEpreuvesActivity extends AppCompatActivity {
-    double latitude;
-    double longitude;
+
     private Document doc;
 
     @Override
@@ -56,7 +55,12 @@ public class ListingEpreuvesActivity extends AppCompatActivity {
         doc.getDocumentElement().normalize();
 
 
+
         String urlEtape1 = this.getUrlEtape(doc, 0);
+        double latitudeEtape1 =Double.parseDouble(getEtape(doc, 0).getElementsByTagName("Zone").item(0).getChildNodes().item(0).getTextContent());
+        double longitudeEtape1 =Double.parseDouble(getEtape(doc, 0).getElementsByTagName("Zone").item(0).getChildNodes().item(1).getTextContent());
+        Log.i("LATITUDE",""+latitudeEtape1);
+        Log.i("LONGITUDE",""+longitudeEtape1);
 
         WebView webView = (WebView) findViewById(R.id.webView_content_listing);
         WebSettings webSettings = webView.getSettings();

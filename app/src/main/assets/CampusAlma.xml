@@ -1,11 +1,9 @@
 <Jeu>
     <Etape num="1" url="file:///android_asset/Etape1.html" termine="false">
-        <!-- L'url référence un fichier présent dans les assets -->
-        <Zone> <!-- Zone dans laquelle se déroule cette étape -->
+        <Zone>
             <Latitude>50.8494611</Latitude>
             <Longitude>4.4507495</Longitude>
             <Rayon>100</Rayon>
-            <!-- Zone de tolérance en m -->
         </Zone>
         <Epreuves>
             <Epreuve points="5" type="QCM" uri="http://epreuve1_etape1.qcm" termine="false">
