@@ -76,8 +76,8 @@ public class ListingEpreuvesActivity extends AppCompatActivity {
                     Element epreuve1 = ListingEpreuvesActivity.this.getEpreuve(doc, 0, 0);
                     Intent itnt = new Intent(ListingEpreuvesActivity.this, EpreuveQCMActivity.class);
 
-                    itnt.putExtra("epreuve",1);
-                    itnt.putExtra("etape",1);
+                    itnt.putExtra("epreuve",0);
+                    itnt.putExtra("etape",0);
 
                     String question = epreuve1.getFirstChild().getTextContent();
                     itnt.putExtra("question", question);
@@ -95,7 +95,6 @@ public class ListingEpreuvesActivity extends AppCompatActivity {
 
                     }
 
-                    Log.i("TEST",epreuve1.getChildNodes().item(1).getTextContent());
                     itnt.putExtra("bonneRep",bonneRep);
                     itnt.putExtra("reponses",reponses);
 
@@ -155,7 +154,24 @@ public class ListingEpreuvesActivity extends AppCompatActivity {
 
     @Override
     protected void onResume() {
+
         super.onResume();
+
+        Intent intent = getIntent();
+        String epreuveOK_KO = intent.getStringExtra("epreuveOK_KO");
+        int etape = intent.getIntExtra("etape", 0);
+        int epreuve = intent.getIntExtra("epreuve",0);
+
+
+        if(epreuveOK_KO!=null && epreuveOK_KO.contains("OK")){
+            Log.i("TEST",epreuveOK_KO);
+            Log.i("TEST",""+etape);
+            Log.i("TEST",""+epreuve);
+
+            this.getEpreuve(doc, etape, epreuve).getAttributes().getNamedItem("termine").setTextContent("true");
+        }
+
+
     }
 
     public Document parseAsset(String fileName) {

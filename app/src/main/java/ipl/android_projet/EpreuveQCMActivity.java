@@ -54,21 +54,25 @@ public class EpreuveQCMActivity extends AppCompatActivity {
         Context context = getApplicationContext();
         CharSequence text ;
         int duration = Toast.LENGTH_SHORT;
+        Intent itnt = new Intent(EpreuveQCMActivity.this, ListingEpreuvesActivity.class);
+        itnt.putExtra("etape", etape);
+        itnt.putExtra("epreuve", epreuve);
 
        if(bonneRepRb.isChecked()){
            text = "Bonne reponse !";
            Toast toast = Toast.makeText(context, text, duration);
            toast.show();
-          /* Intent itnt = new Intent(EpreuveQCMActivity.this, ListingEpreuvesActivity.class);
            itnt.putExtra("epreuveOK_KO", "OK");
-           itnt.putExtra("etape", etape);
-           itnt.putExtra("epreuve", epreuve);
-           startActivity(itnt);*/
+
+
        }else{
            text = "Mauvaise reponse !";
            Toast toast = Toast.makeText(context, text, duration);
            toast.show();
+           itnt.putExtra("epreuveOK_KO","KO");
        }
+
+        startActivity(itnt);
     }
 
 
