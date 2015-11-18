@@ -11,3 +11,7 @@ http://www.mkyong.com/java/how-to-read-xml-file-in-java-dom-parser
 http://stackoverflow.com/questions/3250034/android-webview-intercept-clicks
 
 http://stackoverflow.com/questions/4650878/how-to-remove-text-from-my-node-parsing-in-java-dom-xml-parsing
+
+http://developer.android.com/guide/topics/media/camera.html#intent-image
+
+http://developer.android.com/training/camera/photobasics.html

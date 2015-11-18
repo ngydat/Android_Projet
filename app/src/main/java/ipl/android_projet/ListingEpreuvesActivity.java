@@ -11,8 +11,6 @@ import android.view.MenuItem;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -37,8 +35,8 @@ import ipl.android_projet.model.Dao;
 
 public class ListingEpreuvesActivity extends AppCompatActivity {
 
-    private Document doc;
     Dao dao;
+    private Document doc;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -120,7 +118,8 @@ public class ListingEpreuvesActivity extends AppCompatActivity {
                         Toast toast = Toast.makeText(context, text, duration);
                         toast.show();
                     }else{
-                        //TO DO
+                        Intent intentPhoto = new Intent(ListingEpreuvesActivity.this, EpreuvePhotoActivity.class);
+                        startActivity(intentPhoto);
                     }
                 }
 
