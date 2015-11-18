@@ -6,5 +6,6 @@
     <string name="title_activity_listing_epreuves">ListingEpreuvesActivity</string>
     <string name="titre_tool_listing">Epreuves</string>
     <string name="title_activity_epreuveQCM">EtapeQCM</string>
+    <string name="title_activity_epreuve_photo">EpreuvePhotoActivity</string>
 
 </resources>
