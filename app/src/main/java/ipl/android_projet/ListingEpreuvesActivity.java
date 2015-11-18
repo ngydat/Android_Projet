@@ -11,6 +11,8 @@ import android.view.MenuItem;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -31,13 +33,19 @@ import javax.xml.xpath.XPathExpression;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
 
+import ipl.android_projet.model.Dao;
+
 public class ListingEpreuvesActivity extends AppCompatActivity {
 
     private Document doc;
+    Dao dao;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        dao = new Dao(this);
+        dao.open();
+
         setContentView(R.layout.activity_listing_etapes);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle(R.string.titre_tool_listing);
@@ -168,10 +176,6 @@ public class ListingEpreuvesActivity extends AppCompatActivity {
 
 
         if(epreuveOK_KO!=null && epreuveOK_KO.contains("OK")){
-            Log.i("TEST",epreuveOK_KO);
-            Log.i("TEST",""+etape);
-            Log.i("TEST",""+epreuve);
-
             this.getEpreuve(doc, etape, epreuve).getAttributes().getNamedItem("termine").setTextContent("true");
         }
 

@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -13,11 +14,20 @@ import android.webkit.WebView;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import ipl.android_projet.model.Dao;
+import ipl.android_projet.model.Joueur;
+
 public class MainActivity extends AppCompatActivity {
+
+    Dao dao;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        dao = new Dao(this);
+        dao.open();
+
         setContentView(R.layout.activity_main);
 
         Toolbar toolBar = (Toolbar) findViewById(R.id.toolbar);
@@ -29,6 +39,9 @@ public class MainActivity extends AppCompatActivity {
         WebSettings webSettings = webView.getSettings();
         webSettings.setJavaScriptEnabled(true);
         webView.loadUrl(htmlUrl);
+
+
+        Log.i("TEST",""+dao.getAllPlayers().getCount());
 
     }
 
@@ -56,22 +69,28 @@ public class MainActivity extends AppCompatActivity {
 
     public void demarrer(View view){
         Context context = getApplicationContext();
-        CharSequence text = "Veuillez entrer un nom.";
         int duration = Toast.LENGTH_SHORT;
 
 
         EditText editText = (EditText) findViewById(R.id.edit_prenom_content_main);
         String prenom = editText.getText().toString();
         if(prenom.isEmpty()){
+            CharSequence text = "Veuillez entrer un nom.";
             Toast toast = Toast.makeText(context, text, duration);
             toast.show();
         }
+        else if(dao.getPrenom(prenom)){
+            CharSequence text = "Prenom deja utilisé.";
+            Toast toast = Toast.makeText(context, text, duration);
+            toast.show();
+        }
+
         else{
+            dao.insertJoueur(new Joueur(prenom));
             Intent intentDemarrer = new Intent(MainActivity.this,ListingEpreuvesActivity.class);
             intentDemarrer.putExtra("prenom",prenom);
             startActivity(intentDemarrer);
         }
-
 
 
 
