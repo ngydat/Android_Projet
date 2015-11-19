@@ -35,7 +35,7 @@ public class EpreuveQCMActivity extends AppCompatActivity {
 
         TextView questionTv = (TextView) findViewById(R.id.question_epreuveQCM);
 
-        questionTv.setText(question + " (" + point + "points)");
+        questionTv.setText(question + " (" + point + " points)");
 
         String bonneRep = intent.getStringExtra("bonneRep");
         bonneRepRb = (RadioButton) findViewById(R.id.reponse1_epreuveQCM);

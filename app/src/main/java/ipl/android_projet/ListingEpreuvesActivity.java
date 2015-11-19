@@ -87,6 +87,7 @@ public class ListingEpreuvesActivity extends AppCompatActivity {
                 0,
                 0,
                 objlistener);
+
         //**variable qui pointe sur  mes champs d'affichage*************
         mTxtViewlong = (TextView) findViewById(R.id.textlong);
         mTxtViewlat = (TextView) findViewById(R.id.textlat);
@@ -116,7 +117,6 @@ public class ListingEpreuvesActivity extends AppCompatActivity {
                         urlEtape = ListingEpreuvesActivity.this.getUrlEtape(doc, position);
                         break;
                     case 1:
-
                         urlEtape = ListingEpreuvesActivity.this.getUrlEtape(doc, position);
                         break;
                 }
@@ -143,28 +143,30 @@ public class ListingEpreuvesActivity extends AppCompatActivity {
 
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
-
+                String question;
+                Element epreuve;
                 if (url.contains("http://epreuve1_etape1.qcm")) {
 
-                    Element epreuve1 = ListingEpreuvesActivity.this.getEpreuve(doc, 0, 0);
+                    epreuve = ListingEpreuvesActivity.this.getEpreuve(doc, 0, 0);
                     Intent itnt = new Intent(ListingEpreuvesActivity.this, EpreuveQCMActivity.class);
 
                     itnt.putExtra("epreuve",0);
                     itnt.putExtra("etape", 0);
 
-                    String question = epreuve1.getFirstChild().getTextContent();
+                    question = epreuve.getFirstChild().getTextContent();
                     itnt.putExtra("question", question);
 
-                    int point = Integer.parseInt(epreuve1.getAttribute("points"));
+                    int point = Integer.parseInt(epreuve.getAttribute("points"));
+                    itnt.putExtra("point", point);
 
                     String [] reponses = new String[2];
                     String bonneRep = "";
                     for(int i = 1 ; i<4;i++){
-                        Element elem = (Element) epreuve1.getChildNodes().item(i);
+                        Element elem = (Element) epreuve.getChildNodes().item(i);
                         if (elem.getAttribute("bonne").equals("true")) {
-                            bonneRep = epreuve1.getChildNodes().item(i).getTextContent();
+                            bonneRep = epreuve.getChildNodes().item(i).getTextContent();
                         }else{
-                            reponses [i-1]= epreuve1.getChildNodes().item(i).getTextContent();
+                            reponses [i-1]= epreuve.getChildNodes().item(i).getTextContent();
                         }
 
                     }
@@ -176,13 +178,14 @@ public class ListingEpreuvesActivity extends AppCompatActivity {
                 }
                 else if(url.contains("http://epreuve2_etape1.photo")){
                     if(ListingEpreuvesActivity.this.getEpreuve(doc,0,0).getAttributes().getNamedItem("termine").getTextContent().contains("false")){
-                        Context context = getApplicationContext();
-                        CharSequence text = "Veuillez terminer l'epreuve n°1";
-                        int duration = Toast.LENGTH_SHORT;
-                        Toast toast = Toast.makeText(context, text, duration);
-                        toast.show();
+                        Toast.makeText(getApplicationContext(), "Veuillez terminer l'epreuve 1", Toast.LENGTH_SHORT).show();
                     }else{
+
+                        epreuve = ListingEpreuvesActivity.this.getEpreuve(doc, 0, 1);
+                        question = epreuve.getFirstChild().getTextContent();
+
                         Intent intentPhoto = new Intent(ListingEpreuvesActivity.this, EpreuvePhotoActivity.class);
+                        intentPhoto.putExtra("question", question);
                         startActivity(intentPhoto);
                     }
                 }
@@ -308,7 +311,7 @@ public class ListingEpreuvesActivity extends AppCompatActivity {
 
 
         public void onProviderDisabled(String provider) {
-            // TODO Auto-generated method stub
+            Toast.makeText(getApplicationContext(), "Il faut activer le GPS!", Toast.LENGTH_SHORT).show();
         }
 
 

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -9,13 +9,32 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="ipl.android_projet.EpreuvePhotoActivity"
-    tools:showIn="@layout/activity_epreuve_photo">
+    tools:context="ipl.android_projet.EpreuveQCMActivity"
+    tools:showIn="@layout/activity_epreuve_photo"
+    >
 
-    <FrameLayout
-        android:id="@+id/surfaceViewCamera"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_weight="1" />
 
-</LinearLayout>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/question_content_epreuve_photo"
+        android:textAppearance="@style/Question_style"
+        />
+
+    <ImageView
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageView_content_epreuve_photo"
+        android:src="@drawable/app_photo"
+        android:layout_below="@+id/question_content_epreuve_photo"
+        android:layout_centerHorizontal="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="camera"
+        android:id="@+id/button_content_epreuve_photo"
+        android:layout_below="@+id/imageView_content_epreuve_photo"
+        android:layout_centerHorizontal="true" />
+
+</RelativeLayout>
