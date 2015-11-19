@@ -4,13 +4,16 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -33,10 +36,13 @@ import javax.xml.xpath.XPathFactory;
 
 import ipl.android_projet.model.Dao;
 
-public class ListingEpreuvesActivity extends AppCompatActivity {
+public class ListingEpreuvesActivity extends AppCompatActivity{
 
     Dao dao;
     private Document doc;
+    Spinner spinner;
+    private String urlEtape;
+    private WebView webView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,34 +50,58 @@ public class ListingEpreuvesActivity extends AppCompatActivity {
         dao = new Dao(this);
         dao.open();
 
-        setContentView(R.layout.activity_listing_etapes);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle(R.string.titre_tool_listing);
-
-
-
-        Intent intent = getIntent();
-        String prenom = intent.getStringExtra("prenom");
-
-        TextView prenomView = (TextView) findViewById(R.id.prenom_content_listing);
-        prenomView.setText("Bienvenue " + prenom);
-
-
         doc = this.parseAsset("CampusAlma.xml");
         doc.getDocumentElement().normalize();
 
+        setContentView(R.layout.activity_listing_etapes);
 
 
-        String urlEtape1 = this.getUrlEtape(doc, 0);
-        double latitudeEtape1 =Double.parseDouble(getEtape(doc, 0).getElementsByTagName("Zone").item(0).getChildNodes().item(0).getTextContent());
-        double longitudeEtape1 =Double.parseDouble(getEtape(doc, 0).getElementsByTagName("Zone").item(0).getChildNodes().item(1).getTextContent());
-        Log.i("LATITUDE",""+latitudeEtape1);
-        Log.i("LONGITUDE",""+longitudeEtape1);
 
-        WebView webView = (WebView) findViewById(R.id.webView_content_listing);
+
+        urlEtape = this.getUrlEtape(doc, 0);
+        webView = (WebView) findViewById(R.id.webView_content_listing);
         WebSettings webSettings = webView.getSettings();
         webSettings.setJavaScriptEnabled(true);
-        webView.loadUrl(urlEtape1);
+        webView.loadUrl(urlEtape);
+
+        spinner = (Spinner) findViewById(R.id.spinner);
+        // Create an ArrayAdapter using the string array and a default spinner layout
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+                R.array.etapes_array, android.R.layout.simple_spinner_item);
+        // Specify the layout to use when the list of choices appears
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        // Apply the adapter to the spinner
+        spinner.setAdapter(adapter);
+
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+                switch (position) {
+                    case 0:
+                        urlEtape = ListingEpreuvesActivity.this.getUrlEtape(doc, position);
+                        break;
+                    case 1:
+
+                        urlEtape = ListingEpreuvesActivity.this.getUrlEtape(doc, position);
+                        break;
+                }
+                webView.loadUrl(urlEtape);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+                // sometimes you need nothing here
+            }
+        });
+
+
+        double latitudeEtape1 =Double.parseDouble(getEtape(doc, 0).getElementsByTagName("Zone").item(0).getChildNodes().item(0).getTextContent());
+        double longitudeEtape1 =Double.parseDouble(getEtape(doc, 0).getElementsByTagName("Zone").item(0).getChildNodes().item(1).getTextContent());
+        Log.i("LATITUDE", "" + latitudeEtape1);
+        Log.i("LONGITUDE", "" + longitudeEtape1);
+
 
 
         // somewhere on your code...
@@ -92,6 +122,7 @@ public class ListingEpreuvesActivity extends AppCompatActivity {
                     String question = epreuve1.getFirstChild().getTextContent();
                     itnt.putExtra("question", question);
 
+                    int point = Integer.parseInt(epreuve1.getAttribute("points"));
 
                     String [] reponses = new String[2];
                     String bonneRep = "";
@@ -236,6 +267,7 @@ public class ListingEpreuvesActivity extends AppCompatActivity {
         Element e = (Element) node;
         return (Element) node;
     }
+
 
 
 

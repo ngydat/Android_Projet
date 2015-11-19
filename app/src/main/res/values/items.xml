@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="etapes_array">
+        <item>Etape 1</item>
+        <item>Etape 2</item>
+    </string-array>
+</resources>

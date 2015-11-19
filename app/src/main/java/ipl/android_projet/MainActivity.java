@@ -79,14 +79,13 @@ public class MainActivity extends AppCompatActivity {
             Toast toast = Toast.makeText(context, text, duration);
             toast.show();
         }
-        else if(dao.getPrenom(prenom)){
-            CharSequence text = "Prenom deja utilisé.";
+        else if(!dao.getPrenom(prenom)){
+            CharSequence text = "Prenom non present dans la db.";
             Toast toast = Toast.makeText(context, text, duration);
             toast.show();
         }
 
         else{
-            dao.insertJoueur(new Joueur(prenom));
             Intent intentDemarrer = new Intent(MainActivity.this,ListingEpreuvesActivity.class);
             intentDemarrer.putExtra("prenom",prenom);
             startActivity(intentDemarrer);

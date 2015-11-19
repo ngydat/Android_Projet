@@ -20,13 +20,12 @@
                     <Latitude>50.8494611</Latitude>
                     <Longitude>4.4507495</Longitude>
                     <Rayon>10</Rayon>
-                    <!-- Zone de tolérance en m -->
                 </Zone>
             </Epreuve>
         </Epreuves>
     </Etape>
 
-    <Etape num="2" url="file://etape2.html" termine="false">
+    <Etape num="2" url="file:///android_asset/Etape2.html" termine="false">
         <Zone>
             <Latitude>50.8494611</Latitude>
             <Longitude>4.4507495</Longitude>

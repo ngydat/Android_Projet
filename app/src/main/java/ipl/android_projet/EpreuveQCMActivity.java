@@ -28,12 +28,14 @@ public class EpreuveQCMActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         String question = intent.getStringExtra("question");
+        int point = intent.getIntExtra("point",0);
 
         etape = intent.getIntExtra("etape",0);
         epreuve = intent.getIntExtra("epreuve",0);
 
         TextView questionTv = (TextView) findViewById(R.id.question_epreuveQCM);
-        questionTv.setText(question);
+
+        questionTv.setText(question + " (" + point + "points)");
 
         String bonneRep = intent.getStringExtra("bonneRep");
         bonneRepRb = (RadioButton) findViewById(R.id.reponse1_epreuveQCM);
