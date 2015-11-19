@@ -1,7 +1,13 @@
 package ipl.android_projet;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -36,13 +42,17 @@ import javax.xml.xpath.XPathFactory;
 
 import ipl.android_projet.model.Dao;
 
-public class ListingEpreuvesActivity extends AppCompatActivity{
+public class ListingEpreuvesActivity extends AppCompatActivity {
 
     Dao dao;
     private Document doc;
     Spinner spinner;
     private String urlEtape;
     private WebView webView;
+    private LocationManager objgps;
+    private LocationListener objlistener;
+    private TextView mTxtViewlong;
+    private TextView mTxtViewlat;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,7 +65,31 @@ public class ListingEpreuvesActivity extends AppCompatActivity{
 
         setContentView(R.layout.activity_listing_etapes);
 
+        //---utilisation  de la class LocationManager pour le gps---
+        objgps = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        //*************ecouteur ou listener*********************
+        objlistener = new Myobjlistener();
 
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                // TODO: Consider calling
+                //    public void requestPermissions(@NonNull String[] permissions, int requestCode)
+                // here to request the missing permissions, and then overriding
+                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                //                                          int[] grantResults)
+                // to handle the case where the user grants the permission. See the documentation
+                // for Activity#requestPermissions for more details.
+                return;
+            }
+        }
+        objgps.requestLocationUpdates(
+                LocationManager.GPS_PROVIDER,
+                0,
+                0,
+                objlistener);
+        //**variable qui pointe sur  mes champs d'affichage*************
+        mTxtViewlong = (TextView) findViewById(R.id.textlong);
+        mTxtViewlat = (TextView) findViewById(R.id.textlat);
 
 
         urlEtape = this.getUrlEtape(doc, 0);
@@ -92,7 +126,6 @@ public class ListingEpreuvesActivity extends AppCompatActivity{
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
 
-                // sometimes you need nothing here
             }
         });
 
@@ -117,7 +150,7 @@ public class ListingEpreuvesActivity extends AppCompatActivity{
                     Intent itnt = new Intent(ListingEpreuvesActivity.this, EpreuveQCMActivity.class);
 
                     itnt.putExtra("epreuve",0);
-                    itnt.putExtra("etape",0);
+                    itnt.putExtra("etape", 0);
 
                     String question = epreuve1.getFirstChild().getTextContent();
                     itnt.putExtra("question", question);
@@ -269,7 +302,38 @@ public class ListingEpreuvesActivity extends AppCompatActivity{
     }
 
 
+    private class Myobjlistener implements LocationListener
+    {
 
+
+
+        public void onProviderDisabled(String provider) {
+            // TODO Auto-generated method stub
+        }
+
+
+        public void onProviderEnabled(String provider) {
+            // TODO Auto-generated method stub
+        }
+
+
+        public void onStatusChanged(String provider, int status,
+                                    Bundle extras) {
+            // TODO Auto-generated method stub
+        }
+
+
+        public void onLocationChanged(Location location) {
+
+            //affichage des valeurs dans la les zone de saisie
+            mTxtViewlat.setText(" "+location.getLatitude());
+            mTxtViewlong.setText(" "+location.getLongitude());
+        }
+
+    }
 
 
 }
+
+
+
