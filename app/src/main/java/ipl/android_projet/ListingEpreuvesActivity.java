@@ -1,6 +1,9 @@
 package ipl.android_projet;
 
 import android.Manifest;
+import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -9,7 +12,10 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.speech.RecognizerIntent;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -53,6 +59,7 @@ public class ListingEpreuvesActivity extends AppCompatActivity {
     private LocationListener objlistener;
     private TextView mTxtViewlong;
     private TextView mTxtViewlat;
+    private String prenom = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,7 +70,14 @@ public class ListingEpreuvesActivity extends AppCompatActivity {
         doc = this.parseAsset("CampusAlma.xml");
         doc.getDocumentElement().normalize();
 
-        setContentView(R.layout.activity_listing_etapes);
+        Intent intent = getIntent();
+        prenom = intent.getStringExtra("prenom");
+
+        setContentView(R.layout.content_listing_etapes);
+        Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
+        setSupportActionBar(myToolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+
 
         //---utilisation  de la class LocationManager pour le gps---
         objgps = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
@@ -100,11 +114,12 @@ public class ListingEpreuvesActivity extends AppCompatActivity {
         webView.loadUrl(urlEtape);
 
         spinner = (Spinner) findViewById(R.id.spinner);
+
         // Create an ArrayAdapter using the string array and a default spinner layout
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
-                R.array.etapes_array, android.R.layout.simple_spinner_item);
+                R.array.etapes_array, R.layout.spinner_item);
         // Specify the layout to use when the list of choices appears
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        adapter.setDropDownViewResource(R.layout.spinner_item);
         // Apply the adapter to the spinner
         spinner.setAdapter(adapter);
 
@@ -148,33 +163,41 @@ public class ListingEpreuvesActivity extends AppCompatActivity {
                 if (url.contains("http://epreuve1_etape1.qcm")) {
 
                     epreuve = ListingEpreuvesActivity.this.getEpreuve(doc, 0, 0);
-                    Intent itnt = new Intent(ListingEpreuvesActivity.this, EpreuveQCMActivity.class);
 
-                    itnt.putExtra("epreuve",0);
-                    itnt.putExtra("etape", 0);
+                    if(epreuve.getAttributes().getNamedItem("termine").getTextContent().contains("true")){
+                        Toast.makeText(getApplicationContext(), "Epreuve deja faite !", Toast.LENGTH_SHORT).show();
+                    }
+                    else{
+                        Intent itnt = new Intent(ListingEpreuvesActivity.this, EpreuveQCMActivity.class);
 
-                    question = epreuve.getFirstChild().getTextContent();
-                    itnt.putExtra("question", question);
+                        itnt.putExtra("prenom",prenom);
+                        itnt.putExtra("epreuve",0);
+                        itnt.putExtra("etape", 0);
 
-                    int point = Integer.parseInt(epreuve.getAttribute("points"));
-                    itnt.putExtra("point", point);
+                        question = epreuve.getFirstChild().getTextContent();
+                        itnt.putExtra("question", question);
 
-                    String [] reponses = new String[2];
-                    String bonneRep = "";
-                    for(int i = 1 ; i<4;i++){
-                        Element elem = (Element) epreuve.getChildNodes().item(i);
-                        if (elem.getAttribute("bonne").equals("true")) {
-                            bonneRep = epreuve.getChildNodes().item(i).getTextContent();
-                        }else{
-                            reponses [i-1]= epreuve.getChildNodes().item(i).getTextContent();
+                        int point = Integer.parseInt(epreuve.getAttribute("points"));
+                        itnt.putExtra("point", point);
+
+                        String [] reponses = new String[2];
+                        String bonneRep = "";
+                        for(int i = 1 ; i<4;i++){
+                            Element elem = (Element) epreuve.getChildNodes().item(i);
+                            if (elem.getAttribute("bonne").equals("true")) {
+                                bonneRep = epreuve.getChildNodes().item(i).getTextContent();
+                            }else{
+                                reponses [i-1]= epreuve.getChildNodes().item(i).getTextContent();
+                            }
+
                         }
 
+                        itnt.putExtra("bonneRep",bonneRep);
+                        itnt.putExtra("reponses",reponses);
+
+                        startActivity(itnt);
                     }
 
-                    itnt.putExtra("bonneRep",bonneRep);
-                    itnt.putExtra("reponses",reponses);
-
-                    startActivity(itnt);
                 }
                 else if(url.contains("http://epreuve2_etape1.photo")){
                     if(ListingEpreuvesActivity.this.getEpreuve(doc,0,0).getAttributes().getNamedItem("termine").getTextContent().contains("false")){
@@ -217,16 +240,23 @@ public class ListingEpreuvesActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
+        int point = dao.getPoint(prenom);
+        switch (item.getItemId()) {
+            case R.id.action_settings:
+                // User chose the "Settings" item, show the app settings UI...
+                return true;
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+            case R.id.action_classement:
+                Toast.makeText(getApplicationContext(), "Vos point : " + point, Toast.LENGTH_SHORT).show();
+                return true;
+
+            default:
+                // If we got here, the user's action was not recognized.
+                // Invoke the superclass to handle it.
+                return super.onOptionsItemSelected(item);
+
         }
-        return super.onOptionsItemSelected(item);
+
     }
 
 
@@ -237,12 +267,31 @@ public class ListingEpreuvesActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         String epreuveOK_KO = intent.getStringExtra("epreuveOK_KO");
-        int etape = intent.getIntExtra("etape", 0);
-        int epreuve = intent.getIntExtra("epreuve",0);
-
+        int etapeCourante = intent.getIntExtra("etape", 0);
+        int epreuveCourante = intent.getIntExtra("epreuve",0);
+        int point = intent.getIntExtra("point",0);
 
         if(epreuveOK_KO!=null && epreuveOK_KO.contains("OK")){
-            this.getEpreuve(doc, etape, epreuve).getAttributes().getNamedItem("termine").setTextContent("true");
+            Log.i("TEST_P",prenom);
+            dao.updateJoueur(prenom,point, etapeCourante,epreuveCourante);
+            this.getEpreuve(doc, etapeCourante, epreuveCourante).getAttributes().getNamedItem("termine").setTextContent("true");
+        }
+
+        if(getEtape(doc,etapeCourante).getAttribute("termine").contains("false")){
+            NodeList epreuves = getEtape(doc,etapeCourante).getElementsByTagName("Epreuve");
+            Log.i("EPREUVE",""+epreuves.getLength());
+            String etapeOK="KO";
+
+            for (int i = 0 ; i<epreuves.getLength();i++){
+                if(epreuves.item(i).getAttributes().getNamedItem("termine").getTextContent().contains("true")){
+                    etapeOK="OK";
+                }else{
+                    etapeOK="KO";
+                }
+            }
+            if(etapeOK.contains("OK")){
+                getEtape(doc,etapeCourante).getAttributes().getNamedItem("termine").setTextContent("true");
+            }
         }
 
 
@@ -333,6 +382,13 @@ public class ListingEpreuvesActivity extends AppCompatActivity {
             mTxtViewlong.setText(" "+location.getLongitude());
         }
 
+    }
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == 1234 && resultCode == RESULT_OK) {
+            String voice_text = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS).get(0);
+            Toast.makeText(getApplicationContext(),voice_text,Toast.LENGTH_LONG).show();
+
+        }
     }
 
 

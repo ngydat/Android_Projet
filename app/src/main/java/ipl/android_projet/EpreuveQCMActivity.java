@@ -18,6 +18,8 @@ public class EpreuveQCMActivity extends AppCompatActivity {
     private RadioButton reponse3Rb;
     private int etape;
     private int epreuve;
+    private int point;
+    private String prenom;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,7 +30,8 @@ public class EpreuveQCMActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         String question = intent.getStringExtra("question");
-        int point = intent.getIntExtra("point",0);
+        point = intent.getIntExtra("point",0);
+        prenom = intent.getStringExtra("prenom");
 
         etape = intent.getIntExtra("etape",0);
         epreuve = intent.getIntExtra("epreuve",0);
@@ -59,6 +62,8 @@ public class EpreuveQCMActivity extends AppCompatActivity {
         Intent itnt = new Intent(EpreuveQCMActivity.this, ListingEpreuvesActivity.class);
         itnt.putExtra("etape", etape);
         itnt.putExtra("epreuve", epreuve);
+        itnt.putExtra("point", point);
+        itnt.putExtra("prenom", prenom);
 
        if(bonneRepRb.isChecked()){
            text = "Bonne reponse !";

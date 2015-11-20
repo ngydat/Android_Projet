@@ -68,21 +68,14 @@ public class MainActivity extends AppCompatActivity {
 
 
     public void demarrer(View view){
-        Context context = getApplicationContext();
-        int duration = Toast.LENGTH_SHORT;
-
 
         EditText editText = (EditText) findViewById(R.id.edit_prenom_content_main);
         String prenom = editText.getText().toString();
         if(prenom.isEmpty()){
-            CharSequence text = "Veuillez entrer un nom.";
-            Toast toast = Toast.makeText(context, text, duration);
-            toast.show();
+            Toast.makeText(getApplicationContext(), "Veuillez entrer un nom.", Toast.LENGTH_SHORT).show();
         }
         else if(!dao.getPrenom(prenom)){
-            CharSequence text = "Prenom non present dans la db.";
-            Toast toast = Toast.makeText(context, text, duration);
-            toast.show();
+            Toast.makeText(getApplicationContext(), "Ce nom n'existe pas", Toast.LENGTH_SHORT).show();
         }
 
         else{
