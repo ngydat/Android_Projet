@@ -3,6 +3,7 @@ package ipl.android_projet;
 import android.Manifest;
 import android.app.Dialog;
 import android.app.PendingIntent;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -125,8 +126,9 @@ public class ListingEpreuvesActivity extends AppCompatActivity {
 
 
 
-        Intent i= new Intent();
-        PendingIntent pi = PendingIntent.getBroadcast(getApplicationContext(), -1, i, 0);
+        Intent i= new Intent(this,ProximityReceiver.class);
+
+        PendingIntent pi = PendingIntent.getBroadcast(this, 0, i, PendingIntent.FLAG_UPDATE_CURRENT);
         objgps.addProximityAlert(latitudeEtape1,longitudeEtape1,rayonEtape1,-1,pi);
 
 
@@ -443,6 +445,14 @@ public class ListingEpreuvesActivity extends AppCompatActivity {
             }*/
         }
 
+    }
+
+    private class ProximityAlertReceiver extends BroadcastReceiver
+    {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            Log.d("TESSSSST", "Proximity Alert was fired");
+        }
     }
 
 
