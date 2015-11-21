@@ -6,11 +6,11 @@ import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
-import android.location.LocationProvider;
 import android.os.Build;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
@@ -37,8 +37,6 @@ import org.xml.sax.SAXException;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -65,6 +63,7 @@ public class ListingEpreuvesActivity extends AppCompatActivity {
     private TextView mTxtViewlat;
     private String prenom = "";
 
+    String ACTION_FILTER = "com.example.proximity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,6 +82,7 @@ public class ListingEpreuvesActivity extends AppCompatActivity {
         setSupportActionBar(myToolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
+        registerReceiver(new ProximityReceiver(),new IntentFilter(ACTION_FILTER));
 
         //---utilisation  de la class LocationManager pour le gps---
         objgps = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
@@ -104,10 +104,14 @@ public class ListingEpreuvesActivity extends AppCompatActivity {
             }
         }
         objgps.requestLocationUpdates(
-                LocationManager.NETWORK_PROVIDER,
+                LocationManager.GPS_PROVIDER,
                 0,
                 0,
                 objlistener);
+
+        Intent i = new Intent(ACTION_FILTER);
+        PendingIntent pi = PendingIntent.getBroadcast(getApplicationContext(), -1, i, 0);
+        objgps.addProximityAlert(50.838, 4.295, 100, -1, pi);
 
 
 
@@ -126,10 +130,7 @@ public class ListingEpreuvesActivity extends AppCompatActivity {
 
 
 
-        Intent i= new Intent(this,ProximityReceiver.class);
 
-        PendingIntent pi = PendingIntent.getBroadcast(this, 0, i, PendingIntent.FLAG_UPDATE_CURRENT);
-        objgps.addProximityAlert(latitudeEtape1,longitudeEtape1,rayonEtape1,-1,pi);
 
 
 
@@ -437,8 +438,8 @@ public class ListingEpreuvesActivity extends AppCompatActivity {
         public void onLocationChanged(Location location) {
             Log.d("GPS", "Latitude " + location.getLatitude() + " et longitude " + location.getLongitude());
             //affichage des valeurs dans la les zone de saisie
-            mTxtViewlat.setText(" "+location.getLatitude());
-            mTxtViewlong.setText(" " + location.getLongitude());
+            mTxtViewlat.setText(String.valueOf(location.getLatitude()));
+            mTxtViewlong.setText(String.valueOf(location.getLongitude()));
             /*if (location.getLatitude() >= 49.494872 && location.getLongitude() >= 5.980767) {
                 Intent intentPhoto = new Intent(ListingEpreuvesActivity.this, EpreuvePhotoActivity.class);
                 startActivity(intentPhoto);
@@ -451,7 +452,11 @@ public class ListingEpreuvesActivity extends AppCompatActivity {
     {
         @Override
         public void onReceive(Context context, Intent intent) {
-            Log.d("TESSSSST", "Proximity Alert was fired");
+
+
+                Log.d("TESSSSST", "Proximity Alert was fired");
+
+
         }
     }
 
