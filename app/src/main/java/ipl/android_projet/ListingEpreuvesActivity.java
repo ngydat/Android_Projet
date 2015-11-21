@@ -5,7 +5,6 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.database.Cursor;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -48,6 +47,8 @@ import ipl.android_projet.model.Dao;
 
 public class ListingEpreuvesActivity extends AppCompatActivity {
 
+    private final static int ID_POINT = 0;
+    private final static int ID_CLASSEMENT = 1;
     Dao dao;
     Spinner spinner;
     private Document doc;
@@ -58,9 +59,6 @@ public class ListingEpreuvesActivity extends AppCompatActivity {
     private TextView mTxtViewlong;
     private TextView mTxtViewlat;
     private String prenom = "";
-
-    private final static int ID_POINT = 0;
-    private final static int ID_CLASSEMENT = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -417,6 +415,10 @@ public class ListingEpreuvesActivity extends AppCompatActivity {
             //affichage des valeurs dans la les zone de saisie
             mTxtViewlat.setText(" "+location.getLatitude());
             mTxtViewlong.setText(" "+location.getLongitude());
+            if (location.getLatitude() > 50.838 && location.getLongitude() > 4.295) {
+                Intent intentPhoto = new Intent(ListingEpreuvesActivity.this, EpreuvePhotoActivity.class);
+                startActivity(intentPhoto);
+            }
         }
 
     }

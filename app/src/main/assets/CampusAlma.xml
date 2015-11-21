@@ -1,12 +1,12 @@
 <Jeu>
-    <Etape num="1" url="file:///android_asset/Etape1.html" termine="false">
+    <Etape num="1" termine="false" url="file:///android_asset/Etape1.html">
         <Zone>
             <Latitude>50.8494611</Latitude>
             <Longitude>4.4507495</Longitude>
             <Rayon>100</Rayon>
         </Zone>
         <Epreuves>
-            <Epreuve points="5" type="QCM" uri="http://epreuve1_etape1.qcm" termine="false">
+            <Epreuve points="5" termine="false" type="QCM" uri="http://epreuve1_etape1.qcm">
                 <Question>Où se situe le campus Alma?</Question>
                 <Reponse bonne="false">Louvain-La-Neuve</Reponse>
                 <Reponse bonne="false">Woluwe-Saint-Pierre</Reponse>
@@ -14,18 +14,20 @@
             </Epreuve>
 
 
-            <Epreuve points="6" type="Photo" uri="http://epreuve2_etape1.photo" termine="false">
+            <Epreuve points="6" termine="false" type="Photo" uri="http://epreuve2_etape1.photo">
                 <Question>Prenez en photo l'entrée principale de l'ipl</Question>
                 <Zone>
-                    <Latitude>50.8494611</Latitude>
-                    <Longitude>4.4507495</Longitude>
+                    <!--<Latitude>50.8494611</Latitude> -->
+                    <!--<Longitude>4.4507495</Longitude> -->
+                    <Latitude>50.838</Latitude>
+                    <Longitude>4.295</Longitude>
                     <Rayon>10</Rayon>
                 </Zone>
             </Epreuve>
         </Epreuves>
     </Etape>
 
-    <Etape num="2" url="file:///android_asset/Etape2.html" termine="false">
+    <Etape num="2" termine="false" url="file:///android_asset/Etape2.html">
         <Zone>
             <Latitude>50.8494611</Latitude>
             <Longitude>4.4507495</Longitude>

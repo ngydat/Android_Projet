@@ -1,25 +1,24 @@
 package ipl.android_projet;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import ipl.android_projet.model.Dao;
-import ipl.android_projet.model.Joueur;
 
 public class MainActivity extends AppCompatActivity {
 
     Dao dao;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
 
         toolBar.setTitle(R.string.app_titre);
 
+
         String htmlUrl = "file:///android_asset/Explication.html";
         WebView webView = (WebView) findViewById(R.id.webView_content_main);
         WebSettings webSettings = webView.getSettings();
@@ -44,6 +44,7 @@ public class MainActivity extends AppCompatActivity {
         Log.i("TEST",""+dao.getAllPlayers().getCount());
 
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
