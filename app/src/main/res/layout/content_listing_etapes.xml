@@ -17,7 +17,7 @@
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
         <Spinner
             android:id="@+id/spinner"
-            android:layout_width="180dp"
+            android:layout_width="150dp"
             android:layout_height="?attr/actionBarSize"
             android:popupBackground="@color/colorPrimary"></Spinner>
             />

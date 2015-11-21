@@ -1,9 +1,11 @@
 package ipl.android_projet;
 
 import android.Manifest;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -56,6 +58,9 @@ public class ListingEpreuvesActivity extends AppCompatActivity {
     private TextView mTxtViewlong;
     private TextView mTxtViewlat;
     private String prenom = "";
+
+    private final static int ID_POINT = 0;
+    private final static int ID_CLASSEMENT = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -250,13 +255,24 @@ public class ListingEpreuvesActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int point = dao.getPoint(prenom);
+        Dialog box = null;
         switch (item.getItemId()) {
             case R.id.action_settings:
                 // User chose the "Settings" item, show the app settings UI...
                 return true;
 
+            case R.id.action_point:
+                box = new Dialog(this);
+                //box.setContentView(R.layout.dialog_layout);
+                box.setTitle("Vos point : " + point);
+                box.show();
+                return true;
+
             case R.id.action_classement:
-                Toast.makeText(getApplicationContext(), "Vos point : " + point, Toast.LENGTH_SHORT).show();
+                /*Cursor c = dao.getAllPlayers();
+                c.getColumnNames();*/
+                Toast.makeText(getApplicationContext(), "Classement !", Toast.LENGTH_SHORT).show();
+
                 return true;
 
             default:
@@ -269,6 +285,7 @@ public class ListingEpreuvesActivity extends AppCompatActivity {
     }
 
 
+
     @Override
     protected void onResume() {
 
@@ -277,7 +294,7 @@ public class ListingEpreuvesActivity extends AppCompatActivity {
         Intent intent = getIntent();
         String epreuveOK_KO = intent.getStringExtra("epreuveOK_KO");
         int etapeCourante = intent.getIntExtra("etape", 0);
-        int epreuveCourante = intent.getIntExtra("epreuve",0);
+        int epreuveCourante = intent.getIntExtra("epreuve", 0);
         int point = intent.getIntExtra("point",0);
         int pointActuel = dao.getPoint(prenom);
 
