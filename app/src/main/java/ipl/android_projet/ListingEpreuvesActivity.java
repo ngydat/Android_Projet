@@ -1,9 +1,6 @@
 package ipl.android_projet;
 
 import android.Manifest;
-import android.app.Fragment;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -13,7 +10,6 @@ import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -51,8 +47,8 @@ import ipl.android_projet.model.Dao;
 public class ListingEpreuvesActivity extends AppCompatActivity {
 
     Dao dao;
-    private Document doc;
     Spinner spinner;
+    private Document doc;
     private String urlEtape;
     private WebView webView;
     private LocationManager objgps;
@@ -367,19 +363,29 @@ public class ListingEpreuvesActivity extends AppCompatActivity {
         return (Element) node;
     }
 
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == 1234 && resultCode == RESULT_OK) {
+            String voice_text = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS).get(0);
+            Toast.makeText(getApplicationContext(), voice_text, Toast.LENGTH_LONG).show();
+
+        }
+    }
 
     private class Myobjlistener implements LocationListener
     {
 
-
+        TextView mtextView = (TextView) findViewById(R.id.gpsText);
 
         public void onProviderDisabled(String provider) {
-            Toast.makeText(getApplicationContext(), "Il faut activer le GPS!", Toast.LENGTH_SHORT).show();
+
+            mtextView.setVisibility(View.VISIBLE);
         }
 
+        //Pour la visibilité, http://stackoverflow.com/questions/5335787/making-buttons-appear-and-disappear-on-an-image-view
 
         public void onProviderEnabled(String provider) {
-            // TODO Auto-generated method stub
+
+            mtextView.setVisibility(View.GONE);
         }
 
 
@@ -396,13 +402,6 @@ public class ListingEpreuvesActivity extends AppCompatActivity {
             mTxtViewlong.setText(" "+location.getLongitude());
         }
 
-    }
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == 1234 && resultCode == RESULT_OK) {
-            String voice_text = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS).get(0);
-            Toast.makeText(getApplicationContext(),voice_text,Toast.LENGTH_LONG).show();
-
-        }
     }
 
 
