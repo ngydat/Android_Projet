@@ -52,9 +52,25 @@ public class Dao {
         c.moveToFirst(); // On se positionne sur le premier
 
         return c.getInt(c.getColumnIndex("points"));
-
-
     }
+
+
+    public int getEpreuve(String prenom){
+        Cursor c = db.rawQuery("select * from joueurs where prenom like '" + prenom + "'", null);
+
+        c.moveToFirst(); // On se positionne sur le premier
+
+        return c.getInt(c.getColumnIndex("epreuve"));
+    }
+
+    public int getEtape(String prenom){
+        Cursor c = db.rawQuery("select * from joueurs where prenom like '" + prenom + "'", null);
+
+        c.moveToFirst(); // On se positionne sur le premier
+
+        return c.getInt(c.getColumnIndex("etape"));
+    }
+
 
     public void insertJoueur(Joueur joueur){
         ContentValues valeurs = new ContentValues();

@@ -70,7 +70,7 @@ public class ListingEpreuvesActivity extends AppCompatActivity {
         doc = this.parseAsset("CampusAlma.xml");
         doc.getDocumentElement().normalize();
 
-        Intent intent = getIntent();
+        final Intent intent = getIntent();
         prenom = intent.getStringExtra("prenom");
 
         setContentView(R.layout.content_listing_etapes);
@@ -160,25 +160,27 @@ public class ListingEpreuvesActivity extends AppCompatActivity {
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
                 String question;
                 Element epreuve;
+                int point;
                 if (url.contains("http://epreuve1_etape1.qcm")) {
 
                     epreuve = ListingEpreuvesActivity.this.getEpreuve(doc, 0, 0);
 
-                    if(epreuve.getAttributes().getNamedItem("termine").getTextContent().contains("true")){
+                    if(dao.getEtape(prenom)>=0 && dao.getEpreuve(prenom)>=0){
                         Toast.makeText(getApplicationContext(), "Epreuve deja faite !", Toast.LENGTH_SHORT).show();
                     }
                     else{
-                        Intent itnt = new Intent(ListingEpreuvesActivity.this, EpreuveQCMActivity.class);
+                        Intent intentQCM = new Intent(ListingEpreuvesActivity.this, EpreuveQCMActivity.class);
 
-                        itnt.putExtra("prenom",prenom);
-                        itnt.putExtra("epreuve",0);
-                        itnt.putExtra("etape", 0);
+                        intentQCM.putExtra("prenom", prenom);
+                        intentQCM.putExtra("epreuve", 0);
+                        intentQCM.putExtra("etape", 0);
+
 
                         question = epreuve.getFirstChild().getTextContent();
-                        itnt.putExtra("question", question);
+                        intentQCM.putExtra("question", question);
 
-                        int point = Integer.parseInt(epreuve.getAttribute("points"));
-                        itnt.putExtra("point", point);
+                         point= Integer.parseInt(epreuve.getAttribute("points"));
+                        intentQCM.putExtra("point", point);
 
                         String [] reponses = new String[2];
                         String bonneRep = "";
@@ -192,23 +194,34 @@ public class ListingEpreuvesActivity extends AppCompatActivity {
 
                         }
 
-                        itnt.putExtra("bonneRep",bonneRep);
-                        itnt.putExtra("reponses",reponses);
+                        intentQCM.putExtra("bonneRep", bonneRep);
+                        intentQCM.putExtra("reponses", reponses);
 
-                        startActivity(itnt);
+                        startActivity(intentQCM);
                     }
 
                 }
                 else if(url.contains("http://epreuve2_etape1.photo")){
-                    if(ListingEpreuvesActivity.this.getEpreuve(doc,0,0).getAttributes().getNamedItem("termine").getTextContent().contains("false")){
+                    if(dao.getEtape(prenom)>=0 && dao.getEpreuve(prenom)<0){
                         Toast.makeText(getApplicationContext(), "Veuillez terminer l'epreuve 1", Toast.LENGTH_SHORT).show();
-                    }else{
+                    }else if(dao.getEtape(prenom)==0 && dao.getEpreuve(prenom)==1){
+                        Toast.makeText(getApplicationContext(), "Epreuve deja faite !", Toast.LENGTH_SHORT).show();
+                    }
+
+                    else{
 
                         epreuve = ListingEpreuvesActivity.this.getEpreuve(doc, 0, 1);
                         question = epreuve.getFirstChild().getTextContent();
+                        point= Integer.parseInt(epreuve.getAttribute("points"));
 
                         Intent intentPhoto = new Intent(ListingEpreuvesActivity.this, EpreuvePhotoActivity.class);
                         intentPhoto.putExtra("question", question);
+                        intentPhoto.putExtra("prenom", prenom);
+                        intentPhoto.putExtra("epreuve", 1);
+                        intentPhoto.putExtra("etape", 0);
+                        intentPhoto.putExtra("point",point);
+
+
                         startActivity(intentPhoto);
                     }
                 }
@@ -270,10 +283,11 @@ public class ListingEpreuvesActivity extends AppCompatActivity {
         int etapeCourante = intent.getIntExtra("etape", 0);
         int epreuveCourante = intent.getIntExtra("epreuve",0);
         int point = intent.getIntExtra("point",0);
+        int pointActuel = dao.getPoint(prenom);
 
         if(epreuveOK_KO!=null && epreuveOK_KO.contains("OK")){
             Log.i("TEST_P",prenom);
-            dao.updateJoueur(prenom,point, etapeCourante,epreuveCourante);
+            dao.updateJoueur(prenom,point+pointActuel, etapeCourante,epreuveCourante);
             this.getEpreuve(doc, etapeCourante, epreuveCourante).getAttributes().getNamedItem("termine").setTextContent("true");
         }
 

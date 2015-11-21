@@ -32,6 +32,10 @@ public class EpreuvePhotoActivity extends AppCompatActivity {
     Button b1,b2;
     ImageView iv;
 
+    private int etape;
+    private int epreuve;
+    private int point;
+    private String prenom;
 
 
     @Override
@@ -45,9 +49,15 @@ public class EpreuvePhotoActivity extends AppCompatActivity {
         Intent intent = getIntent();
         String question = intent.getStringExtra("question");
 
+        point = intent.getIntExtra("point", 0);
+        prenom = intent.getStringExtra("prenom");
+
+        etape = intent.getIntExtra("etape",0);
+        epreuve = intent.getIntExtra("epreuve",0);
+
         TextView questionTv = (TextView) findViewById(R.id.question_content_epreuve_photo);
 
-        questionTv.setText(question);
+        questionTv.setText(question + " (" + point + " points)");
 
 
         b1=(Button)findViewById(R.id.button_content_epreuve_photo);
@@ -70,6 +80,21 @@ public class EpreuvePhotoActivity extends AppCompatActivity {
 
         Bitmap bp = (Bitmap) data.getExtras().get("data");
         iv.setImageBitmap(bp);
+        if(data!=null){
+            b1.setText("Confirmer");
+            b1.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent itnt = new Intent(EpreuvePhotoActivity.this, ListingEpreuvesActivity.class);
+                    itnt.putExtra("etape", etape);
+                    itnt.putExtra("epreuve", epreuve);
+                    itnt.putExtra("point", point);
+                    itnt.putExtra("prenom", prenom);
+                    itnt.putExtra("epreuveOK_KO", "OK");
+                    startActivity(itnt);
+                }
+            });
+        }
     }
 
     @Override

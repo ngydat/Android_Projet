@@ -15,8 +15,8 @@ public class Joueur implements Serializable {
     public Joueur(String prenom) {
         this.prenom = prenom;
         this.point = 0;
-        this.etape = 1;
-        this.epreuve = 1;
+        this.etape = -1;
+        this.epreuve = -1;
     }
 
     public String getPrenom() {

@@ -30,7 +30,6 @@
             <Latitude>50.8494611</Latitude>
             <Longitude>4.4507495</Longitude>
             <Rayon>100</Rayon>
-        <!-- Zone de tolérance en m -->
         </Zone>
     </Etape>
 </Jeu>
