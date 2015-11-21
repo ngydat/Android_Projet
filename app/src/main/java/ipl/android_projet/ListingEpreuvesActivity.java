@@ -2,12 +2,14 @@ package ipl.android_projet;
 
 import android.Manifest;
 import android.app.Dialog;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.location.LocationProvider;
 import android.os.Build;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
@@ -34,6 +36,8 @@ import org.xml.sax.SAXException;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -60,6 +64,7 @@ public class ListingEpreuvesActivity extends AppCompatActivity {
     private TextView mTxtViewlat;
     private String prenom = "";
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -83,6 +88,8 @@ public class ListingEpreuvesActivity extends AppCompatActivity {
         //*************ecouteur ou listener*********************
         objlistener = new Myobjlistener();
 
+
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                 // TODO: Consider calling
@@ -96,14 +103,32 @@ public class ListingEpreuvesActivity extends AppCompatActivity {
             }
         }
         objgps.requestLocationUpdates(
-                LocationManager.GPS_PROVIDER,
+                LocationManager.NETWORK_PROVIDER,
                 0,
                 0,
                 objlistener);
 
+
+
         //**variable qui pointe sur  mes champs d'affichage*************
         mTxtViewlong = (TextView) findViewById(R.id.textlong);
         mTxtViewlat = (TextView) findViewById(R.id.textlat);
+
+
+
+        double latitudeEtape1 =Double.parseDouble(getEtape(doc, 0).getElementsByTagName("Zone").item(0).getChildNodes().item(0).getTextContent());
+        double longitudeEtape1 =Double.parseDouble(getEtape(doc, 0).getElementsByTagName("Zone").item(0).getChildNodes().item(1).getTextContent());
+        float rayonEtape1 = Float.parseFloat(getEtape(doc, 0).getElementsByTagName("Zone").item(0).getChildNodes().item(2).getTextContent());
+        Log.i("LATITUDE", "" + latitudeEtape1);
+        Log.i("LONGITUDE", "" + longitudeEtape1);
+        Log.i("RAYON", "" + rayonEtape1);
+
+
+
+        Intent i= new Intent();
+        PendingIntent pi = PendingIntent.getBroadcast(getApplicationContext(), -1, i, 0);
+        objgps.addProximityAlert(latitudeEtape1,longitudeEtape1,rayonEtape1,-1,pi);
+
 
 
         urlEtape = this.getUrlEtape(doc, 0);
@@ -144,10 +169,7 @@ public class ListingEpreuvesActivity extends AppCompatActivity {
         });
 
 
-        double latitudeEtape1 =Double.parseDouble(getEtape(doc, 0).getElementsByTagName("Zone").item(0).getChildNodes().item(0).getTextContent());
-        double longitudeEtape1 =Double.parseDouble(getEtape(doc, 0).getElementsByTagName("Zone").item(0).getChildNodes().item(1).getTextContent());
-        Log.i("LATITUDE", "" + latitudeEtape1);
-        Log.i("LONGITUDE", "" + longitudeEtape1);
+
 
 
 
@@ -411,14 +433,14 @@ public class ListingEpreuvesActivity extends AppCompatActivity {
 
 
         public void onLocationChanged(Location location) {
-
+            Log.d("GPS", "Latitude " + location.getLatitude() + " et longitude " + location.getLongitude());
             //affichage des valeurs dans la les zone de saisie
             mTxtViewlat.setText(" "+location.getLatitude());
-            mTxtViewlong.setText(" "+location.getLongitude());
-            if (location.getLatitude() > 50.838 && location.getLongitude() > 4.295) {
+            mTxtViewlong.setText(" " + location.getLongitude());
+            /*if (location.getLatitude() >= 49.494872 && location.getLongitude() >= 5.980767) {
                 Intent intentPhoto = new Intent(ListingEpreuvesActivity.this, EpreuvePhotoActivity.class);
                 startActivity(intentPhoto);
-            }
+            }*/
         }
 
     }
