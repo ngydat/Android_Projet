@@ -24,6 +24,13 @@
                     <Rayon>10</Rayon>
                 </Zone>
             </Epreuve>
+            <Epreuve points="3" termine="false" type="Texte_Trou"
+                uri="http://epreuve3_etape1.texte_trou">
+                <Question>L'adresse de l'IPL est Clos [1]-aux-[2] 43 1200 [3]</Question>
+                <Réponse texte="Chapelle" />
+                <Réponse texte="Champs" />
+                <Réponse texte="Bruxelles" />
+            </Epreuve>
         </Epreuves>
     </Etape>
 

@@ -13,3 +13,5 @@ http://stackoverflow.com/questions/3250034/android-webview-intercept-clicks
 http://stackoverflow.com/questions/4650878/how-to-remove-text-from-my-node-parsing-in-java-dom-xml-parsing
 
 http://www.tutorialspoint.com/android/android_camera.htm
+
+http://houssem-lahiani.blogspot.be/2015/04/la-geolocalisation-et-les-alerte-de.html

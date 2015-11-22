@@ -52,6 +52,7 @@ public class ListingEpreuvesActivity extends AppCompatActivity {
 
     Dao dao;
     Spinner spinner;
+    String ACTION_FILTER = "com.example.proximity";
     private Document doc;
     private String urlEtape;
     private WebView webView;
@@ -60,8 +61,6 @@ public class ListingEpreuvesActivity extends AppCompatActivity {
     private TextView mTxtViewlong;
     private TextView mTxtViewlat;
     private String prenom = "";
-
-    String ACTION_FILTER = "com.example.proximity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -203,6 +202,34 @@ public class ListingEpreuvesActivity extends AppCompatActivity {
 
 
                         startActivity(intentPhoto);
+                    }
+                } else if (url.contains("http://epreuve3_etape1.texte_trou")) {
+                    if (dao.getEtape(prenom) >= 0 && dao.getEpreuve(prenom) < 0) {
+                        Toast.makeText(getApplicationContext(), "Veuillez terminer l'epreuve 2", Toast.LENGTH_SHORT).show();
+                    } else if (dao.getEtape(prenom) == 0 && dao.getEpreuve(prenom) == 1) {
+                        Toast.makeText(getApplicationContext(), "Epreuve deja faite !", Toast.LENGTH_SHORT).show();
+                    } else {
+                        epreuve = ListingEpreuvesActivity.this.getEpreuve(doc, 0, 2);
+                        question = epreuve.getFirstChild().getTextContent();
+                        point = Integer.parseInt(epreuve.getAttribute("points"));
+
+                        String[] reponses = new String[3];
+                        for (int i = 1; i < 4; i++) {
+                            Element elem = (Element) epreuve.getChildNodes().item(i);
+                            reponses[i - 1] = epreuve.getChildNodes().item(i).getTextContent();
+
+                        }
+
+
+                        Intent intentTrou = new Intent(ListingEpreuvesActivity.this, TexteATrousActivity.class);
+                        intentTrou.putExtra("question", question);
+                        intentTrou.putExtra("prenom", prenom);
+                        intentTrou.putExtra("epreuve", 2);
+                        intentTrou.putExtra("etape", 0);
+                        intentTrou.putExtra("point", point);
+                        intentTrou.putExtra("reponses", reponses);
+
+                        startActivity(intentTrou);
                     }
                 }
 
