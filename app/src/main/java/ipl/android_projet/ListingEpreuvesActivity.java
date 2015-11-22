@@ -50,8 +50,6 @@ import ipl.android_projet.model.Dao;
 
 public class ListingEpreuvesActivity extends AppCompatActivity {
 
-    private final static int ID_POINT = 0;
-    private final static int ID_CLASSEMENT = 1;
     Dao dao;
     Spinner spinner;
     private Document doc;
@@ -104,14 +102,12 @@ public class ListingEpreuvesActivity extends AppCompatActivity {
             }
         }
         objgps.requestLocationUpdates(
-                LocationManager.GPS_PROVIDER,
+                LocationManager.NETWORK_PROVIDER,
                 0,
                 0,
                 objlistener);
 
-        Intent i = new Intent(ACTION_FILTER);
-        PendingIntent pi = PendingIntent.getBroadcast(getApplicationContext(), -1, i, 0);
-        objgps.addProximityAlert(50.838, 4.295, 100, -1, pi);
+
 
 
 
@@ -129,16 +125,24 @@ public class ListingEpreuvesActivity extends AppCompatActivity {
         Log.i("RAYON", "" + rayonEtape1);
 
 
+        Intent intentEtape1 = new Intent(ACTION_FILTER);
+        PendingIntent pi = PendingIntent.getBroadcast(getApplicationContext(), -1, intentEtape1, 0);
+        objgps.addProximityAlert(latitudeEtape1, longitudeEtape1, rayonEtape1, -1, pi);
 
 
 
 
-
-        urlEtape = this.getUrlEtape(doc, 0);
+        urlEtape = "file:///android_asset/EtapeEnAttente.html";
         webView = (WebView) findViewById(R.id.webView_content_listing);
         WebSettings webSettings = webView.getSettings();
         webSettings.setJavaScriptEnabled(true);
-        webView.loadUrl(urlEtape);
+
+        if(this.getEtape(doc,0).getAttributes().getNamedItem("visible").getTextContent().contains("false")){
+            webView.loadUrl(urlEtape);
+        }else{
+            webView.loadUrl(this.getUrlEtape(doc, 0));
+        }
+
 
         spinner = (Spinner) findViewById(R.id.spinner);
 
@@ -156,11 +160,19 @@ public class ListingEpreuvesActivity extends AppCompatActivity {
 
                 switch (position) {
                     case 0:
-                        urlEtape = ListingEpreuvesActivity.this.getUrlEtape(doc, position);
-                        break;
+                        if(ListingEpreuvesActivity.this.getEtape(doc, position).getAttributes().getNamedItem("visible").getTextContent().contains("true")){
+                            urlEtape = ListingEpreuvesActivity.this.getUrlEtape(doc, position);
+                            break;
+                        }
+
                     case 1:
-                        urlEtape = ListingEpreuvesActivity.this.getUrlEtape(doc, position);
-                        break;
+                        if (ListingEpreuvesActivity.this.getEtape(doc, position).getAttributes().getNamedItem("visible").getTextContent().contains("true")){
+                            urlEtape = ListingEpreuvesActivity.this.getUrlEtape(doc, position);
+                            break;
+                        }
+                    default:
+                        urlEtape = "file:///android_asset/EtapeEnAttente.html";
+
                 }
                 webView.loadUrl(urlEtape);
             }
@@ -448,18 +460,34 @@ public class ListingEpreuvesActivity extends AppCompatActivity {
 
     }
 
-    private class ProximityAlertReceiver extends BroadcastReceiver
-    {
+    public class ProximityReceiver extends BroadcastReceiver {
+
         @Override
-        public void onReceive(Context context, Intent intent) {
+        public void onReceive(Context arg0, Intent arg1) {
+            // TODO Auto-generated method stub
+            // The reciever gets the Context & the Intent that fired the broadcast as arg0 & agr1
+            String k= LocationManager.KEY_PROXIMITY_ENTERING;
+            // Key for determining whether user is leaving or entering
 
+            boolean state=arg1.getBooleanExtra(k, false);
 
-                Log.d("TESSSSST", "Proximity Alert was fired");
+            //Gives whether the user is entering or leaving in boolean form
 
+            if(state){
+                // Call the Notification Service or anything else that you would like to do here
+                Toast.makeText(arg0, "Welcome to my Area Bro", Toast.LENGTH_SHORT).show();
+                Element etape = ListingEpreuvesActivity.this.getEtape(doc,0);
+                etape.getAttributes().getNamedItem("visible").setTextContent("true");
+
+            }else{
+                //Other custom Notification
+                Toast.makeText(arg0, "Thank you for visiting my Area,come back again !!", Toast.LENGTH_LONG).show();
+
+            }
 
         }
-    }
 
+    }
 
 }
 
