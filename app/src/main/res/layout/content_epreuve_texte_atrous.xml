@@ -8,38 +8,47 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="ipl.android_projet.TexteATrousActivity"
-    tools:showIn="@layout/activity_texte_atrous">
+    app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
     <TextView
-        android:id="@+id/textView1"
+        android:id="@+id/question_t_a_t"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="coucouc miss" />
+        android:textAppearance="@style/Question_style"
+        android:layout_below="@id/my_toolbar" />
 
     <EditText
-        android:id="@+id/editText1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-
-    <EditText
-        android:id="@+id/editText2"
+        android:id="@+id/reponse_texte_a_t_1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/editText1" />
+        android:layout_below="@id/question_t_a_t"
+        android:hint="Reponse 1"
+        android:maxLength="20"
+        />
 
     <EditText
-        android:id="@+id/editText3"
+        android:id="@+id/reponse_texte_a_t_2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/editText2" />
+        android:layout_below="@id/reponse_texte_a_t_1"
+        android:hint="Reponse 2"
+        android:maxLength="20"
+        />
+
+    <EditText
+        android:id="@+id/reponse_texte_a_t_3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/reponse_texte_a_t_2"
+        android:hint="Reponse 3"
+        android:maxLength="20"
+        />
 
     <Button
-        android:id="@+id/confirmer_epreuveQCM"
+        android:id="@+id/confirmer_epreuveTexte_a_t"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/editText3"
+        android:layout_below="@id/reponse_texte_a_t_3"
         android:onClick="confirmer"
         android:text="Confirmer" />
 

@@ -47,8 +47,8 @@
             android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
             android:name=".TexteATrousActivity"
-            android:label="@string/title_activity_texte_atrous"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"></activity>
+            android:label="EpreuveTexteATrous"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -28,8 +29,8 @@ public class TexteATrousActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_texte_atrous);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setContentView(R.layout.activity_epreuve_texte_atrous);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.my_toolbar);
         setSupportActionBar(toolbar);
 
         Intent intent = getIntent();
@@ -40,13 +41,14 @@ public class TexteATrousActivity extends AppCompatActivity {
         etape = intent.getIntExtra("etape", 0);
         epreuve = intent.getIntExtra("epreuve", 0);
 
-        TextView questionTv = (TextView) findViewById(R.id.textView1);
+        TextView questionTv = (TextView) findViewById(R.id.question_t_a_t);
         questionTv.setText(question + " (" + point + " points)");
 
         reponses = intent.getStringArrayExtra("reponses");
-        reponse1 = (EditText) findViewById(R.id.editText1);
-        reponse2 = (EditText) findViewById(R.id.editText2);
-        reponse3 = (EditText) findViewById(R.id.editText3);
+        reponse1 = (EditText) findViewById(R.id.reponse_texte_a_t_1);
+        reponse2 = (EditText) findViewById(R.id.reponse_texte_a_t_2);
+        reponse3 = (EditText) findViewById(R.id.reponse_texte_a_t_3);
+
 
 
     }

@@ -204,9 +204,9 @@ public class ListingEpreuvesActivity extends AppCompatActivity {
                         startActivity(intentPhoto);
                     }
                 } else if (url.contains("http://epreuve3_etape1.texte_trou")) {
-                    if (dao.getEtape(prenom) >= 0 && dao.getEpreuve(prenom) < 0) {
+                    if (dao.getEtape(prenom) >= 0 && dao.getEpreuve(prenom) < 1) {
                         Toast.makeText(getApplicationContext(), "Veuillez terminer l'epreuve 2", Toast.LENGTH_SHORT).show();
-                    } else if (dao.getEtape(prenom) == 0 && dao.getEpreuve(prenom) == 1) {
+                    } else if (dao.getEtape(prenom) == 0 && dao.getEpreuve(prenom) ==2) {
                         Toast.makeText(getApplicationContext(), "Epreuve deja faite !", Toast.LENGTH_SHORT).show();
                     } else {
                         epreuve = ListingEpreuvesActivity.this.getEpreuve(doc, 0, 2);
@@ -217,8 +217,10 @@ public class ListingEpreuvesActivity extends AppCompatActivity {
                         for (int i = 1; i < 4; i++) {
                             Element elem = (Element) epreuve.getChildNodes().item(i);
                             reponses[i - 1] = epreuve.getChildNodes().item(i).getTextContent();
+                            Log.i("REP",epreuve.getChildNodes().item(i).getTextContent());
 
                         }
+
 
 
                         Intent intentTrou = new Intent(ListingEpreuvesActivity.this, TexteATrousActivity.class);
@@ -296,7 +298,6 @@ public class ListingEpreuvesActivity extends AppCompatActivity {
 
         super.onResume();
 
-
         /**/
 
         Intent intent = getIntent();
@@ -325,6 +326,7 @@ public class ListingEpreuvesActivity extends AppCompatActivity {
                 }
             }
             if(etapeOK.contains("OK")){
+                Toast.makeText(getApplicationContext(), "Vous avez fini l'etape n° "+(etapeCourante+1), Toast.LENGTH_SHORT).show();
                 getEtape(doc,etapeCourante).getAttributes().getNamedItem("termine").setTextContent("true");
                 dao.updateJoueur(prenom,point+pointActuel, (etapeCourante+1),0);
             }
@@ -366,7 +368,7 @@ public class ListingEpreuvesActivity extends AppCompatActivity {
         float rayonEtape=0;
 
 
-        if(getEtape(doc,0).getAttributes().getNamedItem("termine").getTextContent().contains("false")){
+        if(dao.getEtape(prenom)==0){
            latitudeEtape =Double.parseDouble(getEtape(doc, 0).getElementsByTagName("Zone").item(0).getChildNodes().item(0).getTextContent());
             longitudeEtape = Double.parseDouble(getEtape(doc, 0).getElementsByTagName("Zone").item(0).getChildNodes().item(1).getTextContent());
            rayonEtape = Float.parseFloat(getEtape(doc, 0).getElementsByTagName("Zone").item(0).getChildNodes().item(2).getTextContent());
