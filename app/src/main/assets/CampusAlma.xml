@@ -29,8 +29,8 @@
 
     <Etape num="2" termine="false" url="file:///android_asset/Etape2.html" visible="false">
         <Zone>
-            <Latitude>50.8494611</Latitude>
-            <Longitude>4.4507495</Longitude>
+            <Latitude>49.494872</Latitude>
+            <Longitude>5.980767</Longitude>
             <Rayon>100</Rayon>
         </Zone>
     </Etape>

@@ -80,58 +80,6 @@ public class ListingEpreuvesActivity extends AppCompatActivity {
         setSupportActionBar(myToolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
-        registerReceiver(new ProximityReceiver(),new IntentFilter(ACTION_FILTER));
-
-        //---utilisation  de la class LocationManager pour le gps---
-        objgps = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        //*************ecouteur ou listener*********************
-        objlistener = new Myobjlistener();
-
-
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                // TODO: Consider calling
-                //    public void requestPermissions(@NonNull String[] permissions, int requestCode)
-                // here to request the missing permissions, and then overriding
-                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-                //                                          int[] grantResults)
-                // to handle the case where the user grants the permission. See the documentation
-                // for Activity#requestPermissions for more details.
-                return;
-            }
-        }
-        objgps.requestLocationUpdates(
-                LocationManager.NETWORK_PROVIDER,
-                0,
-                0,
-                objlistener);
-
-
-
-
-
-        //**variable qui pointe sur  mes champs d'affichage*************
-        mTxtViewlong = (TextView) findViewById(R.id.textlong);
-        mTxtViewlat = (TextView) findViewById(R.id.textlat);
-
-
-
-        double latitudeEtape1 =Double.parseDouble(getEtape(doc, 0).getElementsByTagName("Zone").item(0).getChildNodes().item(0).getTextContent());
-        double longitudeEtape1 =Double.parseDouble(getEtape(doc, 0).getElementsByTagName("Zone").item(0).getChildNodes().item(1).getTextContent());
-        float rayonEtape1 = Float.parseFloat(getEtape(doc, 0).getElementsByTagName("Zone").item(0).getChildNodes().item(2).getTextContent());
-        Log.i("LATITUDE", "" + latitudeEtape1);
-        Log.i("LONGITUDE", "" + longitudeEtape1);
-        Log.i("RAYON", "" + rayonEtape1);
-
-
-        Intent intentEtape1 = new Intent(ACTION_FILTER);
-        PendingIntent pi = PendingIntent.getBroadcast(getApplicationContext(), -1, intentEtape1, 0);
-        objgps.addProximityAlert(latitudeEtape1, longitudeEtape1, rayonEtape1, -1, pi);
-
-
-
-
         urlEtape = "file:///android_asset/EtapeEnAttente.html";
         webView = (WebView) findViewById(R.id.webView_content_listing);
         WebSettings webSettings = webView.getSettings();
@@ -160,13 +108,13 @@ public class ListingEpreuvesActivity extends AppCompatActivity {
 
                 switch (position) {
                     case 0:
-                        if(ListingEpreuvesActivity.this.getEtape(doc, position).getAttributes().getNamedItem("visible").getTextContent().contains("true")){
+                        if (ListingEpreuvesActivity.this.getEtape(doc, position).getAttributes().getNamedItem("visible").getTextContent().contains("true")) {
                             urlEtape = ListingEpreuvesActivity.this.getUrlEtape(doc, position);
                             break;
                         }
 
                     case 1:
-                        if (ListingEpreuvesActivity.this.getEtape(doc, position).getAttributes().getNamedItem("visible").getTextContent().contains("true")){
+                        if (ListingEpreuvesActivity.this.getEtape(doc, position).getAttributes().getNamedItem("visible").getTextContent().contains("true")) {
                             urlEtape = ListingEpreuvesActivity.this.getUrlEtape(doc, position);
                             break;
                         }
@@ -184,10 +132,6 @@ public class ListingEpreuvesActivity extends AppCompatActivity {
         });
 
 
-
-
-
-
         // somewhere on your code...
         WebViewClient yourWebClient = new WebViewClient() {
             // you tell the webclient you want to catch when a url is about to load
@@ -201,7 +145,7 @@ public class ListingEpreuvesActivity extends AppCompatActivity {
 
                     epreuve = ListingEpreuvesActivity.this.getEpreuve(doc, 0, 0);
 
-                    if(dao.getEtape(prenom)>=0 && dao.getEpreuve(prenom)>=0){
+                    if(dao.getEtape(prenom)>=0 && dao.getEpreuve(prenom)>=0) {
                         Toast.makeText(getApplicationContext(), "Epreuve deja faite !", Toast.LENGTH_SHORT).show();
                     }
                     else{
@@ -215,7 +159,7 @@ public class ListingEpreuvesActivity extends AppCompatActivity {
                         question = epreuve.getFirstChild().getTextContent();
                         intentQCM.putExtra("question", question);
 
-                         point= Integer.parseInt(epreuve.getAttribute("points"));
+                        point= Integer.parseInt(epreuve.getAttribute("points"));
                         intentQCM.putExtra("point", point);
 
                         String [] reponses = new String[2];
@@ -261,7 +205,6 @@ public class ListingEpreuvesActivity extends AppCompatActivity {
                         startActivity(intentPhoto);
                     }
                 }
-
 
                 return true;
             }
@@ -326,6 +269,9 @@ public class ListingEpreuvesActivity extends AppCompatActivity {
 
         super.onResume();
 
+
+        /**/
+
         Intent intent = getIntent();
         String epreuveOK_KO = intent.getStringExtra("epreuveOK_KO");
         int etapeCourante = intent.getIntExtra("etape", 0);
@@ -353,8 +299,64 @@ public class ListingEpreuvesActivity extends AppCompatActivity {
             }
             if(etapeOK.contains("OK")){
                 getEtape(doc,etapeCourante).getAttributes().getNamedItem("termine").setTextContent("true");
+                dao.updateJoueur(prenom,point+pointActuel, (etapeCourante+1),0);
             }
         }
+
+        /*****************************************************************/
+        registerReceiver(new ProximityReceiver(),new IntentFilter(ACTION_FILTER));
+
+        //---utilisation  de la class LocationManager pour le gps---
+        objgps = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        //*************ecouteur ou listener*********************
+        objlistener = new Myobjlistener();
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                // TODO: Consider calling
+                //    public void requestPermissions(@NonNull String[] permissions, int requestCode)
+                // here to request the missing permissions, and then overriding
+                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                //                                          int[] grantResults)
+                // to handle the case where the user grants the permission. See the documentation
+                // for Activity#requestPermissions for more details.
+                return;
+            }
+        }
+        objgps.requestLocationUpdates(
+                LocationManager.NETWORK_PROVIDER,
+                0,
+                0,
+                objlistener);
+
+        //**variable qui pointe sur  mes champs d'affichage*************
+        mTxtViewlong = (TextView) findViewById(R.id.textlong);
+        mTxtViewlat = (TextView) findViewById(R.id.textlat);
+
+
+        double latitudeEtape=0;
+        double longitudeEtape=0;
+        float rayonEtape=0;
+
+
+        if(getEtape(doc,0).getAttributes().getNamedItem("termine").getTextContent().contains("false")){
+           latitudeEtape =Double.parseDouble(getEtape(doc, 0).getElementsByTagName("Zone").item(0).getChildNodes().item(0).getTextContent());
+            longitudeEtape = Double.parseDouble(getEtape(doc, 0).getElementsByTagName("Zone").item(0).getChildNodes().item(1).getTextContent());
+           rayonEtape = Float.parseFloat(getEtape(doc, 0).getElementsByTagName("Zone").item(0).getChildNodes().item(2).getTextContent());
+        }else{
+            latitudeEtape =Double.parseDouble(getEtape(doc, 1).getElementsByTagName("Zone").item(0).getChildNodes().item(0).getTextContent());
+            longitudeEtape = Double.parseDouble(getEtape(doc, 1).getElementsByTagName("Zone").item(0).getChildNodes().item(1).getTextContent());
+            rayonEtape = Float.parseFloat(getEtape(doc, 1).getElementsByTagName("Zone").item(0).getChildNodes().item(2).getTextContent());
+            Log.i("LAT",""+latitudeEtape);
+        }
+        Intent intentEtape = new Intent(ACTION_FILTER);
+        PendingIntent pi = PendingIntent.getBroadcast(getApplicationContext(), -1, intentEtape, 0);
+        objgps.addProximityAlert(latitudeEtape, longitudeEtape, rayonEtape, -1, pi);
+
+
+
+
+
 
 
     }
@@ -468,16 +470,16 @@ public class ListingEpreuvesActivity extends AppCompatActivity {
             // The reciever gets the Context & the Intent that fired the broadcast as arg0 & agr1
             String k= LocationManager.KEY_PROXIMITY_ENTERING;
             // Key for determining whether user is leaving or entering
-
             boolean state=arg1.getBooleanExtra(k, false);
-
             //Gives whether the user is entering or leaving in boolean form
-
+            int etapeEnCours = dao.getEtape(prenom);
             if(state){
                 // Call the Notification Service or anything else that you would like to do here
-                Toast.makeText(arg0, "Welcome to my Area Bro", Toast.LENGTH_SHORT).show();
-                Element etape = ListingEpreuvesActivity.this.getEtape(doc,0);
+                Toast.makeText(arg0, "Bienvenue à l'etape n° " + (etapeEnCours + 1), Toast.LENGTH_SHORT).show();
+                Element etape = ListingEpreuvesActivity.this.getEtape(doc,etapeEnCours);
                 etape.getAttributes().getNamedItem("visible").setTextContent("true");
+                webView.loadUrl(urlEtape = ListingEpreuvesActivity.this.getUrlEtape(doc, etapeEnCours));
+
 
             }else{
                 //Other custom Notification
