@@ -1,8 +1,8 @@
 <Jeu>
     <Etape num="1" termine="false" url="file:///android_asset/Etape1.html" visible="false">
         <Zone>
-            <Latitude>49.494872</Latitude>
-            <Longitude>5.980767</Longitude>
+            <Latitude>50.8499950</Latitude>
+            <Longitude>4.4498198</Longitude>
             <Rayon>100</Rayon>
         </Zone>
         <Epreuves>
@@ -24,20 +24,20 @@
                     <Rayon>10</Rayon>
                 </Zone>
             </Epreuve>
-            <Epreuve points="3" termine="false" type="Texte_Trou" uri="http://epreuve3_etape1.texte_trou">
-                <Question>L'adresse de l'IPL est Clos [1]-aux-[2] 43 1200 [3]</Question>
-                <Reponse>Chapelle</Reponse>
-                <Reponse>Champs</Reponse>
-                <Reponse>Bruxelles</Reponse>
-            </Epreuve>
         </Epreuves>
     </Etape>
 
     <Etape num="2" termine="false" url="file:///android_asset/Etape2.html" visible="false">
         <Zone>
-            <Latitude>49.494872</Latitude>
-            <Longitude>5.980767</Longitude>
+            <Latitude>50.8499950</Latitude>
+            <Longitude>4.4498198</Longitude>
             <Rayon>100</Rayon>
         </Zone>
+        <Epreuve points="3" termine="false" type="Texte_Trou" uri="http://epreuve3_etape1.texte_trou">
+            <Question>L'adresse de l'IPL est Clos [1]-aux-[2] 43 1200 [3]</Question>
+            <Reponse>Chapelle</Reponse>
+            <Reponse>Champs</Reponse>
+            <Reponse>Bruxelles</Reponse>
+        </Epreuve>
     </Etape>
 </Jeu>

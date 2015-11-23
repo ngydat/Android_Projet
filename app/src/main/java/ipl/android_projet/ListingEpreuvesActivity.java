@@ -1,6 +1,7 @@
 package ipl.android_projet;
 
 import android.Manifest;
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
@@ -17,6 +18,7 @@ import android.speech.RecognizerIntent;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -84,14 +86,8 @@ public class ListingEpreuvesActivity extends AppCompatActivity {
         WebSettings webSettings = webView.getSettings();
         webSettings.setJavaScriptEnabled(true);
 
-        if(this.getEtape(doc,0).getAttributes().getNamedItem("visible").getTextContent().contains("false")){
-            webView.loadUrl(urlEtape);
-        }else{
-            webView.loadUrl(this.getUrlEtape(doc, 0));
-        }
 
-
-        spinner = (Spinner) findViewById(R.id.spinner);
+        /*spinner = (Spinner) findViewById(R.id.spinner);
 
         // Create an ArrayAdapter using the string array and a default spinner layout
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
@@ -99,37 +95,10 @@ public class ListingEpreuvesActivity extends AppCompatActivity {
         // Specify the layout to use when the list of choices appears
         adapter.setDropDownViewResource(R.layout.spinner_item);
         // Apply the adapter to the spinner
-        spinner.setAdapter(adapter);
+        spinner.setAdapter(adapter);*/
 
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
-                switch (position) {
-                    case 0:
-                        if (ListingEpreuvesActivity.this.getEtape(doc, position).getAttributes().getNamedItem("visible").getTextContent().contains("true")) {
-                            urlEtape = ListingEpreuvesActivity.this.getUrlEtape(doc, position);
-                            break;
-                        }
-
-                    case 1:
-                        if (ListingEpreuvesActivity.this.getEtape(doc, position).getAttributes().getNamedItem("visible").getTextContent().contains("true")) {
-                            urlEtape = ListingEpreuvesActivity.this.getUrlEtape(doc, position);
-                            break;
-                        }
-                    default:
-                        urlEtape = "file:///android_asset/EtapeEnAttente.html";
-
-                }
-                webView.loadUrl(urlEtape);
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
-
+        webView.loadUrl(urlEtape);
 
         // somewhere on your code...
         WebViewClient yourWebClient = new WebViewClient() {
@@ -144,15 +113,15 @@ public class ListingEpreuvesActivity extends AppCompatActivity {
 
                     epreuve = ListingEpreuvesActivity.this.getEpreuve(doc, 0, 0);
 
-                    if(dao.getEtape(prenom)>=0 && dao.getEpreuve(prenom)>=0) {
+                    if(dao.getEtape(prenom)==1 && dao.getEpreuve(prenom)==1) {
                         Toast.makeText(getApplicationContext(), "Epreuve deja faite !", Toast.LENGTH_SHORT).show();
                     }
                     else{
                         Intent intentQCM = new Intent(ListingEpreuvesActivity.this, EpreuveQCMActivity.class);
 
                         intentQCM.putExtra("prenom", prenom);
-                        intentQCM.putExtra("epreuve", 0);
-                        intentQCM.putExtra("etape", 0);
+                        intentQCM.putExtra("epreuve", 1);
+                        intentQCM.putExtra("etape", 1);
 
 
                         question = epreuve.getFirstChild().getTextContent();
@@ -181,9 +150,9 @@ public class ListingEpreuvesActivity extends AppCompatActivity {
 
                 }
                 else if(url.contains("http://epreuve2_etape1.photo")){
-                    if(dao.getEtape(prenom)>=0 && dao.getEpreuve(prenom)<0){
+                    if(dao.getEtape(prenom)==1 && dao.getEpreuve(prenom)<1){
                         Toast.makeText(getApplicationContext(), "Veuillez terminer l'epreuve 1", Toast.LENGTH_SHORT).show();
-                    }else if(dao.getEtape(prenom)==0 && dao.getEpreuve(prenom)==1){
+                    }else if(dao.getEtape(prenom)==1 && dao.getEpreuve(prenom)==2){
                         Toast.makeText(getApplicationContext(), "Epreuve deja faite !", Toast.LENGTH_SHORT).show();
                     }
 
@@ -196,20 +165,20 @@ public class ListingEpreuvesActivity extends AppCompatActivity {
                         Intent intentPhoto = new Intent(ListingEpreuvesActivity.this, EpreuvePhotoActivity.class);
                         intentPhoto.putExtra("question", question);
                         intentPhoto.putExtra("prenom", prenom);
-                        intentPhoto.putExtra("epreuve", 1);
-                        intentPhoto.putExtra("etape", 0);
+                        intentPhoto.putExtra("epreuve", 2);
+                        intentPhoto.putExtra("etape", 1);
                         intentPhoto.putExtra("point",point);
 
 
                         startActivity(intentPhoto);
                     }
-                } else if (url.contains("http://epreuve3_etape1.texte_trou")) {
-                    if (dao.getEtape(prenom) >= 0 && dao.getEpreuve(prenom) < 1) {
-                        Toast.makeText(getApplicationContext(), "Veuillez terminer l'epreuve 2", Toast.LENGTH_SHORT).show();
-                    } else if (dao.getEtape(prenom) == 0 && dao.getEpreuve(prenom) ==2) {
+                } else if (url.contains("http://epreuve1_etape2.texte_trou")) {
+                    if (dao.getEtape(prenom) == 1) {
+                        Toast.makeText(getApplicationContext(), "Veuillez terminer l'etape 1", Toast.LENGTH_SHORT).show();
+                    } else if (dao.getEtape(prenom) == 2 && dao.getEpreuve(prenom) ==3) {
                         Toast.makeText(getApplicationContext(), "Epreuve deja faite !", Toast.LENGTH_SHORT).show();
                     } else {
-                        epreuve = ListingEpreuvesActivity.this.getEpreuve(doc, 0, 2);
+                        epreuve = ListingEpreuvesActivity.this.getEpreuve(doc, 1, 0);
                         question = epreuve.getFirstChild().getTextContent();
                         point = Integer.parseInt(epreuve.getAttribute("points"));
 
@@ -226,8 +195,8 @@ public class ListingEpreuvesActivity extends AppCompatActivity {
                         Intent intentTrou = new Intent(ListingEpreuvesActivity.this, TexteATrousActivity.class);
                         intentTrou.putExtra("question", question);
                         intentTrou.putExtra("prenom", prenom);
-                        intentTrou.putExtra("epreuve", 2);
-                        intentTrou.putExtra("etape", 0);
+                        intentTrou.putExtra("epreuve", 3);
+                        intentTrou.putExtra("etape", 2);
                         intentTrou.putExtra("point", point);
                         intentTrou.putExtra("reponses", reponses);
 
@@ -262,17 +231,33 @@ public class ListingEpreuvesActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int point = dao.getPoint(prenom);
-        Dialog box = null;
+        int derniereEtape = dao.getEtape(prenom);
+        int derniereEpreuve = dao.getEpreuve(prenom);
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(ListingEpreuvesActivity.this);
         switch (item.getItemId()) {
             case R.id.action_settings:
                 // User chose the "Settings" item, show the app settings UI...
                 return true;
 
             case R.id.action_point:
-                box = new Dialog(this);
-                //box.setContentView(R.layout.dialog_layout);
-                box.setTitle("Vos point : " + point);
-                box.show();
+
+                // 1. Instantiate an AlertDialog.Builder with its constructor
+
+                LayoutInflater inflater = ListingEpreuvesActivity.this.getLayoutInflater();
+                View dialog_view = inflater.inflate(R.layout.layout_dialog_stat, null);
+                builder.setView(dialog_view).setTitle("Vos statistiques");
+
+
+                TextView tvPoint = (TextView) dialog_view.findViewById(R.id.pointJoueurTextView);
+                TextView tvEtape = (TextView) dialog_view.findViewById(R.id.derniereEtapeTextView);
+                TextView tvEpreuve = (TextView) dialog_view.findViewById(R.id.derniereEpreuveTextView);
+
+                tvPoint.setText(""+point);
+                tvEtape.setText(""+derniereEtape);
+                tvEpreuve.setText(""+derniereEpreuve);
+                AlertDialog dialog = builder.create();
+                dialog.show();
                 return true;
 
             case R.id.action_classement:
@@ -298,39 +283,58 @@ public class ListingEpreuvesActivity extends AppCompatActivity {
 
         super.onResume();
 
-        /**/
+
 
         Intent intent = getIntent();
         String epreuveOK_KO = intent.getStringExtra("epreuveOK_KO");
-        int etapeCourante = intent.getIntExtra("etape", 0);
+        int etapeCourante = intent.getIntExtra("etape", 1);
         int epreuveCourante = intent.getIntExtra("epreuve", 0);
         int point = intent.getIntExtra("point",0);
         int pointActuel = dao.getPoint(prenom);
 
-        if(epreuveOK_KO!=null && epreuveOK_KO.contains("OK")){
-            Log.i("TEST_P",prenom);
-            dao.updateJoueur(prenom,point+pointActuel, etapeCourante,epreuveCourante);
-            this.getEpreuve(doc, etapeCourante, epreuveCourante).getAttributes().getNamedItem("termine").setTextContent("true");
+
+        if(epreuveOK_KO!= null && epreuveOK_KO.contains("OK")){
+            dao.updateJoueur(prenom,pointActuel+point,etapeCourante,epreuveCourante);
         }
 
-        if(getEtape(doc,etapeCourante).getAttribute("termine").contains("false")){
-            NodeList epreuves = getEtape(doc,etapeCourante).getElementsByTagName("Epreuve");
-            Log.i("EPREUVE",""+epreuves.getLength());
-            String etapeOK="KO";
+        if (getNbEpreuve(doc,(etapeCourante-1))==epreuveCourante){
+            Toast.makeText(getApplicationContext(), "Bravo vous venez de finir l'etape n° "+etapeCourante, Toast.LENGTH_LONG).show();
+            dao.updateJoueur(prenom,(pointActuel+point),(etapeCourante+1),epreuveCourante);
+        }
 
-            for (int i = 0 ; i<epreuves.getLength();i++){
-                if(epreuves.item(i).getAttributes().getNamedItem("termine").getTextContent().contains("true")){
-                    etapeOK="OK";
-                }else{
-                    etapeOK="KO";
+
+
+       /* spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+                switch (position) {
+                    case 0:
+                        if (dao.getEtape(prenom)==position) {
+                            urlEtape = ListingEpreuvesActivity.this.getUrlEtape(doc, position);
+                            break;
+                        }
+
+                    case 1:
+                        if (dao.getEtape(prenom)==position) {
+                            urlEtape = ListingEpreuvesActivity.this.getUrlEtape(doc, position);
+                            break;
+                        }
+                    default:
+                        urlEtape = "file:///android_asset/EtapeEnAttente.html";
+
                 }
+                webView.loadUrl(urlEtape);
             }
-            if(etapeOK.contains("OK")){
-                Toast.makeText(getApplicationContext(), "Vous avez fini l'etape n° "+(etapeCourante+1), Toast.LENGTH_SHORT).show();
-                getEtape(doc,etapeCourante).getAttributes().getNamedItem("termine").setTextContent("true");
-                dao.updateJoueur(prenom,point+pointActuel, (etapeCourante+1),0);
+
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
             }
-        }
+        });*/
+
+        /*----------------------------------------------------------------------------------*/
 
         /*****************************************************************/
         registerReceiver(new ProximityReceiver(),new IntentFilter(ACTION_FILTER));
@@ -368,7 +372,7 @@ public class ListingEpreuvesActivity extends AppCompatActivity {
         float rayonEtape=0;
 
 
-        if(dao.getEtape(prenom)==0){
+        if(dao.getEtape(prenom)==1){
            latitudeEtape =Double.parseDouble(getEtape(doc, 0).getElementsByTagName("Zone").item(0).getChildNodes().item(0).getTextContent());
             longitudeEtape = Double.parseDouble(getEtape(doc, 0).getElementsByTagName("Zone").item(0).getChildNodes().item(1).getTextContent());
            rayonEtape = Float.parseFloat(getEtape(doc, 0).getElementsByTagName("Zone").item(0).getChildNodes().item(2).getTextContent());
@@ -376,7 +380,6 @@ public class ListingEpreuvesActivity extends AppCompatActivity {
             latitudeEtape =Double.parseDouble(getEtape(doc, 1).getElementsByTagName("Zone").item(0).getChildNodes().item(0).getTextContent());
             longitudeEtape = Double.parseDouble(getEtape(doc, 1).getElementsByTagName("Zone").item(0).getChildNodes().item(1).getTextContent());
             rayonEtape = Float.parseFloat(getEtape(doc, 1).getElementsByTagName("Zone").item(0).getChildNodes().item(2).getTextContent());
-            Log.i("LAT",""+latitudeEtape);
         }
         Intent intentEtape = new Intent(ACTION_FILTER);
         PendingIntent pi = PendingIntent.getBroadcast(getApplicationContext(), -1, intentEtape, 0);
@@ -438,6 +441,16 @@ public class ListingEpreuvesActivity extends AppCompatActivity {
         NodeList epreuves = element.getElementsByTagName("Epreuve");
         return (Element)epreuves.item(indiceEpreuve);
     }
+
+    public int getNbEpreuve(Document doc, int indiceEtape) {
+        NodeList nList = doc.getElementsByTagName("Etape");
+        Node etapeChoisie = nList.item(indiceEtape);
+        Element element = (Element) etapeChoisie;
+        NodeList epreuves = element.getElementsByTagName("Epreuve");
+        return epreuves.getLength();
+    }
+
+
 
     public Element getEtape(Document doc, int indiceEtape){
         NodeList nList = doc.getElementsByTagName("Etape");
@@ -502,18 +515,21 @@ public class ListingEpreuvesActivity extends AppCompatActivity {
             boolean state=arg1.getBooleanExtra(k, false);
             //Gives whether the user is entering or leaving in boolean form
             int etapeEnCours = dao.getEtape(prenom);
+            urlEtape = ListingEpreuvesActivity.this.getUrlEtape(doc, (etapeEnCours-1));
+            Element etape = ListingEpreuvesActivity.this.getEtape(doc, (etapeEnCours-1));
             if(state){
                 // Call the Notification Service or anything else that you would like to do here
-                Toast.makeText(arg0, "Bienvenue à l'etape n° " + (etapeEnCours + 1), Toast.LENGTH_SHORT).show();
-                Element etape = ListingEpreuvesActivity.this.getEtape(doc,etapeEnCours);
+                Toast.makeText(arg0, "Bienvenue à l'etape n° " + etapeEnCours, Toast.LENGTH_SHORT).show();
+
                 etape.getAttributes().getNamedItem("visible").setTextContent("true");
-                webView.loadUrl(urlEtape = ListingEpreuvesActivity.this.getUrlEtape(doc, etapeEnCours));
+                webView.loadUrl(urlEtape);
 
 
             }else{
                 //Other custom Notification
                 Toast.makeText(arg0, "Thank you for visiting my Area,come back again !!", Toast.LENGTH_LONG).show();
-
+                etape.getAttributes().getNamedItem("visible").setTextContent("false");
+                webView.loadUrl("file:///android_asset/EtapeEnAttente.html");
             }
 
         }
