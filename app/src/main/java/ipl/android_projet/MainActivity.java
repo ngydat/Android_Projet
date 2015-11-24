@@ -2,6 +2,7 @@ package ipl.android_projet;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -32,6 +33,16 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolBar = (Toolbar) findViewById(R.id.toolbar);
 
         toolBar.setTitle(R.string.app_titre);
+
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.addUser);
+        fab.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                Intent addUserIntent = new Intent(MainActivity.this, AddUserActivity.class);
+                startActivity(addUserIntent);
+            }
+        });
 
 
         String htmlUrl = "file:///android_asset/Explication.html";

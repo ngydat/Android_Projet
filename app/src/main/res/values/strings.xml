@@ -8,9 +8,11 @@
     <string name="title_activity_epreuveQCM">EtapeQCM</string>
     <string name="title_activity_epreuve_photo">EpreuvePhotoActivity</string>
     <string name="gps">GPS désactivé</string>
+    <string name="insertName">Veuillez insérez un nom d\'utilisateur</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_texte_atrous">TexteATrousActivity</string>
+    <string name="title_activity_add_user">AddUserActivity</string>
 
 </resources>

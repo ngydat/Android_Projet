@@ -2,7 +2,6 @@ package ipl.android_projet;
 
 import android.Manifest;
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -25,8 +24,6 @@ import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -357,7 +354,7 @@ public class ListingEpreuvesActivity extends AppCompatActivity {
             }
         }
         objgps.requestLocationUpdates(
-                LocationManager.NETWORK_PROVIDER,
+                LocationManager.GPS_PROVIDER,
                 0,
                 0,
                 objlistener);
@@ -383,7 +380,7 @@ public class ListingEpreuvesActivity extends AppCompatActivity {
         }
         Intent intentEtape = new Intent(ACTION_FILTER);
         PendingIntent pi = PendingIntent.getBroadcast(getApplicationContext(), -1, intentEtape, 0);
-        objgps.addProximityAlert(latitudeEtape, longitudeEtape, rayonEtape, -1, pi);
+        objgps.addProximityAlert(50.838, 4.295, rayonEtape, -1, pi);
 
 
 

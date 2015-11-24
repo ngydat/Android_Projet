@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:showIn="@layout/activity_main" tools:context=".MainActivity">
+    tools:context=".MainActivity"
+    tools:showIn="@layout/activity_main">
 
     <RelativeLayout
         android:layout_width="fill_parent"
@@ -17,10 +18,10 @@
         >
 
         <ImageView
-            android:src="@drawable/banniere"
+            android:id="@+id/banniere_content_main"
             android:layout_width="fill_parent"
             android:layout_height="150dp"
-            android:id="@+id/banniere_content_main"
+            android:src="@drawable/banniere"
             />
 
         <WebView
@@ -38,21 +39,21 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/webView_content_main"
-            android:textSize="30dp"
             android:layout_centerInParent="true"
-            android:hint="Prenom"
-            android:maxLength="20"
+            android:hint="Nom d'utilisateur"
             android:inputType="text"
+            android:maxLength="20"
+            android:textSize="30dp"
             />
 
         <Button
             android:id="@+id/demarrer_content_main"
-            android:layout_height="wrap_content"
             android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_below="@id/edit_prenom_content_main"
-            android:text="Demarrer"
             android:onClick="demarrer"
+            android:text="Demarrer"
             />
 
     </RelativeLayout>
