@@ -81,18 +81,18 @@ public class MainActivity extends AppCompatActivity {
 
     public void demarrer(View view){
 
-        EditText editText = (EditText) findViewById(R.id.edit_prenom_content_main);
-        String prenom = editText.getText().toString();
-        if(prenom.isEmpty()){
+        EditText editText = (EditText) findViewById(R.id.edit_pseudo_content_main);
+        String pseudo = editText.getText().toString();
+        if(pseudo.isEmpty()){
             Toast.makeText(getApplicationContext(), "Veuillez entrer un nom.", Toast.LENGTH_SHORT).show();
         }
-        else if(!dao.getPrenom(prenom)){
+        else if(!dao.getPseudo(pseudo)){
             Toast.makeText(getApplicationContext(), "Ce nom n'existe pas", Toast.LENGTH_SHORT).show();
         }
 
         else{
             Intent intentDemarrer = new Intent(MainActivity.this,ListingEpreuvesActivity.class);
-            intentDemarrer.putExtra("prenom",prenom);
+            intentDemarrer.putExtra("pseudo",pseudo);
             startActivity(intentDemarrer);
         }
 

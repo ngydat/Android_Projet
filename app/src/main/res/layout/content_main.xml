@@ -35,7 +35,7 @@
 
 
         <EditText
-            android:id="@+id/edit_prenom_content_main"
+            android:id="@+id/edit_pseudo_content_main"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/webView_content_main"
@@ -51,7 +51,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
-            android:layout_below="@id/edit_prenom_content_main"
+            android:layout_below="@id/edit_pseudo_content_main"
             android:onClick="demarrer"
             android:text="Demarrer"
             />

@@ -4,7 +4,6 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.util.Log;
 
 /**
  * Created by Giordano on 18/11/2015.
@@ -38,16 +37,16 @@ public class Dao {
         return db.rawQuery("select * from joueurs",null);
     }
 
-    public boolean getPrenom(String prenom){
-        Cursor c = db.rawQuery("select prenom from joueurs where prenom like '" + prenom + "'", null);
+    public boolean getPseudo(String pseudo){
+        Cursor c = db.rawQuery("select pseudo from joueurs where pseudo like '" + pseudo + "'", null);
         if(c!=null && c.getCount()>0){
             return true;
         }
         return false;
     }
 
-    public int getPoint(String prenom){
-        Cursor c = db.rawQuery("select * from joueurs where prenom like '" + prenom + "'", null);
+    public int getPoint(String pseudo){
+        Cursor c = db.rawQuery("select * from joueurs where pseudo like '" + pseudo + "'", null);
 
         c.moveToFirst(); // On se positionne sur le premier
 
@@ -55,16 +54,16 @@ public class Dao {
     }
 
 
-    public int getEpreuve(String prenom){
-        Cursor c = db.rawQuery("select * from joueurs where prenom like '" + prenom + "'", null);
+    public int getEpreuve(String pseudo){
+        Cursor c = db.rawQuery("select * from joueurs where pseudo like '" + pseudo + "'", null);
 
         c.moveToFirst(); // On se positionne sur le premier
 
         return c.getInt(c.getColumnIndex("epreuve"));
     }
 
-    public int getEtape(String prenom){
-        Cursor c = db.rawQuery("select * from joueurs where prenom like '" + prenom + "'", null);
+    public int getEtape(String pseudo){
+        Cursor c = db.rawQuery("select * from joueurs where pseudo like '" + pseudo + "'", null);
 
         c.moveToFirst(); // On se positionne sur le premier
 
@@ -74,7 +73,7 @@ public class Dao {
 
     public void insertJoueur(Joueur joueur){
         ContentValues valeurs = new ContentValues();
-        valeurs.put(ModelContract.JoueurDBEntry.COLUMN_NAME_PRENOM,joueur.getPrenom());
+        valeurs.put(ModelContract.JoueurDBEntry.COLUMN_NAME_PSEUDO,joueur.getPseudo());
         valeurs.put(ModelContract.JoueurDBEntry.COLUMN_NAME_POINT,joueur.getPoint());
         valeurs.put(ModelContract.JoueurDBEntry.COLUMN_NAME_ETAPE_EN_COURS,joueur.getEtape());
         valeurs.put(ModelContract.JoueurDBEntry.COLUMN_NAME_EPREUVE_EN_COURS,joueur.getEpreuve());
@@ -82,14 +81,14 @@ public class Dao {
 
     }
 
-    public void updateJoueur(String prenom, int point,int etape,int epreuve){
+    public void updateJoueur(String pseudo, int point,int etape,int epreuve){
         ContentValues valeurs = new ContentValues();
 
         valeurs.put(ModelContract.JoueurDBEntry.COLUMN_NAME_POINT,point);
         valeurs.put(ModelContract.JoueurDBEntry.COLUMN_NAME_ETAPE_EN_COURS,etape);
         valeurs.put(ModelContract.JoueurDBEntry.COLUMN_NAME_EPREUVE_EN_COURS,epreuve);
 
-        db.update(ModelContract.JoueurDBEntry.TABLE_NAME,valeurs, ModelContract.JoueurDBEntry.COLUMN_NAME_PRENOM + "='"+prenom+"'",null);
+        db.update(ModelContract.JoueurDBEntry.TABLE_NAME,valeurs, ModelContract.JoueurDBEntry.COLUMN_NAME_PSEUDO + "='"+pseudo+"'",null);
     }
 
 

@@ -31,10 +31,10 @@ public class AddUserActivity extends AppCompatActivity {
     public void addUser(View view) {
         EditText usernameEditText = (EditText) findViewById(R.id.yourName);
         pseudo = usernameEditText.getText().toString();
-        Joueur playa = new Joueur(pseudo);
-        dao.insertJoueur(playa);
+        Joueur joueur = new Joueur(pseudo);
+        dao.insertJoueur(joueur);
         Intent intent = new Intent(AddUserActivity.this, ListingEpreuvesActivity.class);
-        intent.putExtra("prenom", pseudo);
+        intent.putExtra("pseudo", pseudo);
         Toast.makeText(getApplicationContext(), "Joueur ajouté", Toast.LENGTH_SHORT).show();
         startActivity(intent);
     }

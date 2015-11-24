@@ -22,7 +22,7 @@ public class EpreuvePhotoActivity extends AppCompatActivity {
     private int etape;
     private int epreuve;
     private int point;
-    private String prenom;
+    private String pseudo;
 
 
     @Override
@@ -38,7 +38,7 @@ public class EpreuvePhotoActivity extends AppCompatActivity {
         String question = intent.getStringExtra("question");
 
         point = intent.getIntExtra("point", 0);
-        prenom = intent.getStringExtra("prenom");
+        pseudo = intent.getStringExtra("pseudo");
 
         etape = intent.getIntExtra("etape",0);
         epreuve = intent.getIntExtra("epreuve",0);
@@ -78,7 +78,7 @@ public class EpreuvePhotoActivity extends AppCompatActivity {
                     itnt.putExtra("etape", etape);
                     itnt.putExtra("epreuve", epreuve);
                     itnt.putExtra("point", point);
-                    itnt.putExtra("prenom", prenom);
+                    itnt.putExtra("pseudo", pseudo);
                     itnt.putExtra("epreuveOK_KO", "OK");
                     startActivity(itnt);
                 }

@@ -13,6 +13,8 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.SystemClock;
 import android.speech.RecognizerIntent;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -59,7 +61,15 @@ public class ListingEpreuvesActivity extends AppCompatActivity {
     private LocationListener objlistener;
     private TextView mTxtViewlong;
     private TextView mTxtViewlat;
-    private String prenom = "";
+    private String pseudo = "";
+
+    private TextView timerValue;
+
+    private long startTime = 0L;
+    long timeInMilliseconds = 0L;
+    long timeSwapBuff = 0L;
+    long updatedTime = 0L;
+    private Handler customHandler = new Handler();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,32 +77,28 @@ public class ListingEpreuvesActivity extends AppCompatActivity {
         dao = new Dao(this);
         dao.open();
 
+
         doc = this.parseAsset("CampusAlma.xml");
         doc.getDocumentElement().normalize();
 
         final Intent intent = getIntent();
-        prenom = intent.getStringExtra("prenom");
+        pseudo = intent.getStringExtra("pseudo");
 
         setContentView(R.layout.content_listing_etapes);
         Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
         setSupportActionBar(myToolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
+
+        timerValue = (TextView) findViewById(R.id.timerValue);
+        startTime = SystemClock.uptimeMillis();
+        customHandler.postDelayed(updateTimerThread, 0);
+
+
         urlEtape = "file:///android_asset/EtapeEnAttente.html";
         webView = (WebView) findViewById(R.id.webView_content_listing);
         WebSettings webSettings = webView.getSettings();
         webSettings.setJavaScriptEnabled(true);
-
-
-        /*spinner = (Spinner) findViewById(R.id.spinner);
-
-        // Create an ArrayAdapter using the string array and a default spinner layout
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
-                R.array.etapes_array, R.layout.spinner_item);
-        // Specify the layout to use when the list of choices appears
-        adapter.setDropDownViewResource(R.layout.spinner_item);
-        // Apply the adapter to the spinner
-        spinner.setAdapter(adapter);*/
 
 
         webView.loadUrl(urlEtape);
@@ -110,13 +116,13 @@ public class ListingEpreuvesActivity extends AppCompatActivity {
 
                     epreuve = ListingEpreuvesActivity.this.getEpreuve(doc, 0, 0);
 
-                    if(dao.getEtape(prenom)==1 && dao.getEpreuve(prenom)==1) {
+                    if(dao.getEtape(pseudo)==1 && dao.getEpreuve(pseudo)==1) {
                         Toast.makeText(getApplicationContext(), "Epreuve deja faite !", Toast.LENGTH_SHORT).show();
                     }
                     else{
                         Intent intentQCM = new Intent(ListingEpreuvesActivity.this, EpreuveQCMActivity.class);
 
-                        intentQCM.putExtra("prenom", prenom);
+                        intentQCM.putExtra("pseudo", pseudo);
                         intentQCM.putExtra("epreuve", 1);
                         intentQCM.putExtra("etape", 1);
 
@@ -147,9 +153,9 @@ public class ListingEpreuvesActivity extends AppCompatActivity {
 
                 }
                 else if(url.contains("http://epreuve2_etape1.photo")){
-                    if(dao.getEtape(prenom)==1 && dao.getEpreuve(prenom)<1){
+                    if(dao.getEtape(pseudo)==1 && dao.getEpreuve(pseudo)<1){
                         Toast.makeText(getApplicationContext(), "Veuillez terminer l'epreuve 1", Toast.LENGTH_SHORT).show();
-                    }else if(dao.getEtape(prenom)==1 && dao.getEpreuve(prenom)==2){
+                    }else if(dao.getEtape(pseudo)==1 && dao.getEpreuve(pseudo)==2){
                         Toast.makeText(getApplicationContext(), "Epreuve deja faite !", Toast.LENGTH_SHORT).show();
                     }
 
@@ -161,7 +167,7 @@ public class ListingEpreuvesActivity extends AppCompatActivity {
 
                         Intent intentPhoto = new Intent(ListingEpreuvesActivity.this, EpreuvePhotoActivity.class);
                         intentPhoto.putExtra("question", question);
-                        intentPhoto.putExtra("prenom", prenom);
+                        intentPhoto.putExtra("pseudo", pseudo);
                         intentPhoto.putExtra("epreuve", 2);
                         intentPhoto.putExtra("etape", 1);
                         intentPhoto.putExtra("point",point);
@@ -170,9 +176,9 @@ public class ListingEpreuvesActivity extends AppCompatActivity {
                         startActivity(intentPhoto);
                     }
                 } else if (url.contains("http://epreuve1_etape2.texte_trou")) {
-                    if (dao.getEtape(prenom) == 1) {
+                    if (dao.getEtape(pseudo) == 1) {
                         Toast.makeText(getApplicationContext(), "Veuillez terminer l'etape 1", Toast.LENGTH_SHORT).show();
-                    } else if (dao.getEtape(prenom) == 2 && dao.getEpreuve(prenom) ==3) {
+                    } else if (dao.getEtape(pseudo) == 2 && dao.getEpreuve(pseudo) ==3) {
                         Toast.makeText(getApplicationContext(), "Epreuve deja faite !", Toast.LENGTH_SHORT).show();
                     } else {
                         epreuve = ListingEpreuvesActivity.this.getEpreuve(doc, 1, 0);
@@ -191,7 +197,7 @@ public class ListingEpreuvesActivity extends AppCompatActivity {
 
                         Intent intentTrou = new Intent(ListingEpreuvesActivity.this, TexteATrousActivity.class);
                         intentTrou.putExtra("question", question);
-                        intentTrou.putExtra("prenom", prenom);
+                        intentTrou.putExtra("pseudo", pseudo);
                         intentTrou.putExtra("epreuve", 3);
                         intentTrou.putExtra("etape", 2);
                         intentTrou.putExtra("point", point);
@@ -227,9 +233,9 @@ public class ListingEpreuvesActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        int point = dao.getPoint(prenom);
-        int derniereEtape = dao.getEtape(prenom);
-        int derniereEpreuve = dao.getEpreuve(prenom);
+        int point = dao.getPoint(pseudo);
+        int derniereEtape = dao.getEtape(pseudo);
+        int derniereEpreuve = dao.getEpreuve(pseudo);
 
         AlertDialog.Builder builder = new AlertDialog.Builder(ListingEpreuvesActivity.this);
         switch (item.getItemId()) {
@@ -287,49 +293,18 @@ public class ListingEpreuvesActivity extends AppCompatActivity {
         int etapeCourante = intent.getIntExtra("etape", 1);
         int epreuveCourante = intent.getIntExtra("epreuve", 0);
         int point = intent.getIntExtra("point",0);
-        int pointActuel = dao.getPoint(prenom);
+        int pointActuel = dao.getPoint(pseudo);
 
 
         if(epreuveOK_KO!= null && epreuveOK_KO.contains("OK")){
-            dao.updateJoueur(prenom,pointActuel+point,etapeCourante,epreuveCourante);
+            dao.updateJoueur(pseudo,pointActuel+point,etapeCourante,epreuveCourante);
         }
 
         if (getNbEpreuve(doc,(etapeCourante-1))==epreuveCourante){
             Toast.makeText(getApplicationContext(), "Bravo vous venez de finir l'etape n° "+etapeCourante, Toast.LENGTH_LONG).show();
-            dao.updateJoueur(prenom,(pointActuel+point),(etapeCourante+1),epreuveCourante);
+            dao.updateJoueur(pseudo,(pointActuel+point),(etapeCourante+1),epreuveCourante);
         }
 
-
-
-       /* spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
-                switch (position) {
-                    case 0:
-                        if (dao.getEtape(prenom)==position) {
-                            urlEtape = ListingEpreuvesActivity.this.getUrlEtape(doc, position);
-                            break;
-                        }
-
-                    case 1:
-                        if (dao.getEtape(prenom)==position) {
-                            urlEtape = ListingEpreuvesActivity.this.getUrlEtape(doc, position);
-                            break;
-                        }
-                    default:
-                        urlEtape = "file:///android_asset/EtapeEnAttente.html";
-
-                }
-                webView.loadUrl(urlEtape);
-            }
-
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });*/
 
         /*----------------------------------------------------------------------------------*/
 
@@ -369,7 +344,7 @@ public class ListingEpreuvesActivity extends AppCompatActivity {
         float rayonEtape=0;
 
 
-        if(dao.getEtape(prenom)==1){
+        if(dao.getEtape(pseudo)==1){
            latitudeEtape =Double.parseDouble(getEtape(doc, 0).getElementsByTagName("Zone").item(0).getChildNodes().item(0).getTextContent());
             longitudeEtape = Double.parseDouble(getEtape(doc, 0).getElementsByTagName("Zone").item(0).getChildNodes().item(1).getTextContent());
            rayonEtape = Float.parseFloat(getEtape(doc, 0).getElementsByTagName("Zone").item(0).getChildNodes().item(2).getTextContent());
@@ -380,7 +355,7 @@ public class ListingEpreuvesActivity extends AppCompatActivity {
         }
         Intent intentEtape = new Intent(ACTION_FILTER);
         PendingIntent pi = PendingIntent.getBroadcast(getApplicationContext(), -1, intentEtape, 0);
-        objgps.addProximityAlert(50.838, 4.295, rayonEtape, -1, pi);
+        objgps.addProximityAlert(latitudeEtape, longitudeEtape, rayonEtape, -1, pi);
 
 
 
@@ -493,10 +468,6 @@ public class ListingEpreuvesActivity extends AppCompatActivity {
             //affichage des valeurs dans la les zone de saisie
             mTxtViewlat.setText(String.valueOf(location.getLatitude()));
             mTxtViewlong.setText(String.valueOf(location.getLongitude()));
-            /*if (location.getLatitude() >= 49.494872 && location.getLongitude() >= 5.980767) {
-                Intent intentPhoto = new Intent(ListingEpreuvesActivity.this, EpreuvePhotoActivity.class);
-                startActivity(intentPhoto);
-            }*/
         }
 
     }
@@ -511,7 +482,7 @@ public class ListingEpreuvesActivity extends AppCompatActivity {
             // Key for determining whether user is leaving or entering
             boolean state=arg1.getBooleanExtra(k, false);
             //Gives whether the user is entering or leaving in boolean form
-            int etapeEnCours = dao.getEtape(prenom);
+            int etapeEnCours = dao.getEtape(pseudo);
             urlEtape = ListingEpreuvesActivity.this.getUrlEtape(doc, (etapeEnCours-1));
             Element etape = ListingEpreuvesActivity.this.getEtape(doc, (etapeEnCours-1));
             if(state){
@@ -532,6 +503,27 @@ public class ListingEpreuvesActivity extends AppCompatActivity {
         }
 
     }
+
+
+    private Runnable updateTimerThread = new Runnable() {
+
+        public void run() {
+
+            timeInMilliseconds = SystemClock.uptimeMillis() - startTime;
+
+            updatedTime = timeSwapBuff + timeInMilliseconds;
+
+            int secs = (int) (updatedTime / 1000);
+            int mins = secs / 60;
+            secs = secs % 60;
+            int milliseconds = (int) (updatedTime % 1000);
+            timerValue.setText("" + mins + ":"
+                    + String.format("%02d", secs) + ":"
+                    + String.format("%03d", milliseconds));
+            customHandler.postDelayed(this, 0);
+        }
+
+    };
 
 }
 

@@ -7,24 +7,24 @@ import java.io.Serializable;
  */
 public class Joueur implements Serializable {
 
-    private String prenom;
+    private String pseudo;
     private int point;
     private int etape;
     private int epreuve;
 
-    public Joueur(String prenom) {
-        this.prenom = prenom;
+    public Joueur(String pseudo) {
+        this.pseudo = pseudo;
         this.point = 0;
         this.etape = 1;
         this.epreuve = 0;
     }
 
-    public String getPrenom() {
-        return prenom;
+    public String getPseudo() {
+        return pseudo;
     }
 
-    public void setPrenom(String prenom) {
-        this.prenom = prenom;
+    public void setPseudo(String pseudo) {
+        this.pseudo = pseudo;
     }
 
     public int getPoint() {

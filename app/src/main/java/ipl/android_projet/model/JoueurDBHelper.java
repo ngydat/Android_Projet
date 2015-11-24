@@ -11,14 +11,14 @@ import static ipl.android_projet.model.ModelContract.*;
  * Created by Giordano on 18/11/2015.
  */
 public class JoueurDBHelper extends SQLiteOpenHelper{
-    public static final int DATABASE_VERSION = 34;
+    public static final int DATABASE_VERSION = 35;
     public static final String DATABASE_NAME = "Joueurs.db";
     private final Context myContext;
 
     private static final String SQL_CREATE_TABLE =
             "CREATE TABLE " + JoueurDBEntry.TABLE_NAME  + " (" +
                     JoueurDBEntry._ID                       + " INTEGER PRIMARY KEY," +
-                    JoueurDBEntry.COLUMN_NAME_PRENOM           + " TEXT," +
+                    JoueurDBEntry.COLUMN_NAME_PSEUDO           + " TEXT," +
                     JoueurDBEntry.COLUMN_NAME_POINT          + " INT," +
                     JoueurDBEntry.COLUMN_NAME_ETAPE_EN_COURS    + " INT," +
                     JoueurDBEntry.COLUMN_NAME_EPREUVE_EN_COURS       + " INT" +
@@ -49,7 +49,7 @@ public class JoueurDBHelper extends SQLiteOpenHelper{
 
     public void insertJoueur(Joueur joueur, SQLiteDatabase db){
         ContentValues valeurs = new ContentValues();
-        valeurs.put(JoueurDBEntry.COLUMN_NAME_PRENOM,joueur.getPrenom());
+        valeurs.put(JoueurDBEntry.COLUMN_NAME_PSEUDO,joueur.getPseudo());
         valeurs.put(JoueurDBEntry.COLUMN_NAME_POINT,joueur.getPoint());
         valeurs.put(JoueurDBEntry.COLUMN_NAME_ETAPE_EN_COURS,joueur.getEtape());
         valeurs.put(JoueurDBEntry.COLUMN_NAME_EPREUVE_EN_COURS,joueur.getEpreuve());

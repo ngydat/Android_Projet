@@ -19,7 +19,7 @@ public class TexteATrousActivity extends AppCompatActivity {
     private int etape;
     private int epreuve;
     private int point;
-    private String prenom;
+    private String pseudo;
     private EditText reponse1;
     private EditText reponse2;
     private EditText reponse3;
@@ -36,7 +36,7 @@ public class TexteATrousActivity extends AppCompatActivity {
         Intent intent = getIntent();
         String question = intent.getStringExtra("question");
         point = intent.getIntExtra("point", 0);
-        prenom = intent.getStringExtra("prenom");
+        pseudo = intent.getStringExtra("pseudo");
 
         etape = intent.getIntExtra("etape", 0);
         epreuve = intent.getIntExtra("epreuve", 0);
@@ -61,7 +61,7 @@ public class TexteATrousActivity extends AppCompatActivity {
         itnt.putExtra("etape", etape);
         itnt.putExtra("epreuve", epreuve);
         itnt.putExtra("point", point);
-        itnt.putExtra("prenom", prenom);
+        itnt.putExtra("pseudo", pseudo);
 
         if (!(reponse1.getText().toString().equals(reponses[0]) && reponse2.getText().toString().equals(reponses[1]) && reponse3.getText().toString().equals(reponses[2]))) {
             text = "Une des réponses est mauvaise";

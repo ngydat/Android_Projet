@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -22,7 +23,7 @@ public class EpreuveQCMActivity extends AppCompatActivity {
     private int etape;
     private int epreuve;
     private int point;
-    private String prenom;
+    private String pseudo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,7 +35,7 @@ public class EpreuveQCMActivity extends AppCompatActivity {
         Intent intent = getIntent();
         String question = intent.getStringExtra("question");
         point = intent.getIntExtra("point",0);
-        prenom = intent.getStringExtra("prenom");
+        pseudo = intent.getStringExtra("pseudo");
 
         etape = intent.getIntExtra("etape",0);
         epreuve = intent.getIntExtra("epreuve",0);
@@ -66,7 +67,7 @@ public class EpreuveQCMActivity extends AppCompatActivity {
         itnt.putExtra("etape", etape);
         itnt.putExtra("epreuve", epreuve);
         itnt.putExtra("point", point);
-        itnt.putExtra("prenom", prenom);
+        itnt.putExtra("pseudo", pseudo);
 
        if(bonneRepRb.isChecked()){
            text = "Bonne reponse !";
