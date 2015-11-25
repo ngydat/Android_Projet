@@ -48,11 +48,11 @@ import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
 
 import ipl.android_projet.model.Dao;
+import ipl.android_projet.model.Epreuve;
 
 public class ListingEpreuvesActivity extends AppCompatActivity {
 
     Dao dao;
-    Spinner spinner;
     String ACTION_FILTER = "com.example.proximity";
     private Document doc;
     private String urlEtape;
@@ -64,7 +64,6 @@ public class ListingEpreuvesActivity extends AppCompatActivity {
     private String pseudo = "";
 
     private TextView timerValue;
-
     private long startTime = 0L;
     long timeInMilliseconds = 0L;
     long timeSwapBuff = 0L;
@@ -92,7 +91,9 @@ public class ListingEpreuvesActivity extends AppCompatActivity {
 
         timerValue = (TextView) findViewById(R.id.timerValue);
         startTime = SystemClock.uptimeMillis();
+        timeSwapBuff = dao.getTempsTotal(pseudo);
         customHandler.postDelayed(updateTimerThread, 0);
+
 
 
         urlEtape = "file:///android_asset/EtapeEnAttente.html";
@@ -170,8 +171,7 @@ public class ListingEpreuvesActivity extends AppCompatActivity {
                         intentPhoto.putExtra("pseudo", pseudo);
                         intentPhoto.putExtra("epreuve", 2);
                         intentPhoto.putExtra("etape", 1);
-                        intentPhoto.putExtra("point",point);
-
+                        intentPhoto.putExtra("point", point);
 
                         startActivity(intentPhoto);
                     }
@@ -202,6 +202,7 @@ public class ListingEpreuvesActivity extends AppCompatActivity {
                         intentTrou.putExtra("etape", 2);
                         intentTrou.putExtra("point", point);
                         intentTrou.putExtra("reponses", reponses);
+
 
                         startActivity(intentTrou);
                     }
@@ -236,7 +237,7 @@ public class ListingEpreuvesActivity extends AppCompatActivity {
         int point = dao.getPoint(pseudo);
         int derniereEtape = dao.getEtape(pseudo);
         int derniereEpreuve = dao.getEpreuve(pseudo);
-
+        long tempsTotal = dao.getTempsTotal(pseudo);
         AlertDialog.Builder builder = new AlertDialog.Builder(ListingEpreuvesActivity.this);
         switch (item.getItemId()) {
             case R.id.action_settings:
@@ -255,20 +256,28 @@ public class ListingEpreuvesActivity extends AppCompatActivity {
                 TextView tvPoint = (TextView) dialog_view.findViewById(R.id.pointJoueurTextView);
                 TextView tvEtape = (TextView) dialog_view.findViewById(R.id.derniereEtapeTextView);
                 TextView tvEpreuve = (TextView) dialog_view.findViewById(R.id.derniereEpreuveTextView);
+                TextView tvTempsTotal = (TextView) dialog_view.findViewById(R.id.tempsTotalTextView);
 
                 tvPoint.setText(""+point);
                 tvEtape.setText(""+derniereEtape);
                 tvEpreuve.setText(""+derniereEpreuve);
+
+                int secs = (int) (tempsTotal / 1000);
+                int mins = secs / 60;
+                secs = secs % 60;
+                tvTempsTotal.setText("" + mins + ":"
+                        + String.format("%02d", secs));
                 AlertDialog dialog = builder.create();
                 dialog.show();
-                return true;
 
-            case R.id.action_classement:
-                /*Cursor c = dao.getAllPlayers();
-                c.getColumnNames();*/
-                Toast.makeText(getApplicationContext(), "Classement !", Toast.LENGTH_SHORT).show();
 
                 return true;
+
+            case R.id.action_epreuves:
+
+                Intent intent = new Intent(ListingEpreuvesActivity.this, ListEpreuves.class);
+                intent.putExtra("pseudo",pseudo);
+                startActivity(intent);
 
             default:
                 // If we got here, the user's action was not recognized.
@@ -294,10 +303,16 @@ public class ListingEpreuvesActivity extends AppCompatActivity {
         int epreuveCourante = intent.getIntExtra("epreuve", 0);
         int point = intent.getIntExtra("point",0);
         int pointActuel = dao.getPoint(pseudo);
+        long duree = intent.getLongExtra("duree",0);
 
 
-        if(epreuveOK_KO!= null && epreuveOK_KO.contains("OK")){
-            dao.updateJoueur(pseudo,pointActuel+point,etapeCourante,epreuveCourante);
+        if(epreuveOK_KO!= null){
+            dao.updateJoueur(pseudo, pointActuel + point, etapeCourante, epreuveCourante);
+            if(dao.containsEpreuve(pseudo,etapeCourante,epreuveCourante)==0){
+                dao.insertEpreuve(new Epreuve(epreuveCourante,pseudo,point,etapeCourante,duree));
+            }
+
+            Log.i("DUREE",""+duree);
         }
 
         if (getNbEpreuve(doc,(etapeCourante-1))==epreuveCourante){
@@ -524,6 +539,14 @@ public class ListingEpreuvesActivity extends AppCompatActivity {
         }
 
     };
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        Log.i("TEMPS",""+updatedTime);
+        dao.updateJoueur(pseudo, updatedTime);
+    }
+
 
 }
 

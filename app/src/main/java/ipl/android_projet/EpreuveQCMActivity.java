@@ -5,8 +5,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Handler;
+import android.os.SystemClock;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -24,6 +27,12 @@ public class EpreuveQCMActivity extends AppCompatActivity {
     private int epreuve;
     private int point;
     private String pseudo;
+    private TextView timerValue;
+    private long startTime = 0L;
+    long timeInMilliseconds = 0L;
+    long timeSwapBuff = 0L;
+    long updatedTime = 0L;
+    private Handler customHandler = new Handler();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +40,12 @@ public class EpreuveQCMActivity extends AppCompatActivity {
         setContentView(R.layout.activity_epreuve_qcm);
         Toolbar toolbar = (Toolbar) findViewById(R.id.my_toolbar);
         setSupportActionBar(toolbar);
+
+
+        timerValue = (TextView) findViewById(R.id.timerValue_epreuves);
+        startTime = SystemClock.uptimeMillis();
+        customHandler.postDelayed(updateTimerThread, 0);
+
 
         Intent intent = getIntent();
         String question = intent.getStringExtra("question");
@@ -66,13 +81,14 @@ public class EpreuveQCMActivity extends AppCompatActivity {
         Intent itnt = new Intent(EpreuveQCMActivity.this, ListingEpreuvesActivity.class);
         itnt.putExtra("etape", etape);
         itnt.putExtra("epreuve", epreuve);
-        itnt.putExtra("point", point);
+        itnt.putExtra("duree",updatedTime);
         itnt.putExtra("pseudo", pseudo);
 
        if(bonneRepRb.isChecked()){
            text = "Bonne reponse !";
            Toast toast = Toast.makeText(context, text, duration);
            toast.show();
+           itnt.putExtra("point", point);
            itnt.putExtra("epreuveOK_KO", "OK");
 
 
@@ -80,6 +96,7 @@ public class EpreuveQCMActivity extends AppCompatActivity {
            text = "Mauvaise reponse !";
            Toast toast = Toast.makeText(context, text, duration);
            toast.show();
+           itnt.putExtra("point", 0);
            itnt.putExtra("epreuveOK_KO","KO");
        }
 
@@ -116,6 +133,27 @@ public class EpreuveQCMActivity extends AppCompatActivity {
         }
 
     }
+
+    private Runnable updateTimerThread = new Runnable() {
+
+        public void run() {
+
+            timeInMilliseconds = SystemClock.uptimeMillis() - startTime;
+
+            updatedTime = timeSwapBuff + timeInMilliseconds;
+
+            int secs = (int) (updatedTime / 1000);
+            int mins = secs / 60;
+            secs = secs % 60;
+            int milliseconds = (int) (updatedTime % 1000);
+            timerValue.setText("" + mins + ":"
+                    + String.format("%02d", secs) + ":"
+                    + String.format("%03d", milliseconds));
+            customHandler.postDelayed(this, 0);
+        }
+
+    };
+
 
 
 }

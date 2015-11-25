@@ -11,7 +11,7 @@ import static ipl.android_projet.model.ModelContract.*;
  * Created by Giordano on 18/11/2015.
  */
 public class JoueurDBHelper extends SQLiteOpenHelper{
-    public static final int DATABASE_VERSION = 35;
+    public static final int DATABASE_VERSION = 56;
     public static final String DATABASE_NAME = "Joueurs.db";
     private final Context myContext;
 
@@ -21,7 +21,8 @@ public class JoueurDBHelper extends SQLiteOpenHelper{
                     JoueurDBEntry.COLUMN_NAME_PSEUDO           + " TEXT," +
                     JoueurDBEntry.COLUMN_NAME_POINT          + " INT," +
                     JoueurDBEntry.COLUMN_NAME_ETAPE_EN_COURS    + " INT," +
-                    JoueurDBEntry.COLUMN_NAME_EPREUVE_EN_COURS       + " INT" +
+                    JoueurDBEntry.COLUMN_NAME_EPREUVE_EN_COURS       + " INT," +
+                    JoueurDBEntry.COLUMN_NAME_TEMPS_TOTAL      + " LONG" +
                     " )";
 
     public static final String SQL_DELETE_ENTRIES =
@@ -53,6 +54,7 @@ public class JoueurDBHelper extends SQLiteOpenHelper{
         valeurs.put(JoueurDBEntry.COLUMN_NAME_POINT,joueur.getPoint());
         valeurs.put(JoueurDBEntry.COLUMN_NAME_ETAPE_EN_COURS,joueur.getEtape());
         valeurs.put(JoueurDBEntry.COLUMN_NAME_EPREUVE_EN_COURS,joueur.getEpreuve());
+        valeurs.put(JoueurDBEntry.COLUMN_NAME_TEMPS_TOTAL,joueur.getTempsTotal());
 
         db.insert(JoueurDBEntry.TABLE_NAME,null,valeurs);
     }

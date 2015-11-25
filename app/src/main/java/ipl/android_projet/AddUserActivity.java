@@ -31,12 +31,19 @@ public class AddUserActivity extends AppCompatActivity {
     public void addUser(View view) {
         EditText usernameEditText = (EditText) findViewById(R.id.yourName);
         pseudo = usernameEditText.getText().toString();
-        Joueur joueur = new Joueur(pseudo);
-        dao.insertJoueur(joueur);
-        Intent intent = new Intent(AddUserActivity.this, ListingEpreuvesActivity.class);
-        intent.putExtra("pseudo", pseudo);
-        Toast.makeText(getApplicationContext(), "Joueur ajouté", Toast.LENGTH_SHORT).show();
-        startActivity(intent);
+
+        if(dao.getPseudo(pseudo)==true){
+            Toast.makeText(getApplicationContext(), "Ce pseudo existe deja !", Toast.LENGTH_SHORT).show();
+        }else{
+            Joueur joueur = new Joueur(pseudo);
+            dao.insertJoueur(joueur);
+            Intent intent = new Intent(AddUserActivity.this, ListingEpreuvesActivity.class);
+            intent.putExtra("pseudo", pseudo);
+            Toast.makeText(getApplicationContext(), "Joueur ajouté", Toast.LENGTH_SHORT).show();
+            startActivity(intent);
+        }
+
+
     }
 
 }

@@ -87,7 +87,7 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), "Veuillez entrer un nom.", Toast.LENGTH_SHORT).show();
         }
         else if(!dao.getPseudo(pseudo)){
-            Toast.makeText(getApplicationContext(), "Ce nom n'existe pas", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "Ce pseudo n'existe pas", Toast.LENGTH_SHORT).show();
         }
 
         else{

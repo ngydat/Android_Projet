@@ -11,12 +11,17 @@ public class Joueur implements Serializable {
     private int point;
     private int etape;
     private int epreuve;
+    private long tempsTotal;
+
+
 
     public Joueur(String pseudo) {
         this.pseudo = pseudo;
         this.point = 0;
         this.etape = 1;
         this.epreuve = 0;
+        this.tempsTotal=0;
+
     }
 
     public String getPseudo() {
@@ -49,5 +54,13 @@ public class Joueur implements Serializable {
 
     public void setEpreuve(int epreuve) {
         this.epreuve = epreuve;
+    }
+
+    public long getTempsTotal() {
+        return tempsTotal;
+    }
+
+    public void setTempsTotal(long tempsTotal) {
+        this.tempsTotal = tempsTotal;
     }
 }
