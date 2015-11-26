@@ -19,3 +19,5 @@ http://houssem-lahiani.blogspot.be/2015/04/la-geolocalisation-et-les-alerte-de.h
 http://examples.javacodegeeks.com/android/core/os/handler/android-timer-example/
 
 http://stackoverflow.com/questions/30969455/android-changing-floating-action-button-color
+
+http://stackoverflow.com/questions/12402983/i-want-to-show-my-login-form-in-dialog-box-or-in-pop-up-box-using-android

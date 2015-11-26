@@ -1,5 +1,6 @@
 package ipl.android_projet;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -11,10 +12,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import ipl.android_projet.model.Dao;
+import ipl.android_projet.model.Joueur;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -39,8 +42,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View v) {
-                Intent addUserIntent = new Intent(MainActivity.this, AddUserActivity.class);
-                startActivity(addUserIntent);
+                loginDialog();
             }
         });
 
@@ -53,6 +55,38 @@ public class MainActivity extends AppCompatActivity {
 
 
         Log.i("TEST",""+dao.getAllPlayers().getCount());
+
+    }
+
+    //
+    private void loginDialog() {
+        Dialog login = new Dialog(this);
+        login.setContentView(R.layout.content_add_user);
+        login.setCancelable(true);
+        login.setTitle("Nom d'utilisateur :");
+
+
+        final String pseudo = ((EditText) login.findViewById(R.id.yourName)).getText().toString();
+        Button confirm = (Button) login.findViewById(R.id.confirmAddUser);
+
+        login.show();
+
+        confirm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (dao.getPseudo(pseudo)) {
+                    Toast.makeText(getApplicationContext(), "Ce pseudo existe deja !", Toast.LENGTH_SHORT).show();
+                } else {
+                    Joueur joueur = new Joueur(pseudo);
+                    dao.insertJoueur(joueur);
+                    Intent intent = new Intent(MainActivity.this, ListingEpreuvesActivity.class);
+                    intent.putExtra("pseudo", pseudo);
+                    Toast.makeText(getApplicationContext(), "Joueur ajouté", Toast.LENGTH_SHORT).show();
+                    startActivity(intent);
+                }
+            }
+        });
+
 
     }
 

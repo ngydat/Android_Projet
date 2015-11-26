@@ -50,10 +50,6 @@
             android:label="EpreuveTexteATrous"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".AddUserActivity"
-            android:label="@string/title_activity_add_user"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
             android:name=".ListEpreuves"
             android:label="@string/title_activity_list_epreuves"
             android:theme="@style/AppTheme.NoActionBar" >
