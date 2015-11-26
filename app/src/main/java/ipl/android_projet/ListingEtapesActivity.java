@@ -174,6 +174,11 @@ public class ListingEtapesActivity extends AppCompatActivity {
 
                 }
                 else if(url.contains("http://epreuve2_etape1.photo")){
+                    double latitudePhoto =Double.parseDouble(ListingEtapesActivity.this.getEtape(doc,0).getFirstChild().getFirstChild().getTextContent());
+                    double longitudePhoto = Double.parseDouble(ListingEtapesActivity.this.getEtape(doc, 0).getFirstChild().getChildNodes().item(1).getTextContent());
+                    double rayonPhoto = Float.parseFloat(ListingEtapesActivity.this.getEtape(doc,0).getFirstChild().getChildNodes().item(2).getTextContent());
+
+
                     if(dao.getEtape(pseudo)==1 && dao.getEpreuve(pseudo)<1){
                         Toast.makeText(getApplicationContext(), "Veuillez terminer l'epreuve 1", Toast.LENGTH_SHORT).show();
                     }else if(dao.getEtape(pseudo)==1 && dao.getEpreuve(pseudo)==2){
@@ -523,8 +528,6 @@ public class ListingEtapesActivity extends AppCompatActivity {
             if (state) {
                 // Call the Notification Service or anything else that you would like to do here
                 Toast.makeText(arg0, "Bienvenue à l'etape n° " + etapeEnCours, Toast.LENGTH_SHORT).show();
-
-                etape.getAttributes().getNamedItem("visible").setTextContent("true");
                 webView.loadUrl(urlEtape);
 
 
