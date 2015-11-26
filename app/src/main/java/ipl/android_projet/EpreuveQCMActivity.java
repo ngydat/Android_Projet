@@ -41,10 +41,10 @@ public class EpreuveQCMActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.my_toolbar);
         setSupportActionBar(toolbar);
 
+
         timerValue = (TextView)findViewById(R.id.timerValue_epreuves);
         startTime = SystemClock.uptimeMillis();
         customHandler.postDelayed(updateTimerThread, 0);
-
 
 
         Intent intent = getIntent();
@@ -107,6 +107,7 @@ public class EpreuveQCMActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_epreuve, menu);
+
 
 
         return true;

@@ -26,7 +26,6 @@ import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -83,7 +82,7 @@ public class ListingEpreuvesActivity extends AppCompatActivity {
         final Intent intent = getIntent();
         pseudo = intent.getStringExtra("pseudo");
 
-        setContentView(R.layout.content_listing_etapes);
+        setContentView(R.layout.listing_etapes);
         Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
         setSupportActionBar(myToolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
