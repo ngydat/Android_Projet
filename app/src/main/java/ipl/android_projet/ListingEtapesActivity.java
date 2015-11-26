@@ -26,6 +26,7 @@ import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -184,6 +185,7 @@ public class ListingEtapesActivity extends AppCompatActivity {
                         epreuve = ListingEtapesActivity.this.getEpreuve(doc, 0, 1);
                         question = epreuve.getFirstChild().getTextContent();
                         point= Integer.parseInt(epreuve.getAttribute("points"));
+                        aide = epreuve.getLastChild().getTextContent();
 
                         Intent intentPhoto = new Intent(ListingEtapesActivity.this, EpreuvePhotoActivity.class);
                         intentPhoto.putExtra("question", question);
@@ -191,6 +193,7 @@ public class ListingEtapesActivity extends AppCompatActivity {
                         intentPhoto.putExtra("epreuve", 2);
                         intentPhoto.putExtra("etape", 1);
                         intentPhoto.putExtra("point", point);
+                        intentPhoto.putExtra("aide", aide);
 
                         startActivity(intentPhoto);
                     }
@@ -203,6 +206,8 @@ public class ListingEtapesActivity extends AppCompatActivity {
                         epreuve = ListingEtapesActivity.this.getEpreuve(doc, 1, 0);
                         question = epreuve.getFirstChild().getTextContent();
                         point = Integer.parseInt(epreuve.getAttribute("points"));
+                        aide = epreuve.getLastChild().getTextContent();
+
 
                         String[] reponses = new String[3];
                         for (int i = 1; i < 4; i++) {
@@ -221,6 +226,7 @@ public class ListingEtapesActivity extends AppCompatActivity {
                         intentTrou.putExtra("etape", 2);
                         intentTrou.putExtra("point", point);
                         intentTrou.putExtra("reponses", reponses);
+                        intentTrou.putExtra("aide",aide);
 
 
                         startActivity(intentTrou);
@@ -319,13 +325,10 @@ public class ListingEtapesActivity extends AppCompatActivity {
 
 
         if(epreuveOK_KO!= null){
-
-            if(dao.containsEpreuveDBEpreuve(pseudo, etapeCourante, epreuveCourante)==0){
-                dao.updateJoueur(pseudo, pointActuel + point, etapeCourante, epreuveCourante);
-                dao.insertEpreuve(new Epreuve(epreuveCourante,pseudo,point,etapeCourante,duree));
-            }
-
-            Log.i("DUREE",""+duree);
+                if(dao.containsEpreuveDBEpreuve(pseudo, etapeCourante, epreuveCourante)==0){
+                    dao.updateJoueur(pseudo, pointActuel + point, etapeCourante, epreuveCourante);
+                    dao.insertEpreuve(new Epreuve(epreuveCourante,pseudo,point,etapeCourante,duree));
+                }
         }
 
         if (getNbEpreuve(doc,(etapeCourante-1))==epreuveCourante){

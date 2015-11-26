@@ -22,6 +22,7 @@
                     <Longitude>4.295</Longitude>
                     <Rayon>10</Rayon>
                 </Zone>
+                <Aide>Clos Chapelle-aux-Champs 43 1200 Bruxelles</Aide>
             </Epreuve>
         </Epreuves>
     </Etape>
@@ -37,6 +38,7 @@
             <Reponse>Chapelle</Reponse>
             <Reponse>Champs</Reponse>
             <Reponse>Bruxelles</Reponse>
+            <Aide>Demandez à un passant</Aide>
         </Epreuve>
     </Etape>
 </Jeu>

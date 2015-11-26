@@ -15,6 +15,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class EpreuvePhotoActivity extends AppCompatActivity {
 
@@ -25,6 +26,7 @@ public class EpreuvePhotoActivity extends AppCompatActivity {
     private int epreuve;
     private int point;
     private String pseudo;
+    private String aide;
 
     private TextView timerValue;
     private long startTime = 0L;
@@ -49,6 +51,7 @@ public class EpreuvePhotoActivity extends AppCompatActivity {
         Intent intent = getIntent();
 
         String question = intent.getStringExtra("question");
+        aide = intent.getStringExtra("aide");
 
         point = intent.getIntExtra("point", 0);
         pseudo = intent.getStringExtra("pseudo");
@@ -118,10 +121,13 @@ public class EpreuvePhotoActivity extends AppCompatActivity {
         Dialog box = null;
         switch (item.getItemId()) {
             case R.id.action_aide:
-                box = new Dialog(this);
-                //box.setContentView(R.layout.dialog_layout);
-                box.setTitle("Help !");
-                box.show();
+
+                if(point!=0){
+                    Toast.makeText(getApplicationContext(),aide, Toast.LENGTH_LONG).show();
+                    point--;
+                }else{
+                    Toast.makeText(getApplicationContext(), "Vous en pouvez plus demander l'aide pour cette epreuve !", Toast.LENGTH_LONG).show();
+                }
                 return true;
 
             default:

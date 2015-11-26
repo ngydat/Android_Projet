@@ -25,6 +25,7 @@ public class EpreuveTexteATrousActivity extends AppCompatActivity {
     private EditText reponse2;
     private EditText reponse3;
     private String[] reponses;
+    private String aide;
 
     private TextView timerValue;
     private long startTime = 0L;
@@ -49,6 +50,7 @@ public class EpreuveTexteATrousActivity extends AppCompatActivity {
         String question = intent.getStringExtra("question");
         point = intent.getIntExtra("point", 0);
         pseudo = intent.getStringExtra("pseudo");
+        aide = intent.getStringExtra("aide");
 
         etape = intent.getIntExtra("etape", 0);
         epreuve = intent.getIntExtra("epreuve", 0);
@@ -100,10 +102,8 @@ public class EpreuveTexteATrousActivity extends AppCompatActivity {
         Dialog box = null;
         switch (item.getItemId()) {
             case R.id.action_aide:
-                box = new Dialog(this);
-                //box.setContentView(R.layout.dialog_layout);
-                box.setTitle("Help !");
-                box.show();
+                Toast.makeText(getApplicationContext(),aide, Toast.LENGTH_LONG).show();
+                point =0;
                 return true;
 
             default:

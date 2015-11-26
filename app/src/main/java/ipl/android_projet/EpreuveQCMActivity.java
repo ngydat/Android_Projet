@@ -112,12 +112,7 @@ public class EpreuveQCMActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.action_aide:
                 Toast.makeText(getApplicationContext(),aide, Toast.LENGTH_LONG).show();
-                if(point!=0){
-                    point--;
-                }else{
-                    Toast.makeText(getApplicationContext(),"Vous ne pouvez plus demander de l'aide !", Toast.LENGTH_LONG).show();
-                }
-
+                point = 0;
                 return true;
 
             default:
