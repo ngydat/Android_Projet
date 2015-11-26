@@ -10,13 +10,18 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-
+    <ImageView
+        android:id="@+id/header"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:src="@drawable/ic_account_circle_black_24dp" />
 
     <EditText
         android:id="@+id/yourName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-
+        android:layout_below="@+id/header"
         android:layout_centerHorizontal="true"
         android:hint="Nom d'utilisateur"
         android:maxLength="25" />
