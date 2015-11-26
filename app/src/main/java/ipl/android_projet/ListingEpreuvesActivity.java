@@ -2,6 +2,7 @@ package ipl.android_projet;
 
 import android.Manifest;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -19,7 +20,6 @@ import android.speech.RecognizerIntent;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -53,6 +53,9 @@ public class ListingEpreuvesActivity extends AppCompatActivity {
 
     Dao dao;
     String ACTION_FILTER = "com.example.proximity";
+    long timeInMilliseconds = 0L;
+    long timeSwapBuff = 0L;
+    long updatedTime = 0L;
     private Document doc;
     private String urlEtape;
     private WebView webView;
@@ -61,13 +64,26 @@ public class ListingEpreuvesActivity extends AppCompatActivity {
     private TextView mTxtViewlong;
     private TextView mTxtViewlat;
     private String pseudo = "";
-
     private TextView timerValue;
     private long startTime = 0L;
-    long timeInMilliseconds = 0L;
-    long timeSwapBuff = 0L;
-    long updatedTime = 0L;
     private Handler customHandler = new Handler();
+    private Runnable updateTimerThread = new Runnable() {
+
+        public void run() {
+
+            timeInMilliseconds = SystemClock.uptimeMillis() - startTime;
+
+            updatedTime = timeSwapBuff + timeInMilliseconds;
+
+            int secs = (int) (updatedTime / 1000);
+            int mins = secs / 60;
+            secs = secs % 60;
+            timerValue.setText("" + mins + ":"
+                    + String.format("%02d", secs));
+            customHandler.postDelayed(this, 0);
+        }
+
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -250,16 +266,16 @@ public class ListingEpreuvesActivity extends AppCompatActivity {
             case R.id.action_point:
 
                 // 1. Instantiate an AlertDialog.Builder with its constructor
+                Dialog stat = new Dialog(this);
+                stat.setContentView(R.layout.layout_dialog_stat);
+                stat.setCancelable(true);
+                stat.setTitle("Vos statistiques");
 
-                LayoutInflater inflater = ListingEpreuvesActivity.this.getLayoutInflater();
-                View dialog_view = inflater.inflate(R.layout.layout_dialog_stat, null);
-                builder.setView(dialog_view).setTitle("Vos statistiques");
 
-
-                TextView tvPoint = (TextView) dialog_view.findViewById(R.id.pointJoueurTextView);
-                TextView tvEtape = (TextView) dialog_view.findViewById(R.id.derniereEtapeTextView);
-                TextView tvEpreuve = (TextView) dialog_view.findViewById(R.id.derniereEpreuveTextView);
-                TextView tvTempsTotal = (TextView) dialog_view.findViewById(R.id.tempsTotalTextView);
+                TextView tvPoint = (TextView) stat.findViewById(R.id.pointJoueurTextView);
+                TextView tvEtape = (TextView) stat.findViewById(R.id.derniereEtapeTextView);
+                TextView tvEpreuve = (TextView) stat.findViewById(R.id.derniereEpreuveTextView);
+                TextView tvTempsTotal = (TextView) stat.findViewById(R.id.tempsTotalTextView);
 
                 tvPoint.setText(""+point);
                 tvEtape.setText(""+derniereEtape);
@@ -270,8 +286,7 @@ public class ListingEpreuvesActivity extends AppCompatActivity {
                 secs = secs % 60;
                 tvTempsTotal.setText("" + mins + ":"
                         + String.format("%02d", secs));
-                AlertDialog dialog = builder.create();
-                dialog.show();
+                stat.show();
 
 
                 return true;
@@ -290,8 +305,6 @@ public class ListingEpreuvesActivity extends AppCompatActivity {
         }
 
     }
-
-
 
     @Override
     protected void onResume() {
@@ -416,7 +429,6 @@ public class ListingEpreuvesActivity extends AppCompatActivity {
         return doc;
     }
 
-
     public String getUrlEtape(Document doc, int indice){
         NodeList nList = doc.getElementsByTagName("Etape");
         Node node = nList.item(indice);
@@ -440,8 +452,6 @@ public class ListingEpreuvesActivity extends AppCompatActivity {
         return epreuves.getLength();
     }
 
-
-
     public Element getEtape(Document doc, int indiceEtape){
         NodeList nList = doc.getElementsByTagName("Etape");
         Node node = nList.item(indiceEtape);
@@ -455,6 +465,13 @@ public class ListingEpreuvesActivity extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), voice_text, Toast.LENGTH_LONG).show();
 
         }
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        Log.i("TEMPS", "" + updatedTime);
+        dao.updateJoueur(pseudo, updatedTime);
     }
 
     private class Myobjlistener implements LocationListener
@@ -496,14 +513,14 @@ public class ListingEpreuvesActivity extends AppCompatActivity {
         public void onReceive(Context arg0, Intent arg1) {
             // TODO Auto-generated method stub
             // The reciever gets the Context & the Intent that fired the broadcast as arg0 & agr1
-            String k= LocationManager.KEY_PROXIMITY_ENTERING;
+            String k = LocationManager.KEY_PROXIMITY_ENTERING;
             // Key for determining whether user is leaving or entering
-            boolean state=arg1.getBooleanExtra(k, false);
+            boolean state = arg1.getBooleanExtra(k, false);
             //Gives whether the user is entering or leaving in boolean form
             int etapeEnCours = dao.getEtape(pseudo);
-            urlEtape = ListingEpreuvesActivity.this.getUrlEtape(doc, (etapeEnCours-1));
-            Element etape = ListingEpreuvesActivity.this.getEtape(doc, (etapeEnCours-1));
-            if(state){
+            urlEtape = ListingEpreuvesActivity.this.getUrlEtape(doc, (etapeEnCours - 1));
+            Element etape = ListingEpreuvesActivity.this.getEtape(doc, (etapeEnCours - 1));
+            if (state) {
                 // Call the Notification Service or anything else that you would like to do here
                 Toast.makeText(arg0, "Bienvenue à l'etape n° " + etapeEnCours, Toast.LENGTH_SHORT).show();
 
@@ -511,7 +528,7 @@ public class ListingEpreuvesActivity extends AppCompatActivity {
                 webView.loadUrl(urlEtape);
 
 
-            }else{
+            } else {
                 //Other custom Notification
                 Toast.makeText(arg0, "Thank you for visiting my Area,come back again !!", Toast.LENGTH_LONG).show();
                 etape.getAttributes().getNamedItem("visible").setTextContent("false");
@@ -520,32 +537,6 @@ public class ListingEpreuvesActivity extends AppCompatActivity {
 
         }
 
-    }
-
-
-    private Runnable updateTimerThread = new Runnable() {
-
-        public void run() {
-
-            timeInMilliseconds = SystemClock.uptimeMillis() - startTime;
-
-            updatedTime = timeSwapBuff + timeInMilliseconds;
-
-            int secs = (int) (updatedTime / 1000);
-            int mins = secs / 60;
-            secs = secs % 60;
-            timerValue.setText("" + mins + ":"
-                    + String.format("%02d", secs));
-            customHandler.postDelayed(this, 0);
-        }
-
-    };
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        Log.i("TEMPS",""+updatedTime);
-        dao.updateJoueur(pseudo, updatedTime);
     }
 
 
