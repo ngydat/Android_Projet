@@ -52,11 +52,11 @@
         <activity
             android:name=".AddUserActivity"
             android:label="@string/title_activity_add_user"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".ListEpreuves"
             android:label="@string/title_activity_list_epreuves"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar" >
+            android:theme="@style/AppTheme.NoActionBar" >
         </activity>
     </application>
 

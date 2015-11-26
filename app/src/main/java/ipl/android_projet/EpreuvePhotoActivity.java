@@ -4,6 +4,8 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.SystemClock;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -24,6 +26,13 @@ public class EpreuvePhotoActivity extends AppCompatActivity {
     private int point;
     private String pseudo;
 
+    private TextView timerValue;
+    private long startTime = 0L;
+    long timeInMilliseconds = 0L;
+    long timeSwapBuff = 0L;
+    long updatedTime = 0L;
+    private Handler customHandler = new Handler();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +40,10 @@ public class EpreuvePhotoActivity extends AppCompatActivity {
         setContentView(R.layout.activity_epreuve_photo);
         Toolbar toolbar = (Toolbar) findViewById(R.id.my_toolbar);
         setSupportActionBar(toolbar);
+
+        timerValue = (TextView) findViewById(R.id.timerValue_epreuves);
+        startTime = SystemClock.uptimeMillis();
+        customHandler.postDelayed(updateTimerThread, 0);
 
 
         Intent intent = getIntent();
@@ -80,6 +93,7 @@ public class EpreuvePhotoActivity extends AppCompatActivity {
                     itnt.putExtra("point", point);
                     itnt.putExtra("pseudo", pseudo);
                     itnt.putExtra("epreuveOK_KO", "OK");
+                    itnt.putExtra("duree",updatedTime);
                     startActivity(itnt);
                 }
             });
@@ -121,6 +135,25 @@ public class EpreuvePhotoActivity extends AppCompatActivity {
 
         }
     }
+
+    private Runnable updateTimerThread = new Runnable() {
+
+        public void run() {
+
+            timeInMilliseconds = SystemClock.uptimeMillis() - startTime;
+
+            updatedTime = timeSwapBuff + timeInMilliseconds;
+
+            int secs = (int) (updatedTime / 1000);
+            int mins = secs / 60;
+            secs = secs % 60;
+            int milliseconds = (int) (updatedTime % 1000);
+            timerValue.setText("" + mins + ":"
+                    + String.format("%02d", secs));
+            customHandler.postDelayed(this, 0);
+        }
+
+    };
 
 
 

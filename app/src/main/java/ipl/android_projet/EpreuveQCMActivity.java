@@ -41,10 +41,10 @@ public class EpreuveQCMActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.my_toolbar);
         setSupportActionBar(toolbar);
 
-
-        timerValue = (TextView) findViewById(R.id.timerValue_epreuves);
+        timerValue = (TextView)findViewById(R.id.timerValue_epreuves);
         startTime = SystemClock.uptimeMillis();
         customHandler.postDelayed(updateTimerThread, 0);
+
 
 
         Intent intent = getIntent();
@@ -107,6 +107,8 @@ public class EpreuveQCMActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_epreuve, menu);
+
+
         return true;
     }
 
@@ -145,10 +147,8 @@ public class EpreuveQCMActivity extends AppCompatActivity {
             int secs = (int) (updatedTime / 1000);
             int mins = secs / 60;
             secs = secs % 60;
-            int milliseconds = (int) (updatedTime % 1000);
             timerValue.setText("" + mins + ":"
-                    + String.format("%02d", secs) + ":"
-                    + String.format("%03d", milliseconds));
+                    + String.format("%02d", secs));
             customHandler.postDelayed(this, 0);
         }
 

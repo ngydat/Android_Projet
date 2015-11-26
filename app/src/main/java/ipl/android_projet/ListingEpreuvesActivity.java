@@ -531,10 +531,8 @@ public class ListingEpreuvesActivity extends AppCompatActivity {
             int secs = (int) (updatedTime / 1000);
             int mins = secs / 60;
             secs = secs % 60;
-            int milliseconds = (int) (updatedTime % 1000);
             timerValue.setText("" + mins + ":"
-                    + String.format("%02d", secs) + ":"
-                    + String.format("%03d", milliseconds));
+                    + String.format("%02d", secs));
             customHandler.postDelayed(this, 0);
         }
 

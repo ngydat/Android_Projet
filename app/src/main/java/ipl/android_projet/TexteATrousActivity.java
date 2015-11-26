@@ -4,6 +4,8 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.SystemClock;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -25,6 +27,13 @@ public class TexteATrousActivity extends AppCompatActivity {
     private EditText reponse3;
     private String[] reponses;
 
+    private TextView timerValue;
+    private long startTime = 0L;
+    long timeInMilliseconds = 0L;
+    long timeSwapBuff = 0L;
+    long updatedTime = 0L;
+    private Handler customHandler = new Handler();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +41,10 @@ public class TexteATrousActivity extends AppCompatActivity {
         setContentView(R.layout.activity_epreuve_texte_atrous);
         Toolbar toolbar = (Toolbar) findViewById(R.id.my_toolbar);
         setSupportActionBar(toolbar);
+
+        timerValue = (TextView)findViewById(R.id.timerValue_epreuves);
+        startTime = SystemClock.uptimeMillis();
+        customHandler.postDelayed(updateTimerThread, 0);
 
         Intent intent = getIntent();
         String question = intent.getStringExtra("question");
@@ -62,6 +75,7 @@ public class TexteATrousActivity extends AppCompatActivity {
         itnt.putExtra("epreuve", epreuve);
         itnt.putExtra("point", point);
         itnt.putExtra("pseudo", pseudo);
+        itnt.putExtra("duree",updatedTime);
 
         if (!(reponse1.getText().toString().equals(reponses[0]) && reponse2.getText().toString().equals(reponses[1]) && reponse3.getText().toString().equals(reponses[2]))) {
             text = "Une des réponses est mauvaise";
@@ -105,5 +119,24 @@ public class TexteATrousActivity extends AppCompatActivity {
         }
 
     }
+
+    private Runnable updateTimerThread = new Runnable() {
+
+        public void run() {
+
+            timeInMilliseconds = SystemClock.uptimeMillis() - startTime;
+
+            updatedTime = timeSwapBuff + timeInMilliseconds;
+
+            int secs = (int) (updatedTime / 1000);
+            int mins = secs / 60;
+            secs = secs % 60;
+            int milliseconds = (int) (updatedTime % 1000);
+            timerValue.setText("" + mins + ":"
+                    + String.format("%02d", secs));
+            customHandler.postDelayed(this, 0);
+        }
+
+    };
 
 }
