@@ -41,6 +41,7 @@ public class EpreuveCursorAdapter extends CursorAdapter {
         TextView tvPseudo = (TextView) convertView.findViewById(R.id.item_speudo);
         TextView tvEtape = (TextView) convertView.findViewById(R.id.item_etape);
         TextView tvDuree = (TextView) convertView.findViewById(R.id.item_duree);
+        TextView tvPoint = (TextView) convertView.findViewById(R.id.item_point);
 
         tvNum.setText("Numero epreuve : "+epreuve.getNumero());
         tvPseudo.setText("Nom : "+epreuve.getPseudo());
@@ -50,7 +51,7 @@ public class EpreuveCursorAdapter extends CursorAdapter {
         secs = secs % 60;
         tvDuree.setText("" + mins + ":"
                 + String.format("%02d", secs));
-
+        tvEtape.setText("Point : "+epreuve.getPoint());
         return convertView;
     }
 }
