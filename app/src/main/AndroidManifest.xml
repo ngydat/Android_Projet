@@ -35,7 +35,8 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ListingEpreuvesActivity"
+            android:name=".ListingEtapesActivity"
+            android:label="@string/title_activity_listing_epreuves"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".EpreuveQCMActivity"
@@ -51,7 +52,6 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".ListEpreuves"
-            android:label="@string/title_activity_list_epreuves"
             android:theme="@style/AppTheme.NoActionBar" >
         </activity>
     </application>

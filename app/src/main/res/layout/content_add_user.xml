@@ -24,6 +24,7 @@
         android:layout_below="@+id/header"
         android:layout_centerHorizontal="true"
         android:hint="Nom d'utilisateur"
+        android:textAlignment="center"
         android:maxLength="25" />
 
     <Button

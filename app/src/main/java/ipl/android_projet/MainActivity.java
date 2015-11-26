@@ -8,7 +8,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -79,7 +78,7 @@ public class MainActivity extends AppCompatActivity {
                 } else {
                     Joueur joueur = new Joueur(pseudo);
                     dao.insertJoueur(joueur);
-                    Intent intent = new Intent(MainActivity.this, ListingEpreuvesActivity.class);
+                    Intent intent = new Intent(MainActivity.this, ListingEtapesActivity.class);
                     intent.putExtra("pseudo", pseudo);
                     Toast.makeText(getApplicationContext(), "Joueur ajouté", Toast.LENGTH_SHORT).show();
                     startActivity(intent);
@@ -98,20 +97,6 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
 
     public void demarrer(View view){
 
@@ -125,7 +110,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         else{
-            Intent intentDemarrer = new Intent(MainActivity.this,ListingEpreuvesActivity.class);
+            Intent intentDemarrer = new Intent(MainActivity.this,ListingEtapesActivity.class);
             intentDemarrer.putExtra("pseudo",pseudo);
             startActivity(intentDemarrer);
         }

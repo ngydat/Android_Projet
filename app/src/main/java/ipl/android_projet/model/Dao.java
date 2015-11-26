@@ -171,10 +171,13 @@ public class Dao {
     }
 
 
-    public int containsEpreuve(String pseudo, int etape,int epreuve){
-        Cursor c = dbEpreuve.rawQuery("select * from epreuves where pseudo like '" + pseudo + "'" + " AND etape = "+etape+" AND numero = "+epreuve+"", null);
+    public int containsEpreuveDBEpreuve(String pseudo, int etape, int epreuve){
+        Cursor c = dbEpreuve.rawQuery("select * from epreuves where pseudo like '" + pseudo + "'" + " AND etape = " + etape + " AND numero = " + epreuve + "", null);
         return c.getCount();
     }
+
+
+
 
 
 

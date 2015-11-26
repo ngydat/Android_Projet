@@ -49,7 +49,7 @@ import javax.xml.xpath.XPathFactory;
 import ipl.android_projet.model.Dao;
 import ipl.android_projet.model.Epreuve;
 
-public class ListingEpreuvesActivity extends AppCompatActivity {
+public class ListingEtapesActivity extends AppCompatActivity {
 
     Dao dao;
     String ACTION_FILTER = "com.example.proximity";
@@ -131,13 +131,13 @@ public class ListingEpreuvesActivity extends AppCompatActivity {
                 int point;
                 if (url.contains("http://epreuve1_etape1.qcm")) {
 
-                    epreuve = ListingEpreuvesActivity.this.getEpreuve(doc, 0, 0);
+                    epreuve = ListingEtapesActivity.this.getEpreuve(doc, 0, 0);
 
                     if(dao.getEtape(pseudo)==1 && dao.getEpreuve(pseudo)==1) {
                         Toast.makeText(getApplicationContext(), "Epreuve deja faite !", Toast.LENGTH_SHORT).show();
                     }
                     else{
-                        Intent intentQCM = new Intent(ListingEpreuvesActivity.this, EpreuveQCMActivity.class);
+                        Intent intentQCM = new Intent(ListingEtapesActivity.this, EpreuveQCMActivity.class);
 
                         intentQCM.putExtra("pseudo", pseudo);
                         intentQCM.putExtra("epreuve", 1);
@@ -181,11 +181,11 @@ public class ListingEpreuvesActivity extends AppCompatActivity {
 
                     else{
 
-                        epreuve = ListingEpreuvesActivity.this.getEpreuve(doc, 0, 1);
+                        epreuve = ListingEtapesActivity.this.getEpreuve(doc, 0, 1);
                         question = epreuve.getFirstChild().getTextContent();
                         point= Integer.parseInt(epreuve.getAttribute("points"));
 
-                        Intent intentPhoto = new Intent(ListingEpreuvesActivity.this, EpreuvePhotoActivity.class);
+                        Intent intentPhoto = new Intent(ListingEtapesActivity.this, EpreuvePhotoActivity.class);
                         intentPhoto.putExtra("question", question);
                         intentPhoto.putExtra("pseudo", pseudo);
                         intentPhoto.putExtra("epreuve", 2);
@@ -200,7 +200,7 @@ public class ListingEpreuvesActivity extends AppCompatActivity {
                     } else if (dao.getEtape(pseudo) == 2 && dao.getEpreuve(pseudo) ==3) {
                         Toast.makeText(getApplicationContext(), "Epreuve deja faite !", Toast.LENGTH_SHORT).show();
                     } else {
-                        epreuve = ListingEpreuvesActivity.this.getEpreuve(doc, 1, 0);
+                        epreuve = ListingEtapesActivity.this.getEpreuve(doc, 1, 0);
                         question = epreuve.getFirstChild().getTextContent();
                         point = Integer.parseInt(epreuve.getAttribute("points"));
 
@@ -214,7 +214,7 @@ public class ListingEpreuvesActivity extends AppCompatActivity {
 
 
 
-                        Intent intentTrou = new Intent(ListingEpreuvesActivity.this, EpreuveTexteATrousActivity.class);
+                        Intent intentTrou = new Intent(ListingEtapesActivity.this, EpreuveTexteATrousActivity.class);
                         intentTrou.putExtra("question", question);
                         intentTrou.putExtra("pseudo", pseudo);
                         intentTrou.putExtra("epreuve", 3);
@@ -257,12 +257,8 @@ public class ListingEpreuvesActivity extends AppCompatActivity {
         int derniereEtape = dao.getEtape(pseudo);
         int derniereEpreuve = dao.getEpreuve(pseudo);
         long tempsTotal = dao.getTempsTotal(pseudo);
-        AlertDialog.Builder builder = new AlertDialog.Builder(ListingEpreuvesActivity.this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(ListingEtapesActivity.this);
         switch (item.getItemId()) {
-            case R.id.action_settings:
-                // User chose the "Settings" item, show the app settings UI...
-                return true;
-
             case R.id.action_point:
 
                 // 1. Instantiate an AlertDialog.Builder with its constructor
@@ -293,7 +289,7 @@ public class ListingEpreuvesActivity extends AppCompatActivity {
 
             case R.id.action_epreuves:
 
-                Intent intent = new Intent(ListingEpreuvesActivity.this, ListEpreuves.class);
+                Intent intent = new Intent(ListingEtapesActivity.this, ListEpreuves.class);
                 intent.putExtra("pseudo",pseudo);
                 startActivity(intent);
 
@@ -323,8 +319,9 @@ public class ListingEpreuvesActivity extends AppCompatActivity {
 
 
         if(epreuveOK_KO!= null){
-            dao.updateJoueur(pseudo, pointActuel + point, etapeCourante, epreuveCourante);
-            if(dao.containsEpreuve(pseudo,etapeCourante,epreuveCourante)==0){
+
+            if(dao.containsEpreuveDBEpreuve(pseudo, etapeCourante, epreuveCourante)==0){
+                dao.updateJoueur(pseudo, pointActuel + point, etapeCourante, epreuveCourante);
                 dao.insertEpreuve(new Epreuve(epreuveCourante,pseudo,point,etapeCourante,duree));
             }
 
@@ -518,8 +515,8 @@ public class ListingEpreuvesActivity extends AppCompatActivity {
             boolean state = arg1.getBooleanExtra(k, false);
             //Gives whether the user is entering or leaving in boolean form
             int etapeEnCours = dao.getEtape(pseudo);
-            urlEtape = ListingEpreuvesActivity.this.getUrlEtape(doc, (etapeEnCours - 1));
-            Element etape = ListingEpreuvesActivity.this.getEtape(doc, (etapeEnCours - 1));
+            urlEtape = ListingEtapesActivity.this.getUrlEtape(doc, (etapeEnCours - 1));
+            Element etape = ListingEtapesActivity.this.getEtape(doc, (etapeEnCours - 1));
             if (state) {
                 // Call the Notification Service or anything else that you would like to do here
                 Toast.makeText(arg0, "Bienvenue à l'etape n° " + etapeEnCours, Toast.LENGTH_SHORT).show();

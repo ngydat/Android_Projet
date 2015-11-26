@@ -22,8 +22,10 @@ public class ListEpreuves extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.list_epreuves);
-        /*Toolbar toolbar = (Toolbar) findViewById(R.id.my_toolbar);
-        setSupportActionBar(toolbar);*/
+        Toolbar toolbar = (Toolbar) findViewById(R.id.my_toolbar);
+        //setSupportActionBar(toolbar);
+        toolbar.setTitle(R.string.title_activity_list_epreuves);
+
         Intent intent = getIntent();
         String pseudo = intent.getStringExtra("pseudo");
         dao = new Dao(getApplicationContext());
@@ -53,9 +55,6 @@ public class ListEpreuves extends AppCompatActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
         return super.onOptionsItemSelected(item);
     }
 

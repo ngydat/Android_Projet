@@ -1,15 +1,11 @@
 package ipl.android_projet;
 
-import android.app.Dialog;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.SystemClock;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -77,31 +73,27 @@ public class EpreuveQCMActivity extends AppCompatActivity {
 
 
     public void confirmer(View v){
-        Context context = getApplicationContext();
         CharSequence text ;
-        int duration = Toast.LENGTH_SHORT;
-        Intent itnt = new Intent(EpreuveQCMActivity.this, ListingEpreuvesActivity.class);
-        itnt.putExtra("etape", etape);
-        itnt.putExtra("epreuve", epreuve);
-        itnt.putExtra("duree",updatedTime);
-        itnt.putExtra("pseudo", pseudo);
+        Intent itnt = new Intent(EpreuveQCMActivity.this, ListingEtapesActivity.class);
 
        if(bonneRepRb.isChecked()){
            text = "Bonne reponse !";
-           Toast toast = Toast.makeText(context, text, duration);
-           toast.show();
-           itnt.putExtra("point", point);
+           Toast.makeText(getApplicationContext(),text, Toast.LENGTH_LONG).show();
            itnt.putExtra("epreuveOK_KO", "OK");
 
 
        }else{
            text = "Mauvaise reponse !";
-           Toast toast = Toast.makeText(context, text, duration);
-           toast.show();
-           itnt.putExtra("point", 0);
+           Toast.makeText(getApplicationContext(),text, Toast.LENGTH_LONG).show();
+           point=0;
            itnt.putExtra("epreuveOK_KO","KO");
        }
 
+        itnt.putExtra("point", point);
+        itnt.putExtra("etape", etape);
+        itnt.putExtra("epreuve", epreuve);
+        itnt.putExtra("duree",updatedTime);
+        itnt.putExtra("pseudo", pseudo);
         startActivity(itnt);
     }
 
@@ -118,14 +110,12 @@ public class EpreuveQCMActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.action_settings:
-                // User chose the "Settings" item, show the app settings UI...
-                return true;
-
             case R.id.action_aide:
                 Toast.makeText(getApplicationContext(),aide, Toast.LENGTH_LONG).show();
                 if(point!=0){
                     point--;
+                }else{
+                    Toast.makeText(getApplicationContext(),"Vous ne pouvez plus demander de l'aide !", Toast.LENGTH_LONG).show();
                 }
 
                 return true;

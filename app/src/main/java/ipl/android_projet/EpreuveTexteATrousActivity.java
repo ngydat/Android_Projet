@@ -69,7 +69,7 @@ public class EpreuveTexteATrousActivity extends AppCompatActivity {
         Context context = getApplicationContext();
         CharSequence text;
         int duration = Toast.LENGTH_SHORT;
-        Intent itnt = new Intent(EpreuveTexteATrousActivity.this, ListingEpreuvesActivity.class);
+        Intent itnt = new Intent(EpreuveTexteATrousActivity.this, ListingEtapesActivity.class);
         itnt.putExtra("etape", etape);
         itnt.putExtra("epreuve", epreuve);
         itnt.putExtra("point", point);
@@ -99,10 +99,6 @@ public class EpreuveTexteATrousActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         Dialog box = null;
         switch (item.getItemId()) {
-            case R.id.action_settings:
-                // User chose the "Settings" item, show the app settings UI...
-                return true;
-
             case R.id.action_aide:
                 box = new Dialog(this);
                 //box.setContentView(R.layout.dialog_layout);

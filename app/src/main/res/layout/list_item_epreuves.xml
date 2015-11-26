@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    >
 
 
     <TextView
@@ -9,13 +10,7 @@
         android:id="@+id/item_numero_epreuve"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-         />
-
-    <TextView
-        android:text="test"
-        android:id="@+id/item_speudo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:textAppearance="@style/Item_style"
          />
 
     <TextView
@@ -23,6 +18,7 @@
         android:id="@+id/item_etape"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textAppearance="@style/Item_style"
          />
 
     <TextView
@@ -30,6 +26,7 @@
         android:id="@+id/item_duree"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textAppearance="@style/Item_style"
          />
 
     <TextView
@@ -37,6 +34,7 @@
         android:id="@+id/item_point"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textAppearance="@style/Item_style"
          />
 
 

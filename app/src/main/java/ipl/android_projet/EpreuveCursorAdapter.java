@@ -38,20 +38,18 @@ public class EpreuveCursorAdapter extends CursorAdapter {
         Epreuve epreuve = Dao.getEpreuveFromCursor(cursor);
 
         TextView tvNum = (TextView) convertView.findViewById(R.id.item_numero_epreuve);
-        TextView tvPseudo = (TextView) convertView.findViewById(R.id.item_speudo);
         TextView tvEtape = (TextView) convertView.findViewById(R.id.item_etape);
         TextView tvDuree = (TextView) convertView.findViewById(R.id.item_duree);
         TextView tvPoint = (TextView) convertView.findViewById(R.id.item_point);
 
         tvNum.setText("Numero epreuve : "+epreuve.getNumero());
-        tvPseudo.setText("Nom : "+epreuve.getPseudo());
         tvEtape.setText("Numero etape : "+epreuve.getEtapeEpreuve());
         int secs = (int) (epreuve.getDuree() / 1000);
         int mins = secs / 60;
         secs = secs % 60;
-        tvDuree.setText("" + mins + ":"
+        tvDuree.setText("Duree : " + mins + ":"
                 + String.format("%02d", secs));
-        tvEtape.setText("Point : "+epreuve.getPoint());
+        tvPoint.setText("Point : "+epreuve.getPoint());
         return convertView;
     }
 }

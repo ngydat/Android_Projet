@@ -7,7 +7,4 @@
         android:icon="@drawable/ic_wb_incandescent_white_24dp"
         android:title="aide"
         app:showAsAction="always"/>
-
-    <item android:id="@+id/action_settings" android:title="@string/action_settings"
-        android:orderInCategory="100" app:showAsAction="never" />
 </menu>
