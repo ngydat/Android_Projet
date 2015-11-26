@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
@@ -21,6 +22,8 @@ import ipl.android_projet.model.Joueur;
 public class MainActivity extends AppCompatActivity {
 
     Dao dao;
+    String pseudo;
+    String texte;
 
 
     @Override
@@ -53,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
         webView.loadUrl(htmlUrl);
 
 
-        Log.i("TEST",""+dao.getAllPlayers().getCount());
+        Log.i("TEST", "" + dao.getAllPlayers().getCount());
 
     }
 
@@ -64,8 +67,9 @@ public class MainActivity extends AppCompatActivity {
         login.setCancelable(true);
         login.setTitle("Nom d'utilisateur :");
 
+        EditText champ = (EditText) login.findViewById(R.id.yourName);
+        final Editable editable = champ.getText();
 
-        final String pseudo = ((EditText) login.findViewById(R.id.yourName)).getText().toString();
         Button confirm = (Button) login.findViewById(R.id.confirmAddUser);
 
         login.show();
@@ -73,16 +77,25 @@ public class MainActivity extends AppCompatActivity {
         confirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (dao.getPseudo(pseudo)) {
-                    Toast.makeText(getApplicationContext(), "Ce pseudo existe deja !", Toast.LENGTH_SHORT).show();
+
+                if (editable != null && editable.length() > 0) {
+                    pseudo = editable.toString().trim();
+                    if (dao.estPresent(pseudo)) {
+                        texte = "Le pseudo " + pseudo + " existe deja ! ";
+
+                    } else {
+                        Joueur joueur = new Joueur(pseudo);
+                        dao.insertJoueur(joueur);
+                        Intent intent = new Intent(MainActivity.this, ListingEtapesActivity.class);
+                        intent.putExtra("pseudo", pseudo);
+                        texte = pseudo + " a été ajouté";
+                        startActivity(intent);
+                    }
                 } else {
-                    Joueur joueur = new Joueur(pseudo);
-                    dao.insertJoueur(joueur);
-                    Intent intent = new Intent(MainActivity.this, ListingEtapesActivity.class);
-                    intent.putExtra("pseudo", pseudo);
-                    Toast.makeText(getApplicationContext(), "Joueur ajouté", Toast.LENGTH_SHORT).show();
-                    startActivity(intent);
+                    texte = "Pas de pseudo";
                 }
+
+                Toast.makeText(getApplicationContext(), texte, Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -104,8 +117,7 @@ public class MainActivity extends AppCompatActivity {
         String pseudo = editText.getText().toString();
         if(pseudo.isEmpty()){
             Toast.makeText(getApplicationContext(), "Veuillez entrer un nom.", Toast.LENGTH_SHORT).show();
-        }
-        else if(!dao.getPseudo(pseudo)){
+        } else if (!dao.estPresent(pseudo)) {
             Toast.makeText(getApplicationContext(), "Ce pseudo n'existe pas", Toast.LENGTH_SHORT).show();
         }
 

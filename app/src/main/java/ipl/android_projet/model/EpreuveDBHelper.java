@@ -10,10 +10,10 @@ import android.database.sqlite.SQLiteOpenHelper;
  */
 public class EpreuveDBHelper  extends SQLiteOpenHelper {
 
-    public static final int DATABASE_VERSION = 61;
+    public static final int DATABASE_VERSION = 62;
     public static final String DATABASE_NAME = "Epreuves.db";
-    private final Context myContext;
-
+    public static final String SQL_DELETE_ENTRIES =
+            "DROP TABLE IF EXISTS " + ModelContract.EpreuveDBEntry.TABLE_NAME;
     private static final String SQL_CREATE_TABLE =
             "CREATE TABLE " + ModelContract.EpreuveDBEntry.TABLE_NAME  + " (" +
                     ModelContract.EpreuveDBEntry._ID                       + " INTEGER PRIMARY KEY," +
@@ -23,9 +23,7 @@ public class EpreuveDBHelper  extends SQLiteOpenHelper {
                     ModelContract.EpreuveDBEntry.COLUMN_NAME_DUREE        + " LONG," +
                     ModelContract.EpreuveDBEntry.COLUMN_NAME_PSEUDO           + " TEXT, FOREIGN KEY("+ModelContract.EpreuveDBEntry.COLUMN_NAME_PSEUDO+") REFERENCES joueurs(pseudo)" +
                     " )";
-
-    public static final String SQL_DELETE_ENTRIES =
-            "DROP TABLE IF EXISTS " + ModelContract.EpreuveDBEntry.TABLE_NAME;
+    private final Context myContext;
 
     public EpreuveDBHelper(Context context){
 

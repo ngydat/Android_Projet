@@ -4,11 +4,12 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import static ipl.android_projet.model.ModelContract.EpreuveDBEntry.COLUMN_NAME_NUM;
-import static ipl.android_projet.model.ModelContract.EpreuveDBEntry.COLUMN_NAME_PSEUDO;
-import static ipl.android_projet.model.ModelContract.EpreuveDBEntry.COLUMN_NAME_ETAPE_EPREUVE;
+
 import static ipl.android_projet.model.ModelContract.EpreuveDBEntry.COLUMN_NAME_DUREE;
+import static ipl.android_projet.model.ModelContract.EpreuveDBEntry.COLUMN_NAME_ETAPE_EPREUVE;
+import static ipl.android_projet.model.ModelContract.EpreuveDBEntry.COLUMN_NAME_NUM;
 import static ipl.android_projet.model.ModelContract.EpreuveDBEntry.COLUMN_NAME_POINT;
+import static ipl.android_projet.model.ModelContract.EpreuveDBEntry.COLUMN_NAME_PSEUDO;
 
 /**
  * Created by Giordano on 18/11/2015.
@@ -26,6 +27,21 @@ public class Dao {
         mEpreuvesDB = new EpreuveDBHelper(context);
     }
 
+    public static Epreuve getEpreuveFromCursor(Cursor cursor) {
+
+        if (cursor == null || cursor.getCount() == 0) {
+            return null;
+        }
+
+        int numero = cursor.getInt(cursor.getColumnIndex(COLUMN_NAME_NUM));
+        String pseudo = cursor.getString(cursor.getColumnIndex(COLUMN_NAME_PSEUDO));
+        int etape = cursor.getInt(cursor.getColumnIndex(COLUMN_NAME_ETAPE_EPREUVE));
+        int point = cursor.getInt(cursor.getColumnIndex(COLUMN_NAME_POINT));
+        long duree = cursor.getLong(cursor.getColumnIndex(COLUMN_NAME_DUREE));
+
+        return new Epreuve(numero, pseudo, point, etape, duree);
+    }
+
     public  void open(){
         try{
             dbJoueur = mJoueursDB.getWritableDatabase();
@@ -38,36 +54,36 @@ public class Dao {
 
     }
 
-
     public void close(){
         mJoueursDB.close();
         mEpreuvesDB.close();
     }
 
-
     public Cursor getAllPlayers(){
+
         return dbJoueur.rawQuery("select * from joueurs",null);
     }
 
-    public boolean getPseudo(String pseudo){
-        Cursor c = dbJoueur.rawQuery("select pseudo from joueurs where pseudo like '" + pseudo + "'", null);
-        if(c!=null && c.getCount()>0){
-            return true;
-        }
-        return false;
+    /*
+     * @param pseudo : le pseudo d'un joueur
+     * @return : vrai si le joueur est déjà présent dans la base de données, faux sinon
+     */
+    public boolean estPresent(String pseudo) {
+        Cursor c = dbJoueur.rawQuery("select pseudo from joueurs where pseudo = '" + pseudo + "'", null);
+        return c != null && c.getCount() > 0;
+
     }
 
     public int getPoint(String pseudo){
-        Cursor c = dbJoueur.rawQuery("select * from joueurs where pseudo like '" + pseudo + "'", null);
+        Cursor c = dbJoueur.rawQuery("select * from joueurs where pseudo = '" + pseudo + "'", null);
 
         c.moveToFirst(); // On se positionne sur le premier
 
         return c.getInt(c.getColumnIndex("points"));
     }
 
-
     public int getEpreuve(String pseudo){
-        Cursor c = dbJoueur.rawQuery("select * from joueurs where pseudo like '" + pseudo + "'", null);
+        Cursor c = dbJoueur.rawQuery("select * from joueurs where pseudo = '" + pseudo + "'", null);
 
         c.moveToFirst(); // On se positionne sur le premier
 
@@ -75,13 +91,12 @@ public class Dao {
     }
 
     public int getEtape(String pseudo){
-        Cursor c = dbJoueur.rawQuery("select * from joueurs where pseudo like '" + pseudo + "'", null);
+        Cursor c = dbJoueur.rawQuery("select * from joueurs where pseudo = '" + pseudo + "'", null);
 
         c.moveToFirst(); // On se positionne sur le premier
 
         return c.getInt(c.getColumnIndex("etape"));
     }
-
 
     public void insertJoueur(Joueur joueur){
         ContentValues valeurs = new ContentValues();
@@ -104,15 +119,15 @@ public class Dao {
         dbJoueur.update(ModelContract.JoueurDBEntry.TABLE_NAME, valeurs, ModelContract.JoueurDBEntry.COLUMN_NAME_PSEUDO + "='" + pseudo + "'", null);
     }
 
-
     public void updateJoueur(String pseudo,long tempsTotal){
         ContentValues valeurs = new ContentValues();
 
-        valeurs.put(ModelContract.JoueurDBEntry.COLUMN_NAME_TEMPS_TOTAL,tempsTotal);
+        valeurs.put(ModelContract.JoueurDBEntry.COLUMN_NAME_TEMPS_TOTAL, tempsTotal);
 
         dbJoueur.update(ModelContract.JoueurDBEntry.TABLE_NAME, valeurs, ModelContract.JoueurDBEntry.COLUMN_NAME_PSEUDO + "='" + pseudo + "'", null);
     }
 
+    /*DB Epreuves*/
 
     public long getTempsTotal(String pseudo){
         Cursor c = dbJoueur.rawQuery("select * from joueurs where pseudo like '" + pseudo + "'", null);
@@ -121,8 +136,6 @@ public class Dao {
 
         return c.getLong(c.getColumnIndex("tempsTotal"));
     }
-
-    /*DB Epreuves*/
 
     public void insertEpreuve(Epreuve epreuve){
         ContentValues valeurs = new ContentValues();
@@ -133,7 +146,6 @@ public class Dao {
         valeurs.put(ModelContract.EpreuveDBEntry.COLUMN_NAME_DUREE,epreuve.getDuree());
         dbEpreuve.insert(ModelContract.EpreuveDBEntry.TABLE_NAME, null, valeurs);
     }
-
 
     public long getDuree(String pseudo){
         Cursor c = dbEpreuve.rawQuery("select * from epreuves where pseudo like '" + pseudo + "'", null);
@@ -154,22 +166,6 @@ public class Dao {
     public Cursor getAllEpreuves(String pseudo){
         return dbEpreuve.rawQuery("select * from epreuves where pseudo like '" + pseudo + "'", null);
     }
-
-    public static Epreuve getEpreuveFromCursor(Cursor cursor){
-
-        if (cursor == null || cursor.getCount() == 0){
-            return null;
-        }
-
-        int numero = cursor.getInt(cursor.getColumnIndex(COLUMN_NAME_NUM));
-        String pseudo = cursor.getString(cursor.getColumnIndex(COLUMN_NAME_PSEUDO));
-        int etape = cursor.getInt(cursor.getColumnIndex(COLUMN_NAME_ETAPE_EPREUVE));
-        int point = cursor.getInt(cursor.getColumnIndex(COLUMN_NAME_POINT));
-        long duree = cursor.getLong(cursor.getColumnIndex(COLUMN_NAME_DUREE));
-
-        return new Epreuve(numero,pseudo,point,etape,duree);
-    }
-
 
     public int containsEpreuveDBEpreuve(String pseudo, int etape, int epreuve){
         Cursor c = dbEpreuve.rawQuery("select * from epreuves where pseudo like '" + pseudo + "'" + " AND etape = " + etape + " AND numero = " + epreuve + "", null);

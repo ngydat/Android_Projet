@@ -4,17 +4,18 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import static ipl.android_projet.model.ModelContract.*;
+
+import static ipl.android_projet.model.ModelContract.JoueurDBEntry;
 
 
 /**
  * Created by Giordano on 18/11/2015.
  */
 public class JoueurDBHelper extends SQLiteOpenHelper{
-    public static final int DATABASE_VERSION = 61;
+    public static final int DATABASE_VERSION = 62;
     public static final String DATABASE_NAME = "Joueurs.db";
-    private final Context myContext;
-
+    public static final String SQL_DELETE_ENTRIES =
+            "DROP TABLE IF EXISTS " + JoueurDBEntry.TABLE_NAME;
     private static final String SQL_CREATE_TABLE =
             "CREATE TABLE " + JoueurDBEntry.TABLE_NAME  + " (" +
                     JoueurDBEntry._ID                       + " INTEGER PRIMARY KEY," +
@@ -24,9 +25,7 @@ public class JoueurDBHelper extends SQLiteOpenHelper{
                     JoueurDBEntry.COLUMN_NAME_EPREUVE_EN_COURS       + " INT," +
                     JoueurDBEntry.COLUMN_NAME_TEMPS_TOTAL      + " LONG" +
                     " )";
-
-    public static final String SQL_DELETE_ENTRIES =
-            "DROP TABLE IF EXISTS " + JoueurDBEntry.TABLE_NAME;
+    private final Context myContext;
 
     public JoueurDBHelper(Context context){
 
