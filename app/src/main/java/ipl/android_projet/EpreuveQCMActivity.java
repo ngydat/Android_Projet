@@ -23,6 +23,7 @@ public class EpreuveQCMActivity extends AppCompatActivity {
     private RadioButton bonneRepRb;
     private RadioButton reponse2Rb;
     private RadioButton reponse3Rb;
+    private String aide;
     private int etape;
     private int epreuve;
     private int point;
@@ -49,6 +50,7 @@ public class EpreuveQCMActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         String question = intent.getStringExtra("question");
+        aide = intent.getStringExtra("aide");
         point = intent.getIntExtra("point",0);
         pseudo = intent.getStringExtra("pseudo");
 
@@ -115,17 +117,17 @@ public class EpreuveQCMActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        Dialog box = null;
         switch (item.getItemId()) {
             case R.id.action_settings:
                 // User chose the "Settings" item, show the app settings UI...
                 return true;
 
             case R.id.action_aide:
-                box = new Dialog(this);
-                //box.setContentView(R.layout.dialog_layout);
-                box.setTitle("Help !");
-                box.show();
+                Toast.makeText(getApplicationContext(),aide, Toast.LENGTH_LONG).show();
+                if(point!=0){
+                    point--;
+                }
+
                 return true;
 
             default:

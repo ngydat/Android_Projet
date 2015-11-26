@@ -8,7 +8,6 @@ import android.os.Handler;
 import android.os.SystemClock;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -16,7 +15,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class TexteATrousActivity extends AppCompatActivity {
+public class EpreuveTexteATrousActivity extends AppCompatActivity {
 
     private int etape;
     private int epreuve;
@@ -70,7 +69,7 @@ public class TexteATrousActivity extends AppCompatActivity {
         Context context = getApplicationContext();
         CharSequence text;
         int duration = Toast.LENGTH_SHORT;
-        Intent itnt = new Intent(TexteATrousActivity.this, ListingEpreuvesActivity.class);
+        Intent itnt = new Intent(EpreuveTexteATrousActivity.this, ListingEpreuvesActivity.class);
         itnt.putExtra("etape", etape);
         itnt.putExtra("epreuve", epreuve);
         itnt.putExtra("point", point);

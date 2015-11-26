@@ -110,6 +110,7 @@ public class ListingEpreuvesActivity extends AppCompatActivity {
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
                 String question;
+                String aide;
                 Element epreuve;
                 int point;
                 if (url.contains("http://epreuve1_etape1.qcm")) {
@@ -129,6 +130,9 @@ public class ListingEpreuvesActivity extends AppCompatActivity {
 
                         question = epreuve.getFirstChild().getTextContent();
                         intentQCM.putExtra("question", question);
+
+                        aide = epreuve.getLastChild().getTextContent();
+                        intentQCM.putExtra("aide",aide);
 
                         point= Integer.parseInt(epreuve.getAttribute("points"));
                         intentQCM.putExtra("point", point);
@@ -194,7 +198,7 @@ public class ListingEpreuvesActivity extends AppCompatActivity {
 
 
 
-                        Intent intentTrou = new Intent(ListingEpreuvesActivity.this, TexteATrousActivity.class);
+                        Intent intentTrou = new Intent(ListingEpreuvesActivity.this, EpreuveTexteATrousActivity.class);
                         intentTrou.putExtra("question", question);
                         intentTrou.putExtra("pseudo", pseudo);
                         intentTrou.putExtra("epreuve", 3);

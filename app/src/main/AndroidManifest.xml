@@ -46,7 +46,7 @@
             android:label="@string/title_activity_epreuve_photo"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".TexteATrousActivity"
+            android:name=".EpreuveTexteATrousActivity"
             android:label="EpreuveTexteATrous"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity

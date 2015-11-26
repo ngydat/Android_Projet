@@ -11,14 +11,13 @@
                 <Reponse bonne="false">Louvain-La-Neuve</Reponse>
                 <Reponse bonne="false">Woluwe-Saint-Pierre</Reponse>
                 <Reponse bonne="true">Woluwe-Saint-Lambert</Reponse>
+                <Aide>Ca commence par W...</Aide>
             </Epreuve>
 
 
             <Epreuve points="6" termine="false" type="Photo" uri="http://epreuve2_etape1.photo">
                 <Question>Prenez en photo l'entrée principale de l'ipl</Question>
                 <Zone>
-                    <!--<Latitude>50.8494611</Latitude> -->
-                    <!--<Longitude>4.4507495</Longitude> -->
                     <Latitude>50.838</Latitude>
                     <Longitude>4.295</Longitude>
                     <Rayon>10</Rayon>
