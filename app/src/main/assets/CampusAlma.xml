@@ -1,8 +1,8 @@
 <Jeu>
     <Etape num="1" termine="false" url="file:///android_asset/Etape1.html" visible="false">
         <Zone>
-             <Latitude>50.838206</Latitude>
-             <Longitude>4.295168</Longitude>
+            <Latitude>50.8494611</Latitude>
+            <Longitude>4.4507495</Longitude>
              <Rayon>100</Rayon>
          </Zone>
          <Epreuves>
@@ -18,8 +18,8 @@
              <Epreuve points="6" termine="false" type="Photo" uri="http://epreuve2_etape1.photo">
                  <Question>Prenez en photo l'entrée principale de l'ipl</Question>
                  <Zone>
-                     <Latitude>50.838</Latitude>
-                     <Longitude>4.295</Longitude>
+                     <Latitude>50.8494611</Latitude>
+                     <Longitude>4.4507495</Longitude>
                      <Rayon>10</Rayon>
                  </Zone>
              </Epreuve>
@@ -28,8 +28,8 @@
 
      <Etape num="2" termine="false" url="file:///android_asset/Etape2.html" visible="false">
          <Zone>
-             <Latitude>50.8499950</Latitude>
-             <Longitude>4.4498198</Longitude>
+             <Latitude>50.8494611</Latitude>
+             <Longitude>4.4507495</Longitude>
              <Rayon>100</Rayon>
          </Zone>
          <Epreuve points="3" termine="false" type="Texte_Trou" uri="http://epreuve3_etape1.texte_trou">
