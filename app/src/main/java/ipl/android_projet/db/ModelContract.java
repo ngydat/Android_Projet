@@ -1,4 +1,4 @@
-package ipl.android_projet.model;
+package ipl.android_projet.db;
 
 import android.provider.BaseColumns;
 

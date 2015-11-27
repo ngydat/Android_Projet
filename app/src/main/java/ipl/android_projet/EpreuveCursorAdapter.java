@@ -8,8 +8,8 @@ import android.view.ViewGroup;
 import android.widget.CursorAdapter;
 import android.widget.TextView;
 
-import ipl.android_projet.model.Dao;
-import ipl.android_projet.model.Epreuve;
+import ipl.android_projet.dao.Dao;
+import ipl.android_projet.domaine.Epreuve;
 
 /**
  * Created by Giordano on 25/11/2015.

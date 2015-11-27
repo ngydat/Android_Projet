@@ -26,7 +26,6 @@ import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -47,8 +46,8 @@ import javax.xml.xpath.XPathExpression;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
 
-import ipl.android_projet.model.Dao;
-import ipl.android_projet.model.Epreuve;
+import ipl.android_projet.dao.Dao;
+import ipl.android_projet.domaine.Epreuve;
 
 public class ListingEtapesActivity extends AppCompatActivity {
 
@@ -112,7 +111,7 @@ public class ListingEtapesActivity extends AppCompatActivity {
 
 
 
-        urlEtape = "file:///android_asset/EtapeEnAttente.html";
+        urlEtape = "file:///android_asset/html/EtapeEnAttente.html";
         webView = (WebView) findViewById(R.id.webView_content_listing);
         WebSettings webSettings = webView.getSettings();
         webSettings.setJavaScriptEnabled(true);
@@ -535,7 +534,7 @@ public class ListingEtapesActivity extends AppCompatActivity {
                 //Other custom Notification
                 Toast.makeText(arg0, "Thank you for visiting my Area,come back again !!", Toast.LENGTH_LONG).show();
                 etape.getAttributes().getNamedItem("visible").setTextContent("false");
-                webView.loadUrl("file:///android_asset/EtapeEnAttente.html");
+                webView.loadUrl("file:///android_asset/html/EtapeEnAttente.html");
             }
 
         }

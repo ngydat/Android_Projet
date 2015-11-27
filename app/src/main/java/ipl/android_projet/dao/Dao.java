@@ -1,15 +1,21 @@
-package ipl.android_projet.model;
+package ipl.android_projet.dao;
 
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-import static ipl.android_projet.model.ModelContract.EpreuveDBEntry.COLUMN_NAME_DUREE;
-import static ipl.android_projet.model.ModelContract.EpreuveDBEntry.COLUMN_NAME_ETAPE_EPREUVE;
-import static ipl.android_projet.model.ModelContract.EpreuveDBEntry.COLUMN_NAME_NUM;
-import static ipl.android_projet.model.ModelContract.EpreuveDBEntry.COLUMN_NAME_POINT;
-import static ipl.android_projet.model.ModelContract.EpreuveDBEntry.COLUMN_NAME_PSEUDO;
+import ipl.android_projet.domaine.Epreuve;
+import ipl.android_projet.db.EpreuveDBHelper;
+import ipl.android_projet.domaine.Joueur;
+import ipl.android_projet.db.JoueurDBHelper;
+import ipl.android_projet.db.ModelContract;
+
+import static ipl.android_projet.db.ModelContract.EpreuveDBEntry.COLUMN_NAME_DUREE;
+import static ipl.android_projet.db.ModelContract.EpreuveDBEntry.COLUMN_NAME_ETAPE_EPREUVE;
+import static ipl.android_projet.db.ModelContract.EpreuveDBEntry.COLUMN_NAME_NUM;
+import static ipl.android_projet.db.ModelContract.EpreuveDBEntry.COLUMN_NAME_POINT;
+import static ipl.android_projet.db.ModelContract.EpreuveDBEntry.COLUMN_NAME_PSEUDO;
 
 /**
  * Created by Giordano on 18/11/2015.
@@ -18,7 +24,7 @@ public class Dao {
     private JoueurDBHelper mJoueursDB;
     private SQLiteDatabase dbJoueur;
     private SQLiteDatabase dbEpreuve;
-    private  EpreuveDBHelper mEpreuvesDB;
+    private EpreuveDBHelper mEpreuvesDB;
 
 
     public Dao(Context context){

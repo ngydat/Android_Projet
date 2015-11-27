@@ -1,4 +1,4 @@
-package ipl.android_projet.model;
+package ipl.android_projet.domaine;
 
 /**
  * Created by Giordano on 24/11/2015.

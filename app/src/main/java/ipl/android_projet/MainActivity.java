@@ -16,8 +16,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import ipl.android_projet.model.Dao;
-import ipl.android_projet.model.Joueur;
+import ipl.android_projet.dao.Dao;
+import ipl.android_projet.domaine.Joueur;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -49,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-        String htmlUrl = "file:///android_asset/Explication.html";
+        String htmlUrl = "file:///android_asset/html/Explication.html";
         WebView webView = (WebView) findViewById(R.id.webView_content_main);
         WebSettings webSettings = webView.getSettings();
         webSettings.setJavaScriptEnabled(true);

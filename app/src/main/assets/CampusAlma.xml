@@ -1,5 +1,5 @@
 <Jeu>
-    <Etape num="1" termine="false" url="file:///android_asset/Etape1.html" visible="false">
+    <Etape num="1" termine="false" url="file:///android_asset/html/Etape1.html" visible="false">
         <Zone>
             <Latitude>50.8494611</Latitude>
             <Longitude>4.4507495</Longitude>
@@ -26,7 +26,7 @@
          </Epreuves>
      </Etape>
 
-     <Etape num="2" termine="false" url="file:///android_asset/Etape2.html" visible="false">
+     <Etape num="2" termine="false" url="file:///android_asset/html/Etape2.html" visible="false">
          <Zone>
              <Latitude>50.8494611</Latitude>
              <Longitude>4.4507495</Longitude>
