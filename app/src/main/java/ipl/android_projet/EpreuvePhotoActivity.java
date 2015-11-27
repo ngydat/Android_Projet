@@ -19,22 +19,37 @@ import android.widget.Toast;
 
 public class EpreuvePhotoActivity extends AppCompatActivity {
 
+    static final int REQUEST_IMAGE_CAPTURE = 1;
     Button b1;
     ImageView iv;
-
+    long timeInMilliseconds = 0L;
+    long timeSwapBuff = 0L;
+    long updatedTime = 0L;
     private int etape;
     private int epreuve;
     private int point;
     private String pseudo;
     private String aide;
-
     private TextView timerValue;
     private long startTime = 0L;
-    long timeInMilliseconds = 0L;
-    long timeSwapBuff = 0L;
-    long updatedTime = 0L;
     private Handler customHandler = new Handler();
+    private Runnable updateTimerThread = new Runnable() {
 
+        public void run() {
+
+            timeInMilliseconds = SystemClock.uptimeMillis() - startTime;
+
+            updatedTime = timeSwapBuff + timeInMilliseconds;
+
+            int secs = (int) (updatedTime / 1000);
+            int mins = secs / 60;
+            secs = secs % 60;
+            timerValue.setText("" + mins + ":"
+                    + String.format("%02d", secs));
+            customHandler.postDelayed(this, 0);
+        }
+
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,22 +85,32 @@ public class EpreuvePhotoActivity extends AppCompatActivity {
         b1.setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                startActivityForResult(intent,0);
+                lancerPhoto();
             }
         });
 
     }
 
+    private void lancerPhoto() {
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        if (intent.resolveActivity(getPackageManager()) != null) {
+            startActivityForResult(intent, REQUEST_IMAGE_CAPTURE);
+        }
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 0 && resultCode == RESULT_OK) {
-            Bitmap bp = (Bitmap) data.getExtras().get("data");
-            iv.setImageBitmap(bp);
-        }
+
         if(data!=null) {
+            if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
+                Bitmap bp = (Bitmap) data.getExtras().get("data");
+                if (bp != null) {
+                    iv.setImageBitmap(bp);
+                }
+
+
+            }
             b1.setText("Confirmer");
             b1.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -137,25 +162,6 @@ public class EpreuvePhotoActivity extends AppCompatActivity {
 
         }
     }
-
-    private Runnable updateTimerThread = new Runnable() {
-
-        public void run() {
-
-            timeInMilliseconds = SystemClock.uptimeMillis() - startTime;
-
-            updatedTime = timeSwapBuff + timeInMilliseconds;
-
-            int secs = (int) (updatedTime / 1000);
-            int mins = secs / 60;
-            secs = secs % 60;
-            int milliseconds = (int) (updatedTime % 1000);
-            timerValue.setText("" + mins + ":"
-                    + String.format("%02d", secs));
-            customHandler.postDelayed(this, 0);
-        }
-
-    };
 
 
 

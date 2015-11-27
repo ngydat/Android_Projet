@@ -2,6 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="ipl.android_projet" >
 
+    <uses-sdk
+        android:minSdkVersion="16"
+        android:targetSdkVersion="23" />
+
     <!-- demander la permission dans le Manifest pour utiliser les fonctionnalités de localisation. -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
@@ -11,6 +15,10 @@
     <uses-feature
         android:name="android.hardware.camera"
         android:required="true" />
+    <uses-feature
+        android:name="android.hardware.camera2"
+        android:required="true" />
+
     <uses-feature
         android:name="android.hardware.location.gps"
         android:required="true" />
@@ -46,7 +54,9 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".EpreuvePhotoActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize|screenLayout"
             android:label="@string/title_activity_epreuve_photo"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".EpreuveTexteATrousActivity"

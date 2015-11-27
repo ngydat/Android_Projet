@@ -92,7 +92,7 @@ public class ListingEtapesActivity extends AppCompatActivity {
         dao.open();
 
 
-        doc = this.parseAsset("CampusAlma.xml");
+        doc = this.parseAsset("CampusAlma_Dat.xml");
         doc.getDocumentElement().normalize();
 
         final Intent intent = getIntent();
