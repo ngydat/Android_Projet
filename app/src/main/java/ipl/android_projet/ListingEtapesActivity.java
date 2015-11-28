@@ -9,6 +9,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
+import android.graphics.drawable.ClipDrawable;
+import android.graphics.drawable.ShapeDrawable;
+import android.graphics.drawable.shapes.RoundRectShape;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -20,12 +24,14 @@ import android.speech.RecognizerIntent;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -61,9 +67,12 @@ public class ListingEtapesActivity extends AppCompatActivity {
     private WebView webView;
     private LocationManager objgps;
     private LocationListener objlistener;
-    private TextView mTxtViewlong;
-    private TextView mTxtViewlat;
     private String pseudo = "";
+    private PendingIntent pi;
+    private ProgressBar progress;
+    private ClipDrawable progressImg;
+    private float[] roundedCorners;
+    private ShapeDrawable pgDrawable;
     private TextView timerValue;
     private long startTime = 0L;
     private Handler customHandler = new Handler();
@@ -92,13 +101,13 @@ public class ListingEtapesActivity extends AppCompatActivity {
         dao.open();
 
 
-        doc = this.parseAsset("CampusAlma_Dat.xml");
+        doc = this.parseAsset("CampusAlma.xml");
         doc.getDocumentElement().normalize();
 
         final Intent intent = getIntent();
         pseudo = intent.getStringExtra("pseudo");
 
-        setContentView(R.layout.listing_etapes);
+        setContentView(R.layout.activity_listing_etapes);
         Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
         setSupportActionBar(myToolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
@@ -108,7 +117,6 @@ public class ListingEtapesActivity extends AppCompatActivity {
         startTime = SystemClock.uptimeMillis();
         timeSwapBuff = dao.getTempsTotal(pseudo);
         customHandler.postDelayed(updateTimerThread, 0);
-
 
 
         urlEtape = "file:///android_asset/html/EtapeEnAttente.html";
@@ -133,10 +141,9 @@ public class ListingEtapesActivity extends AppCompatActivity {
 
                     epreuve = ListingEtapesActivity.this.getEpreuve(doc, 0, 0);
 
-                    if(dao.getEtape(pseudo)==1 && dao.getEpreuve(pseudo)==1) {
+                    if (dao.getEtape(pseudo) == 1 && dao.getEpreuve(pseudo) == 1) {
                         Toast.makeText(getApplicationContext(), "Epreuve deja faite !", Toast.LENGTH_SHORT).show();
-                    }
-                    else{
+                    } else {
                         Intent intentQCM = new Intent(ListingEtapesActivity.this, EpreuveQCMActivity.class);
 
                         intentQCM.putExtra("pseudo", pseudo);
@@ -148,19 +155,19 @@ public class ListingEtapesActivity extends AppCompatActivity {
                         intentQCM.putExtra("question", question);
 
                         aide = epreuve.getLastChild().getTextContent();
-                        intentQCM.putExtra("aide",aide);
+                        intentQCM.putExtra("aide", aide);
 
-                        point= Integer.parseInt(epreuve.getAttribute("points"));
+                        point = Integer.parseInt(epreuve.getAttribute("points"));
                         intentQCM.putExtra("point", point);
 
-                        String [] reponses = new String[2];
+                        String[] reponses = new String[2];
                         String bonneRep = "";
-                        for(int i = 1 ; i<4;i++){
+                        for (int i = 1; i < 4; i++) {
                             Element elem = (Element) epreuve.getChildNodes().item(i);
                             if (elem.getAttribute("bonne").equals("true")) {
                                 bonneRep = epreuve.getChildNodes().item(i).getTextContent();
-                            }else{
-                                reponses [i-1]= epreuve.getChildNodes().item(i).getTextContent();
+                            } else {
+                                reponses[i - 1] = epreuve.getChildNodes().item(i).getTextContent();
                             }
 
                         }
@@ -171,24 +178,21 @@ public class ListingEtapesActivity extends AppCompatActivity {
                         startActivity(intentQCM);
                     }
 
-                }
-                else if(url.contains("http://epreuve2_etape1.photo")){
-                    double latitudePhoto =Double.parseDouble(ListingEtapesActivity.this.getEtape(doc,0).getFirstChild().getFirstChild().getTextContent());
+                } else if (url.contains("http://epreuve2_etape1.photo")) {
+                    double latitudePhoto = Double.parseDouble(ListingEtapesActivity.this.getEtape(doc, 0).getFirstChild().getFirstChild().getTextContent());
                     double longitudePhoto = Double.parseDouble(ListingEtapesActivity.this.getEtape(doc, 0).getFirstChild().getChildNodes().item(1).getTextContent());
-                    double rayonPhoto = Float.parseFloat(ListingEtapesActivity.this.getEtape(doc,0).getFirstChild().getChildNodes().item(2).getTextContent());
+                    double rayonPhoto = Float.parseFloat(ListingEtapesActivity.this.getEtape(doc, 0).getFirstChild().getChildNodes().item(2).getTextContent());
 
 
-                    if(dao.getEtape(pseudo)==1 && dao.getEpreuve(pseudo)<1){
+                    if (dao.getEtape(pseudo) == 1 && dao.getEpreuve(pseudo) < 1) {
                         Toast.makeText(getApplicationContext(), "Veuillez terminer l'epreuve 1", Toast.LENGTH_SHORT).show();
-                    }else if(dao.getEtape(pseudo)==1 && dao.getEpreuve(pseudo)==2){
+                    } else if (dao.getEtape(pseudo) == 1 && dao.getEpreuve(pseudo) == 2) {
                         Toast.makeText(getApplicationContext(), "Epreuve deja faite !", Toast.LENGTH_SHORT).show();
-                    }
-
-                    else{
+                    } else {
 
                         epreuve = ListingEtapesActivity.this.getEpreuve(doc, 0, 1);
                         question = epreuve.getFirstChild().getTextContent();
-                        point= Integer.parseInt(epreuve.getAttribute("points"));
+                        point = Integer.parseInt(epreuve.getAttribute("points"));
                         aide = epreuve.getLastChild().getTextContent();
 
                         Intent intentPhoto = new Intent(ListingEtapesActivity.this, EpreuvePhotoActivity.class);
@@ -204,7 +208,7 @@ public class ListingEtapesActivity extends AppCompatActivity {
                 } else if (url.contains("http://epreuve1_etape2.texte_trou")) {
                     if (dao.getEtape(pseudo) == 1) {
                         Toast.makeText(getApplicationContext(), "Veuillez terminer l'etape 1", Toast.LENGTH_SHORT).show();
-                    } else if (dao.getEtape(pseudo) == 2 && dao.getEpreuve(pseudo) ==3) {
+                    } else if (dao.getEtape(pseudo) == 2 && dao.getEpreuve(pseudo) == 3) {
                         Toast.makeText(getApplicationContext(), "Epreuve deja faite !", Toast.LENGTH_SHORT).show();
                     } else {
                         epreuve = ListingEtapesActivity.this.getEpreuve(doc, 1, 0);
@@ -217,10 +221,9 @@ public class ListingEtapesActivity extends AppCompatActivity {
                         for (int i = 1; i < 4; i++) {
                             Element elem = (Element) epreuve.getChildNodes().item(i);
                             reponses[i - 1] = epreuve.getChildNodes().item(i).getTextContent();
-                            Log.i("REP",epreuve.getChildNodes().item(i).getTextContent());
+                            Log.i("REP", epreuve.getChildNodes().item(i).getTextContent());
 
                         }
-
 
 
                         Intent intentTrou = new Intent(ListingEtapesActivity.this, EpreuveTexteATrousActivity.class);
@@ -230,7 +233,7 @@ public class ListingEtapesActivity extends AppCompatActivity {
                         intentTrou.putExtra("etape", 2);
                         intentTrou.putExtra("point", point);
                         intentTrou.putExtra("reponses", reponses);
-                        intentTrou.putExtra("aide",aide);
+                        intentTrou.putExtra("aide", aide);
 
 
                         startActivity(intentTrou);
@@ -246,11 +249,9 @@ public class ListingEtapesActivity extends AppCompatActivity {
             }
 
 
-
         };
 
         webView.setWebViewClient(yourWebClient);
-
 
 
     }
@@ -292,6 +293,26 @@ public class ListingEtapesActivity extends AppCompatActivity {
                 secs = secs % 60;
                 tvTempsTotal.setText("" + mins + ":"
                         + String.format("%02d", secs));
+
+                /*Progress bar*/
+                roundedCorners = new float[] { 10, 10, 10, 10, 10, 10, 10, 10 };
+                pgDrawable = new ShapeDrawable (new RoundRectShape(roundedCorners, null, null));
+
+                pgDrawable.getPaint ().setColor (Color.rgb(102,0,102));
+                // On crée l'image de la progress bar
+                progressImg = new ClipDrawable (pgDrawable, Gravity.LEFT, ClipDrawable.HORIZONTAL);
+                // On intégre l'image et Android s'occupe de dimensionner comme il faut
+                progress=(ProgressBar) stat.findViewById(R.id.progressbar);
+                progress.setProgressDrawable(progressImg);
+                // On indique que la valeur maximum est 100
+                progress.setMax(100);
+                progress.setBackgroundColor(Color.rgb(202,203,182));
+
+                double progression = ((double)dao.getEpreuve(pseudo)/getNbEpreuveTotal(doc))*100;
+                Log.i("CC", "" + progression);
+                progress.setProgress ((int)progression);
+
+
                 stat.show();
 
 
@@ -300,7 +321,7 @@ public class ListingEtapesActivity extends AppCompatActivity {
             case R.id.action_epreuves:
 
                 Intent intent = new Intent(ListingEtapesActivity.this, ListEpreuves.class);
-                intent.putExtra("pseudo",pseudo);
+                intent.putExtra("pseudo", pseudo);
                 startActivity(intent);
 
             default:
@@ -318,33 +339,32 @@ public class ListingEtapesActivity extends AppCompatActivity {
         super.onResume();
 
 
-
         Intent intent = getIntent();
         String epreuveOK_KO = intent.getStringExtra("epreuveOK_KO");
         int etapeCourante = intent.getIntExtra("etape", 1);
         int epreuveCourante = intent.getIntExtra("epreuve", 0);
-        int point = intent.getIntExtra("point",0);
+        int point = intent.getIntExtra("point", 0);
         int pointActuel = dao.getPoint(pseudo);
-        long duree = intent.getLongExtra("duree",0);
+        long duree = intent.getLongExtra("duree", 0);
 
 
-        if(epreuveOK_KO!= null){
-                if(dao.containsEpreuveDBEpreuve(pseudo, etapeCourante, epreuveCourante)==0){
-                    dao.updateJoueur(pseudo, pointActuel + point, etapeCourante, epreuveCourante);
-                    dao.insertEpreuve(new Epreuve(epreuveCourante,pseudo,point,etapeCourante,duree));
-                }
+        if (epreuveOK_KO != null) {
+            if (dao.containsEpreuveDBEpreuve(pseudo, etapeCourante, epreuveCourante) == 0) {
+                dao.updateJoueur(pseudo, pointActuel + point, etapeCourante, epreuveCourante);
+                dao.insertEpreuve(new Epreuve(epreuveCourante, pseudo, point, etapeCourante, duree));
+            }
         }
 
-        if (getNbEpreuve(doc,(etapeCourante-1))==epreuveCourante){
-            Toast.makeText(getApplicationContext(), "Bravo vous venez de finir l'etape n° "+etapeCourante, Toast.LENGTH_LONG).show();
-            dao.updateJoueur(pseudo,(pointActuel+point),(etapeCourante+1),epreuveCourante);
+        if (getNbEpreuve(doc, (etapeCourante - 1)) == epreuveCourante) {
+            Toast.makeText(getApplicationContext(), "Bravo vous venez de finir l'etape n° " + etapeCourante, Toast.LENGTH_LONG).show();
+            dao.updateJoueur(pseudo, (pointActuel + point), (etapeCourante + 1), epreuveCourante);
         }
 
 
         /*----------------------------------------------------------------------------------*/
 
         /*****************************************************************/
-        registerReceiver(new ProximityReceiver(),new IntentFilter(ACTION_FILTER));
+        registerReceiver(new ProximityReceiver(), new IntentFilter(ACTION_FILTER));
 
         //---utilisation  de la class LocationManager pour le gps---
         objgps = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
@@ -369,34 +389,23 @@ public class ListingEtapesActivity extends AppCompatActivity {
                 0,
                 objlistener);
 
-        //**variable qui pointe sur  mes champs d'affichage*************
-        mTxtViewlong = (TextView) findViewById(R.id.textlong);
-        mTxtViewlat = (TextView) findViewById(R.id.textlat);
+        double latitudeEtape = 0;
+        double longitudeEtape = 0;
+        float rayonEtape = 0;
 
 
-        double latitudeEtape=0;
-        double longitudeEtape=0;
-        float rayonEtape=0;
-
-
-        if(dao.getEtape(pseudo)==1){
-           latitudeEtape =Double.parseDouble(getEtape(doc, 0).getElementsByTagName("Zone").item(0).getChildNodes().item(0).getTextContent());
+        if (dao.getEtape(pseudo) == 1) {
+            latitudeEtape = Double.parseDouble(getEtape(doc, 0).getElementsByTagName("Zone").item(0).getChildNodes().item(0).getTextContent());
             longitudeEtape = Double.parseDouble(getEtape(doc, 0).getElementsByTagName("Zone").item(0).getChildNodes().item(1).getTextContent());
-           rayonEtape = Float.parseFloat(getEtape(doc, 0).getElementsByTagName("Zone").item(0).getChildNodes().item(2).getTextContent());
-        }else{
-            latitudeEtape =Double.parseDouble(getEtape(doc, 1).getElementsByTagName("Zone").item(0).getChildNodes().item(0).getTextContent());
+            rayonEtape = Float.parseFloat(getEtape(doc, 0).getElementsByTagName("Zone").item(0).getChildNodes().item(2).getTextContent());
+        } else {
+            latitudeEtape = Double.parseDouble(getEtape(doc, 1).getElementsByTagName("Zone").item(0).getChildNodes().item(0).getTextContent());
             longitudeEtape = Double.parseDouble(getEtape(doc, 1).getElementsByTagName("Zone").item(0).getChildNodes().item(1).getTextContent());
             rayonEtape = Float.parseFloat(getEtape(doc, 1).getElementsByTagName("Zone").item(0).getChildNodes().item(2).getTextContent());
         }
         Intent intentEtape = new Intent(ACTION_FILTER);
-        PendingIntent pi = PendingIntent.getBroadcast(getApplicationContext(), -1, intentEtape, 0);
+        pi = PendingIntent.getBroadcast(getApplicationContext(), -1, intentEtape, 0);
         objgps.addProximityAlert(latitudeEtape, longitudeEtape, rayonEtape, -1, pi);
-
-
-
-
-
-
 
     }
 
@@ -433,7 +442,7 @@ public class ListingEtapesActivity extends AppCompatActivity {
         return doc;
     }
 
-    public String getUrlEtape(Document doc, int indice){
+    public String getUrlEtape(Document doc, int indice) {
         NodeList nList = doc.getElementsByTagName("Etape");
         Node node = nList.item(indice);
         Element e = (Element) node;
@@ -445,7 +454,7 @@ public class ListingEtapesActivity extends AppCompatActivity {
         Node etapeChoisie = nList.item(indiceEtape);
         Element element = (Element) etapeChoisie;
         NodeList epreuves = element.getElementsByTagName("Epreuve");
-        return (Element)epreuves.item(indiceEpreuve);
+        return (Element) epreuves.item(indiceEpreuve);
     }
 
     public int getNbEpreuve(Document doc, int indiceEtape) {
@@ -456,7 +465,12 @@ public class ListingEtapesActivity extends AppCompatActivity {
         return epreuves.getLength();
     }
 
-    public Element getEtape(Document doc, int indiceEtape){
+    public int getNbEpreuveTotal(Document doc) {
+        NodeList nList = doc.getElementsByTagName("Epreuve");
+        return nList.getLength();
+    }
+
+    public Element getEtape(Document doc, int indiceEtape) {
         NodeList nList = doc.getElementsByTagName("Etape");
         Node node = nList.item(indiceEtape);
         Element e = (Element) node;
@@ -476,6 +490,19 @@ public class ListingEtapesActivity extends AppCompatActivity {
         super.onStop();
         Log.i("TEMPS", "" + updatedTime);
         dao.updateJoueur(pseudo, updatedTime);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                // TODO: Consider calling
+                //    public void requestPermissions(@NonNull String[] permissions, int requestCode)
+                // here to request the missing permissions, and then overriding
+                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                //                                          int[] grantResults)
+                // to handle the case where the user grants the permission. See the documentation
+                // for Activity#requestPermissions for more details.
+                return;
+            }
+        }
+        objgps.removeProximityAlert(pi);
     }
 
     private class Myobjlistener implements LocationListener
@@ -504,9 +531,6 @@ public class ListingEtapesActivity extends AppCompatActivity {
 
         public void onLocationChanged(Location location) {
             Log.d("GPS", "Latitude " + location.getLatitude() + " et longitude " + location.getLongitude());
-            //affichage des valeurs dans la les zone de saisie
-            mTxtViewlat.setText(String.valueOf(location.getLatitude()));
-            mTxtViewlong.setText(String.valueOf(location.getLongitude()));
         }
 
     }
@@ -523,17 +547,11 @@ public class ListingEtapesActivity extends AppCompatActivity {
             //Gives whether the user is entering or leaving in boolean form
             int etapeEnCours = dao.getEtape(pseudo);
             urlEtape = ListingEtapesActivity.this.getUrlEtape(doc, (etapeEnCours - 1));
-            Element etape = ListingEtapesActivity.this.getEtape(doc, (etapeEnCours - 1));
             if (state) {
-                // Call the Notification Service or anything else that you would like to do here
-                Toast.makeText(arg0, "Bienvenue à l'etape n° " + etapeEnCours, Toast.LENGTH_SHORT).show();
                 webView.loadUrl(urlEtape);
 
 
             } else {
-                //Other custom Notification
-                Toast.makeText(arg0, "Thank you for visiting my Area,come back again !!", Toast.LENGTH_LONG).show();
-                etape.getAttributes().getNamedItem("visible").setTextContent("false");
                 webView.loadUrl("file:///android_asset/html/EtapeEnAttente.html");
             }
 

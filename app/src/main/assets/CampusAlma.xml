@@ -1,38 +1,39 @@
 <Jeu>
-    <Etape num="1" termine="false" url="file:///android_asset/html/Etape1.html" visible="false">
+    <Etape num="1" url="file:///android_asset/html/Etape1.html" >
         <Zone>
-            <Latitude>50.8494611</Latitude>
-            <Longitude>4.4507495</Longitude>
+            <Latitude>49.4945848</Latitude>
+            <Longitude>5.9812854</Longitude>
              <Rayon>100</Rayon>
          </Zone>
          <Epreuves>
-             <Epreuve points="5" termine="false" type="QCM" uri="http://epreuve1_etape1.qcm">
-                 <Question>Où se situe le campus Alma?</Question>
-                 <Reponse bonne="false">Louvain-La-Neuve</Reponse>
-                 <Reponse bonne="false">Woluwe-Saint-Pierre</Reponse>
-                 <Reponse bonne="true">Woluwe-Saint-Lambert</Reponse>
-                 <Aide>Ca commence par W...</Aide>
+             <Epreuve points="5" type="QCM" uri="http://epreuve1_etape1.qcm">
+                 <Question>Dans quelle région se situe Florence ?</Question>
+                 <Reponse bonne="false">Abruzzes</Reponse>
+                 <Reponse bonne="false">Pouilles</Reponse>
+                 <Reponse bonne="true">Toscane</Reponse>
+                 <Aide>La region que se situe le plus au nord.</Aide>
              </Epreuve>
 
 
-             <Epreuve points="6" termine="false" type="Photo" uri="http://epreuve2_etape1.photo">
-                 <Question>Prenez en photo l'entrée principale de l'ipl</Question>
+             <Epreuve points="6" type="Photo" uri="http://epreuve2_etape1.photo">
+                 <Question>Prenez en photo la facade avant du dôme</Question>
                  <Zone>
-                     <Latitude>50.8494611</Latitude>
-                     <Longitude>4.4507495</Longitude>
+                     <Latitude>49.4945848</Latitude>
+                     <Longitude>5.9812854</Longitude>
                      <Rayon>10</Rayon>
                  </Zone>
+                 <Aide>Adresse : Piazza del Duomo</Aide>
              </Epreuve>
          </Epreuves>
      </Etape>
 
-     <Etape num="2" termine="false" url="file:///android_asset/html/Etape2.html" visible="false">
+     <Etape num="2" url="file:///android_asset/html/Etape2.html">
          <Zone>
-             <Latitude>50.8494611</Latitude>
-             <Longitude>4.4507495</Longitude>
+             <Latitude>49.4945848</Latitude>
+             <Longitude>5.9812854</Longitude>
              <Rayon>100</Rayon>
          </Zone>
-         <Epreuve points="3" termine="false" type="Texte_Trou" uri="http://epreuve3_etape1.texte_trou">
+         <Epreuve points="3" type="Texte_Trou" uri="http://epreuve3_etape1.texte_trou">
              <Question>L'adresse de l'IPL est Clos [1]-aux-[2] 43 1200 [3]</Question>
              <Reponse>Chapelle</Reponse>
              <Reponse>Champs</Reponse>

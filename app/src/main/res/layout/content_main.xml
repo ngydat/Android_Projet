@@ -20,8 +20,8 @@
         <ImageView
             android:id="@+id/banniere_content_main"
             android:layout_width="fill_parent"
-            android:layout_height="150dp"
-            android:src="@drawable/banniere"
+            android:layout_height="170dp"
+            android:src="@drawable/img_accueil"
             />
 
         <WebView

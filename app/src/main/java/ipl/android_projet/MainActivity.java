@@ -56,8 +56,6 @@ public class MainActivity extends AppCompatActivity {
         webView.loadUrl(htmlUrl);
 
 
-        Log.i("TEST", "" + dao.getAllPlayers().getCount());
-
     }
 
     //http://stackoverflow.com/questions/12402983/i-want-to-show-my-login-form-in-dialog-box-or-in-pop-up-box-using-android

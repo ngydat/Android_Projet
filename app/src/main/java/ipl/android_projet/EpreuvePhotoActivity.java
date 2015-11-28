@@ -151,7 +151,7 @@ public class EpreuvePhotoActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(),aide, Toast.LENGTH_LONG).show();
                     point--;
                 }else{
-                    Toast.makeText(getApplicationContext(), "Vous en pouvez plus demander l'aide pour cette epreuve !", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "Vous ne pouvez plus demander l'aide pour cette epreuve !", Toast.LENGTH_LONG).show();
                 }
                 return true;
 

@@ -8,6 +8,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import ipl.android_projet.dao.Dao;
 
@@ -31,9 +32,14 @@ public class ListEpreuves extends AppCompatActivity {
         ListView epreuvesListView = (ListView) findViewById(R.id.epreuves_listView);
 
         Cursor allEpreuves = dao.getAllEpreuves(pseudo);
-        EpreuveCursorAdapter epreuvesAdapter = new EpreuveCursorAdapter(getApplicationContext(),allEpreuves,false);
+        if(allEpreuves.getCount()==0){
+            Toast.makeText(getApplicationContext(), "Aucune epreuve realisées !", Toast.LENGTH_SHORT).show();
+        }else{
+            EpreuveCursorAdapter epreuvesAdapter = new EpreuveCursorAdapter(getApplicationContext(),allEpreuves,false);
 
-        epreuvesListView.setAdapter(epreuvesAdapter);
+            epreuvesListView.setAdapter(epreuvesAdapter);
+        }
+
 
     }
 
