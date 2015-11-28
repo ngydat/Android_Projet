@@ -366,8 +366,18 @@ public class ListingEtapesActivity extends AppCompatActivity {
             dao.updateJoueur(pseudo, (pointActuel + point), (etapeCourante + 1), epreuveCourante);
         }
 
+        if(dao.getEpreuve(pseudo)==getNbEpreuveTotal(doc)){
+            Toast.makeText(getApplicationContext(), "Bravo vous avez fini !!", Toast.LENGTH_LONG).show();
+            Intent intentFin = new Intent(ListingEtapesActivity.this,FinActivity.class);
+            intentFin.putExtra("pseudo",pseudo);
 
-        /*----------------------------------------------------------------------------------*/
+            intentFin.putExtra("tempsTotal",dao.getTempsTotal(pseudo));
+
+            startActivity(intentFin);
+
+        }
+
+
 
         /*****************************************************************/
         registerReceiver(new ProximityReceiver(), new IntentFilter(ACTION_FILTER));

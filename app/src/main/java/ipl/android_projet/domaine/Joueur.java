@@ -23,6 +23,14 @@ public class Joueur implements Serializable {
         this.tempsTotal=0;
 
     }
+    public Joueur(String pseudo,long tempsTotal) {
+        this.pseudo = pseudo;
+        this.point = 0;
+        this.etape = 1;
+        this.epreuve = 0;
+        this.tempsTotal=tempsTotal;
+
+    }
 
     public String getPseudo() {
         return pseudo;

@@ -61,7 +61,7 @@
     <TextView
         android:text="Votre progression :"
         android:layout_column="0"
-        android:layout_gravity="right"
+        android:layout_gravity="left"
         />
     <Space
         android:layout_width="60dp"

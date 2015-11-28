@@ -33,6 +33,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/yourName"
         android:layout_centerHorizontal="true"
+        android:textAppearance="@style/Button_style"
         android:text="Confirmer" />
 
 </RelativeLayout>

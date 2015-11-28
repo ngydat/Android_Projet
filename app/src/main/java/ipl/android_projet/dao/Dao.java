@@ -16,6 +16,7 @@ import static ipl.android_projet.db.ModelContract.EpreuveDBEntry.COLUMN_NAME_ETA
 import static ipl.android_projet.db.ModelContract.EpreuveDBEntry.COLUMN_NAME_NUM;
 import static ipl.android_projet.db.ModelContract.EpreuveDBEntry.COLUMN_NAME_POINT;
 import static ipl.android_projet.db.ModelContract.EpreuveDBEntry.COLUMN_NAME_PSEUDO;
+import static ipl.android_projet.db.ModelContract.JoueurDBEntry.COLUMN_NAME_TEMPS_TOTAL;
 
 /**
  * Created by Giordano on 18/11/2015.
@@ -31,21 +32,6 @@ public class Dao {
 
         mJoueursDB = new JoueurDBHelper(context);
         mEpreuvesDB = new EpreuveDBHelper(context);
-    }
-
-    public static Epreuve getEpreuveFromCursor(Cursor cursor) {
-
-        if (cursor == null || cursor.getCount() == 0) {
-            return null;
-        }
-
-        int numero = cursor.getInt(cursor.getColumnIndex(COLUMN_NAME_NUM));
-        String pseudo = cursor.getString(cursor.getColumnIndex(COLUMN_NAME_PSEUDO));
-        int etape = cursor.getInt(cursor.getColumnIndex(COLUMN_NAME_ETAPE_EPREUVE));
-        int point = cursor.getInt(cursor.getColumnIndex(COLUMN_NAME_POINT));
-        long duree = cursor.getLong(cursor.getColumnIndex(COLUMN_NAME_DUREE));
-
-        return new Epreuve(numero, pseudo, point, etape, duree);
     }
 
     public  void open(){
@@ -64,6 +50,34 @@ public class Dao {
         mJoueursDB.close();
         mEpreuvesDB.close();
     }
+
+    public static Epreuve getEpreuveFromCursor(Cursor cursor) {
+
+        if (cursor == null || cursor.getCount() == 0) {
+            return null;
+        }
+
+        int numero = cursor.getInt(cursor.getColumnIndex(COLUMN_NAME_NUM));
+        String pseudo = cursor.getString(cursor.getColumnIndex(COLUMN_NAME_PSEUDO));
+        int etape = cursor.getInt(cursor.getColumnIndex(COLUMN_NAME_ETAPE_EPREUVE));
+        int point = cursor.getInt(cursor.getColumnIndex(COLUMN_NAME_POINT));
+        long duree = cursor.getLong(cursor.getColumnIndex(COLUMN_NAME_DUREE));
+
+        return new Epreuve(numero, pseudo, point, etape, duree);
+    }
+
+    public static Joueur getJoueurFromCursor(Cursor cursor) {
+
+        if (cursor == null || cursor.getCount() == 0) {
+            return null;
+        }
+
+        String pseudo = cursor.getString(cursor.getColumnIndex(COLUMN_NAME_PSEUDO));
+        long tempsTotal = cursor.getLong(cursor.getColumnIndex(COLUMN_NAME_TEMPS_TOTAL));
+
+        return new Joueur(pseudo, tempsTotal);
+    }
+
 
     public Cursor getAllPlayers(){
 

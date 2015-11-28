@@ -27,6 +27,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/question_epreuveQCM"
+        android:layout_marginTop="40dp"
+        android:layout_marginLeft="40dp"
         >
 
         <RadioButton
@@ -49,7 +51,9 @@
         android:id="@+id/confirmer_epreuveQCM"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textAppearance="@style/Button_style"
         android:layout_below="@id/reponses_epreuveQCM"
+        android:layout_marginTop="40dp"
         android:text="Confirmer"
         android:onClick="confirmer"
         />
