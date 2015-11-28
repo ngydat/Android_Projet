@@ -60,8 +60,7 @@ public class EpreuveTexteATrousActivity extends AppCompatActivity {
 
         reponses = intent.getStringArrayExtra("reponses");
         reponse1 = (EditText) findViewById(R.id.reponse_texte_a_t_1);
-        reponse2 = (EditText) findViewById(R.id.reponse_texte_a_t_2);
-        reponse3 = (EditText) findViewById(R.id.reponse_texte_a_t_3);
+        reponse2 = (EditText) findViewById(R.id.reponse_texte_a_t_2);;
 
 
 
@@ -78,7 +77,7 @@ public class EpreuveTexteATrousActivity extends AppCompatActivity {
         itnt.putExtra("pseudo", pseudo);
         itnt.putExtra("duree",updatedTime);
 
-        if (!(reponse1.getText().toString().equals(reponses[0]) && reponse2.getText().toString().equals(reponses[1]) && reponse3.getText().toString().equals(reponses[2]))) {
+        if (!(reponse1.getText().toString().equals(reponses[0]) && reponse2.getText().toString().equals(reponses[1]))) {
             text = "Une des réponses est mauvaise";
             Toast.makeText(context, text, duration).show();
             itnt.putExtra("epreuveOK_KO", "KO");
