@@ -51,7 +51,7 @@
         android:id="@+id/confirmer_epreuveTexte_a_t"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
+        android:layout_centerHorizontal="true"
         android:layout_below="@id/reponse_texte_a_t_3"
         android:layout_marginTop="40dp"
         android:textAppearance="@style/Button_style"

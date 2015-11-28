@@ -108,6 +108,12 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        dao.close();
+    }
+
 
     public void demarrer(View view){
 

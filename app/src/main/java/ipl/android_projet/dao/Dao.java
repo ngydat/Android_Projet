@@ -74,14 +74,15 @@ public class Dao {
 
         String pseudo = cursor.getString(cursor.getColumnIndex(COLUMN_NAME_PSEUDO));
         long tempsTotal = cursor.getLong(cursor.getColumnIndex(COLUMN_NAME_TEMPS_TOTAL));
+        int point = cursor.getInt(cursor.getColumnIndex(COLUMN_NAME_POINT));
 
-        return new Joueur(pseudo, tempsTotal);
+        return new Joueur(pseudo, tempsTotal,point);
     }
 
 
     public Cursor getAllPlayers(){
 
-        return dbJoueur.rawQuery("select * from joueurs",null);
+        return dbJoueur.rawQuery("select * from joueurs j order by j.points",null);
     }
 
     /*

@@ -19,5 +19,13 @@
         android:textAppearance="@style/Item_style"
         />
 
+    <TextView
+        android:text="test"
+        android:id="@+id/item_class_point"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="@style/Item_style"
+        />
+
 
 </LinearLayout>

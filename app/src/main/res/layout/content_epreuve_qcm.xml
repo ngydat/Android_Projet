@@ -56,6 +56,7 @@
         android:layout_marginTop="40dp"
         android:text="Confirmer"
         android:onClick="confirmer"
+        android:layout_centerHorizontal="true"
         />
 
 </RelativeLayout>

@@ -39,6 +39,7 @@ public class JoueurCursorAdapter extends CursorAdapter{
 
         TextView tvPseudo = (TextView) convertView.findViewById(R.id.item_class_pseudo);
         TextView tvTempsTotal = (TextView) convertView.findViewById(R.id.item_class_tempsTotal);
+        TextView tvPoint = (TextView) convertView.findViewById(R.id.item_class_point);
 
         tvPseudo.setText("Pseudo : "+joueur.getPseudo());
         int secs = (int) (joueur.getTempsTotal() / 1000);
@@ -46,6 +47,7 @@ public class JoueurCursorAdapter extends CursorAdapter{
         secs = secs % 60;
         tvTempsTotal.setText("Duree : " + mins + ":"
                 + String.format("%02d", secs));
+        tvPoint.setText("Point : " + joueur.getPoint());
         return convertView;
     }
 

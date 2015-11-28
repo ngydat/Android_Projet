@@ -504,7 +504,7 @@ public class ListingEtapesActivity extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
-        Log.i("TEMPS", "" + updatedTime);
+        Log.i("TEMPS stop", "" + updatedTime);
         dao.updateJoueur(pseudo, updatedTime);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -519,6 +519,19 @@ public class ListingEtapesActivity extends AppCompatActivity {
             }
         }
         objgps.removeProximityAlert(pi);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        dao.updateJoueur(pseudo, updatedTime);
+        Log.i("TEMPS pause", "" + updatedTime);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        dao.close();
     }
 
     private class Myobjlistener implements LocationListener
