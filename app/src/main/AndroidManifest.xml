@@ -58,6 +58,12 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
+            android:name=".EpreuvePhotoActivity_LOLLIPOP"
+            android:configChanges="orientation|keyboardHidden|screenSize|screenLayout"
+            android:label="@string/title_activity_epreuve_photo"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
             android:name=".EpreuveTexteATrousActivity"
             android:label="EpreuveTexteATrous"
             android:theme="@style/AppTheme.NoActionBar" />

@@ -190,8 +190,12 @@ public class ListingEtapesActivity extends AppCompatActivity {
                         question = epreuve.getFirstChild().getTextContent();
                         point = Integer.parseInt(epreuve.getAttribute("points"));
                         aide = epreuve.getLastChild().getTextContent();
-
-                        Intent intentPhoto = new Intent(ListingEtapesActivity.this, EpreuvePhotoActivity.class);
+                        Intent intentPhoto = null;
+                        if (Build.VERSION.RELEASE.compareTo("5.0") >= 0) {
+                            intentPhoto = new Intent(ListingEtapesActivity.this, EpreuvePhotoActivity_LOLLIPOP.class);
+                        } else {
+                            intentPhoto = new Intent(ListingEtapesActivity.this, EpreuvePhotoActivity.class);
+                        }
                         intentPhoto.putExtra("question", question);
                         intentPhoto.putExtra("pseudo", pseudo);
                         intentPhoto.putExtra("epreuve", 2);

@@ -2,9 +2,9 @@ package ipl.android_projet;
 
 import android.app.Dialog;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.SystemClock;
 import android.provider.MediaStore;
@@ -18,7 +18,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class EpreuvePhotoActivity extends AppCompatActivity {
+import java.io.File;
+
+public class EpreuvePhotoActivity_LOLLIPOP extends AppCompatActivity {
 
     static final int REQUEST_IMAGE_CAPTURE = 1;
     Button b1;
@@ -72,38 +74,43 @@ public class EpreuvePhotoActivity extends AppCompatActivity {
         point = intent.getIntExtra("point", 0);
         pseudo = intent.getStringExtra("pseudo");
 
-        etape = intent.getIntExtra("etape",0);
-        epreuve = intent.getIntExtra("epreuve",0);
+        etape = intent.getIntExtra("etape", 0);
+        epreuve = intent.getIntExtra("epreuve", 0);
 
         TextView questionTv = (TextView) findViewById(R.id.question_content_epreuve_photo);
 
         questionTv.setText(question + " (" + point + " points)");
 
-        b1=(Button)findViewById(R.id.button_content_epreuve_photo);
-        iv = (ImageView) findViewById(R.id.imageView_content_epreuve_photo);
+        File destination = new File(Environment
+                .getExternalStorageDirectory(), "AndroidProject.jpg");
+        uriSaved = Uri.fromFile(destination);
+
+        b1 = (Button) findViewById(R.id.button_content_epreuve_photo);
+
 
         b1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
                 Intent intentPhoto = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                intentPhoto.putExtra(MediaStore.EXTRA_OUTPUT,
+                        uriSaved);
+
                 startActivityForResult(intentPhoto, REQUEST_IMAGE_CAPTURE);
             }
         });
     }
 
 
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(data!=null) {
+        if (data != null) {
 
             if (requestCode == REQUEST_IMAGE_CAPTURE) {
                 if (resultCode == RESULT_OK) {
-                    Bitmap bitmap = (Bitmap) data.getExtras().get("data");
-                    iv.setImageBitmap(bitmap);
-
+                    iv = (ImageView) findViewById(R.id.imageView_content_epreuve_photo);
+                    iv.setImageURI(uriSaved);
                 } else {
                     Toast.makeText(getApplicationContext(), "Error", Toast.LENGTH_SHORT).show();
                 }
@@ -115,7 +122,7 @@ public class EpreuvePhotoActivity extends AppCompatActivity {
             b1.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent itnt = new Intent(EpreuvePhotoActivity.this, ListingEtapesActivity.class);
+                    Intent itnt = new Intent(EpreuvePhotoActivity_LOLLIPOP.this, ListingEtapesActivity.class);
                     itnt.putExtra("etape", etape);
                     itnt.putExtra("epreuve", epreuve);
                     itnt.putExtra("point", point);
@@ -153,10 +160,10 @@ public class EpreuvePhotoActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.action_aide:
 
-                if(point!=0){
-                    Toast.makeText(getApplicationContext(),aide, Toast.LENGTH_LONG).show();
+                if (point != 0) {
+                    Toast.makeText(getApplicationContext(), aide, Toast.LENGTH_LONG).show();
                     point--;
-                }else{
+                } else {
                     Toast.makeText(getApplicationContext(), "Vous ne pouvez plus demander l'aide pour cette epreuve !", Toast.LENGTH_LONG).show();
                 }
                 return true;
@@ -168,9 +175,6 @@ public class EpreuvePhotoActivity extends AppCompatActivity {
 
         }
     }
-
-
-
 
 
 }
