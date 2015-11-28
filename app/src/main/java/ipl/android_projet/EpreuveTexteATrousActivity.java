@@ -71,21 +71,34 @@ public class EpreuveTexteATrousActivity extends AppCompatActivity {
         CharSequence text;
         int duration = Toast.LENGTH_SHORT;
         Intent itnt = new Intent(EpreuveTexteATrousActivity.this, ListingEtapesActivity.class);
-        itnt.putExtra("etape", etape);
-        itnt.putExtra("epreuve", epreuve);
-        itnt.putExtra("point", point);
-        itnt.putExtra("pseudo", pseudo);
-        itnt.putExtra("duree",updatedTime);
 
-        if (!(reponse1.getText().toString().equals(reponses[0]) && reponse2.getText().toString().equals(reponses[1]))) {
-            text = "Une des réponses est mauvaise";
+        if(!(reponse1.getText().toString().equals(reponses[0])) && !(reponse2.getText().toString().equals(reponses[1])) ){
+            point=0;
+            text = "Les 2 réponses sont mauvaises, les 2 réponses sont : "+reponses[0]+" et "+reponses[1];
             Toast.makeText(context, text, duration).show();
             itnt.putExtra("epreuveOK_KO", "KO");
-        } else {
-            text = "Bonne réponse";
+        }
+        else if (!(reponse1.getText().toString().equals(reponses[0]))) {
+            text = "La premiere réponse est mauvaise, la réponse etait : " + reponses[0];
+            point--;
+            Toast.makeText(context, text, duration).show();
+            itnt.putExtra("epreuveOK_KO", "KO");
+        }else if(!(reponse2.getText().toString().equals(reponses[1]))) {
+            point--;
+            text = "La premiere réponse est mauvaise, la réponse etait : " + reponses[1];
+            Toast.makeText(context, text, duration).show();
+            itnt.putExtra("epreuveOK_KO", "KO");
+
+        }else {
+            text = "Bonnes réponses";
             Toast.makeText(context, text, duration).show();
             itnt.putExtra("epreuveOK_KO", "OK");
         }
+        itnt.putExtra("etape", etape);
+        itnt.putExtra("epreuve", epreuve);
+        itnt.putExtra("pseudo", pseudo);
+        itnt.putExtra("duree",updatedTime);
+        itnt.putExtra("point", point);
         startActivity(itnt);
     }
 
