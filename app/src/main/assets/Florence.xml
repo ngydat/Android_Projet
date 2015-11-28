@@ -33,11 +33,20 @@
              <Longitude>5.9812854</Longitude>
              <Rayon>100</Rayon>
          </Zone>
-         <Epreuve points="3" type="Texte_Trou" uri="http://epreuve3_etape1.texte_trou">
-             <Question>L'adresse de l'IPL est Clos [1]-aux-[2] 43 1200 [3]</Question>
-             <Reponse>Chapelle</Reponse>
-             <Reponse>Champs</Reponse>
-             <Reponse>Bruxelles</Reponse>
-         </Epreuve>
+         <Epreuves>
+             <Epreuve points="3" type="Texte_Trou" uri="http://epreuve3_etape2.texte_trou">
+                 <Question>L'adresse de l'IPL est Clos [1]-aux-[2] 43 1200 [3]</Question>
+                 <Reponse>Chapelle</Reponse>
+                 <Reponse>Champs</Reponse>
+                 <Reponse>Bruxelles</Reponse>
+             </Epreuve>
+             <Epreuve points="2" type="QCM" uri="http://epreuve4_etape2.qcm">
+                 <Question>Lequel de ces personnage célébres est nés à Florence </Question>
+                 <Reponse bonne="false">Leonardo Da Vinci</Reponse>
+                 <Reponse bonne="false">Marco Polo</Reponse>
+                 <Reponse bonne="true">Niccolò Machiavelli</Reponse>
+                 <Aide>Penseur de la Renaissance (Florence, 1469 - 1527)</Aide>
+             </Epreuve>
+         </Epreuves>
      </Etape>
  </Jeu>

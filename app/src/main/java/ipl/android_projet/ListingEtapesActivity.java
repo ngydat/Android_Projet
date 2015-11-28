@@ -101,7 +101,7 @@ public class ListingEtapesActivity extends AppCompatActivity {
         dao.open();
 
 
-        doc = this.parseAsset("CampusAlma.xml");
+        doc = this.parseAsset("Florence.xml");
         doc.getDocumentElement().normalize();
 
         final Intent intent = getIntent();
@@ -179,10 +179,6 @@ public class ListingEtapesActivity extends AppCompatActivity {
                     }
 
                 } else if (url.contains("http://epreuve2_etape1.photo")) {
-                    double latitudePhoto = Double.parseDouble(ListingEtapesActivity.this.getEtape(doc, 0).getFirstChild().getFirstChild().getTextContent());
-                    double longitudePhoto = Double.parseDouble(ListingEtapesActivity.this.getEtape(doc, 0).getFirstChild().getChildNodes().item(1).getTextContent());
-                    double rayonPhoto = Float.parseFloat(ListingEtapesActivity.this.getEtape(doc, 0).getFirstChild().getChildNodes().item(2).getTextContent());
-
 
                     if (dao.getEtape(pseudo) == 1 && dao.getEpreuve(pseudo) < 1) {
                         Toast.makeText(getApplicationContext(), "Veuillez terminer l'epreuve 1", Toast.LENGTH_SHORT).show();
@@ -239,6 +235,51 @@ public class ListingEtapesActivity extends AppCompatActivity {
                         startActivity(intentTrou);
                     }
                 }
+                else if(url.contains("http://epreuve2_etape2.qcm")){
+                    if (dao.getEtape(pseudo) == 2 && dao.getEpreuve(pseudo) < 1) {
+                        Toast.makeText(getApplicationContext(), "Veuillez terminer l'epreuve 1", Toast.LENGTH_SHORT).show();
+                    } else if (dao.getEtape(pseudo) == 2 && dao.getEpreuve(pseudo) == 4) {
+                        Toast.makeText(getApplicationContext(), "Epreuve deja faite !", Toast.LENGTH_SHORT).show();
+                    } else {
+                        epreuve = ListingEtapesActivity.this.getEpreuve(doc, 1, 1);
+
+                        Intent intentQCM = new Intent(ListingEtapesActivity.this, EpreuveQCMActivity.class);
+
+                        intentQCM.putExtra("pseudo", pseudo);
+                        intentQCM.putExtra("epreuve", 4);
+                        intentQCM.putExtra("etape", 2);
+
+
+                        question = epreuve.getFirstChild().getTextContent();
+                        intentQCM.putExtra("question", question);
+
+                        aide = epreuve.getLastChild().getTextContent();
+                        intentQCM.putExtra("aide", aide);
+
+                        point = Integer.parseInt(epreuve.getAttribute("points"));
+                        intentQCM.putExtra("point", point);
+
+                        String[] reponses = new String[2];
+                        String bonneRep = "";
+                        for (int i = 1; i < 4; i++) {
+                            Element elem = (Element) epreuve.getChildNodes().item(i);
+                            if (elem.getAttribute("bonne").equals("true")) {
+                                bonneRep = epreuve.getChildNodes().item(i).getTextContent();
+                            } else {
+                                reponses[i - 1] = epreuve.getChildNodes().item(i).getTextContent();
+                            }
+
+                        }
+
+                        intentQCM.putExtra("bonneRep", bonneRep);
+                        intentQCM.putExtra("reponses", reponses);
+
+                        startActivity(intentQCM);
+                    }
+
+                }
+
+
 
                 return true;
             }
