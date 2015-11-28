@@ -4,7 +4,7 @@
 
     <item
         android:id="@+id/action_aide"
-        android:icon="@drawable/ic_wb_incandescent_white_24dp"
+        android:icon="@drawable/ic_help_outline_white_24dp"
         android:title="aide"
         app:showAsAction="always"/>
 </menu>

@@ -21,3 +21,7 @@ http://examples.javacodegeeks.com/android/core/os/handler/android-timer-example/
 http://stackoverflow.com/questions/30969455/android-changing-floating-action-button-color
 
 http://stackoverflow.com/questions/12402983/i-want-to-show-my-login-form-in-dialog-box-or-in-pop-up-box-using-android
+
+http://easy-android.over-blog.com/2013/12/changer-la-couleur-d-une-barre-de-progression.html
+
+http://www.androidhub4you.com/2013/05/zoom-image-demo-in-android-zoom-image.html

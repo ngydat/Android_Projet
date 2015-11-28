@@ -2,6 +2,7 @@ package ipl.android_projet;
 
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -22,7 +23,8 @@ public class ListEpreuves extends AppCompatActivity {
         setContentView(R.layout.list_epreuves);
         Toolbar toolbar = (Toolbar) findViewById(R.id.my_toolbar);
         //setSupportActionBar(toolbar);
-        toolbar.setTitle(R.string.title_activity_list_epreuves);
+        toolbar.setTitle("Liste des epreuves");
+        toolbar.setTitleTextColor(Color.WHITE);
 
         Intent intent = getIntent();
         String pseudo = intent.getStringExtra("pseudo");

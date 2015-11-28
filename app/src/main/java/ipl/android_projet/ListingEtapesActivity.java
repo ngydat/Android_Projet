@@ -323,6 +323,12 @@ public class ListingEtapesActivity extends AppCompatActivity {
                 Intent intent = new Intent(ListingEtapesActivity.this, ListEpreuves.class);
                 intent.putExtra("pseudo", pseudo);
                 startActivity(intent);
+                return true;
+
+
+            case R.id.action_map:
+                Intent intentMap = new Intent(ListingEtapesActivity.this, PlanActivity.class);
+                startActivity(intentMap);
 
             default:
                 // If we got here, the user's action was not recognized.

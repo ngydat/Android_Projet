@@ -15,5 +15,6 @@
     <string name="title_activity_texte_atrous">TexteATrousActivity</string>
     <string name="title_activity_add_user">Ajout d\'un utilisateur</string>
     <string name="title_activity_list_epreuves">Liste des epreuves</string>
+    <string name="title_activity_planctivity">Planctivity</string>
 
 </resources>
