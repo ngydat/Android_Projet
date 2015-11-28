@@ -2,8 +2,9 @@ package ipl.android_projet;
 
 import android.app.Dialog;
 import android.content.Intent;
-import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.SystemClock;
 import android.provider.MediaStore;
@@ -16,6 +17,8 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.io.File;
 
 public class EpreuvePhotoActivity extends AppCompatActivity {
 
@@ -33,6 +36,7 @@ public class EpreuvePhotoActivity extends AppCompatActivity {
     private TextView timerValue;
     private long startTime = 0L;
     private Handler customHandler = new Handler();
+    private Uri uriSaved;
     private Runnable updateTimerThread = new Runnable() {
 
         public void run() {
@@ -64,7 +68,6 @@ public class EpreuvePhotoActivity extends AppCompatActivity {
 
 
         Intent intent = getIntent();
-
         String question = intent.getStringExtra("question");
         aide = intent.getStringExtra("aide");
 
@@ -78,39 +81,44 @@ public class EpreuvePhotoActivity extends AppCompatActivity {
 
         questionTv.setText(question + " (" + point + " points)");
 
+        File destination = new File(Environment
+                .getExternalStorageDirectory(), "AndroidProject.jpg");
+        uriSaved = Uri.fromFile(destination);
 
         b1=(Button)findViewById(R.id.button_content_epreuve_photo);
-        iv=(ImageView)findViewById(R.id.imageView_content_epreuve_photo);
 
-        b1.setOnClickListener(new Button.OnClickListener() {
+
+        b1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                lancerPhoto();
+
+                Intent intentPhoto = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                intentPhoto.putExtra(MediaStore.EXTRA_OUTPUT,
+                        uriSaved);
+
+                startActivityForResult(intentPhoto, REQUEST_IMAGE_CAPTURE);
             }
         });
-
     }
 
-    private void lancerPhoto() {
-        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        if (intent.resolveActivity(getPackageManager()) != null) {
-            startActivityForResult(intent, REQUEST_IMAGE_CAPTURE);
-        }
-    }
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-
-
+        super.onActivityResult(requestCode, resultCode, data);
         if(data!=null) {
-            if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
-                Bitmap bp = (Bitmap) data.getExtras().get("data");
-                if (bp != null) {
-                    iv.setImageBitmap(bp);
+
+            if (requestCode == REQUEST_IMAGE_CAPTURE) {
+                if (resultCode == RESULT_OK) {
+                    iv = (ImageView) findViewById(R.id.imageView_content_epreuve_photo);
+                    iv.setImageURI(uriSaved);
+                } else {
+                    Toast.makeText(getApplicationContext(), "Error", Toast.LENGTH_SHORT).show();
                 }
 
-
             }
+
+            //pour confirmer la photo, on récupère les coordonnées gps de la photo
             b1.setText("Confirmer");
             b1.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -120,14 +128,17 @@ public class EpreuvePhotoActivity extends AppCompatActivity {
                     itnt.putExtra("epreuve", epreuve);
                     itnt.putExtra("point", point);
                     itnt.putExtra("pseudo", pseudo);
+
+
                     itnt.putExtra("epreuveOK_KO", "OK");
-                    itnt.putExtra("duree",updatedTime);
+                    itnt.putExtra("duree", updatedTime);
                     startActivity(itnt);
                 }
             });
         }
 
     }
+
 
     @Override
     protected void onDestroy() {

@@ -25,3 +25,5 @@ http://stackoverflow.com/questions/12402983/i-want-to-show-my-login-form-in-dial
 http://easy-android.over-blog.com/2013/12/changer-la-couleur-d-une-barre-de-progression.html
 
 http://www.androidhub4you.com/2013/05/zoom-image-demo-in-android-zoom-image.html
+
+http://stackoverflow.com/questions/10093462/android-camera-stuck-cant-catch-the-picture
