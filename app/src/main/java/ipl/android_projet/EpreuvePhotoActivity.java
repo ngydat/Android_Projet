@@ -138,6 +138,7 @@ public class EpreuvePhotoActivity extends AppCompatActivity {
                     itnt.putExtra("point", point);
                     itnt.putExtra("pseudo", pseudo);
 
+                    //http://stackoverflow.com/questions/9868158/get-gps-location-of-a-photo
                     String path = getImageUri(getApplicationContext(), bitmap).getPath();
                     ExifInterface exif = null;
                     String latitude = "";

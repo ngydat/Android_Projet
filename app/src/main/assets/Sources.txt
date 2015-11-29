@@ -33,3 +33,5 @@ http://stackoverflow.com/questions/3551959/possible-to-only-load-specific-lines-
 http://stackoverflow.com/questions/12555420/how-to-get-a-uri-object-from-bitmap
 
 http://stackoverflow.com/questions/22063842/check-if-a-latitude-and-longitude-is-within-a-circle
+
+http://stackoverflow.com/questions/9868158/get-gps-location-of-a-photo
