@@ -90,6 +90,8 @@ public class EpreuvePhotoActivity_LOLLIPOP extends AppCompatActivity {
 
         questionTv.setText(question + " (" + point + " points)");
 
+
+        // source : http://stackoverflow.com/questions/10093462/android-camera-stuck-cant-catch-the-picture
         File destination = new File(Environment
                 .getExternalStorageDirectory(), "AndroidProject.jpg");
         uriSaved = Uri.fromFile(destination);
@@ -184,6 +186,9 @@ public class EpreuvePhotoActivity_LOLLIPOP extends AppCompatActivity {
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
+
+
+
 
 
                 }

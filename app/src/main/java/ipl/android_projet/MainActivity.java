@@ -57,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
         webView.loadUrl(htmlUrl);
     }
 
-
+    // source : http://stackoverflow.com/questions/12402983/i-want-to-show-my-login-form-in-dialog-box-or-in-pop-up-box-using-android
     private void loginDialog() {
         Dialog login = new Dialog(this);
         login.setContentView(R.layout.content_add_user);

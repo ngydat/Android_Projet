@@ -105,8 +105,8 @@ public class ListingEtapesActivity extends AppCompatActivity {
         dao = new Dao(this);
         dao.open();
 
-
-        doc = this.parseAsset("Florence.xml");
+         // pour le parsing, source : http://www.mkyong.com/java/how-to-read-xml-file-in-java-dom-parser
+        doc = this.parseAsset("Florence_Dat.xml");
         doc.getDocumentElement().normalize();
 
         final Intent intent = getIntent();
@@ -132,7 +132,7 @@ public class ListingEtapesActivity extends AppCompatActivity {
 
         webView.loadUrl(urlEtape);
 
-        // somewhere on your code...
+        //source : http://stackoverflow.com/questions/3250034/android-webview-intercept-clicks
         WebViewClient yourWebClient = new WebViewClient() {
             // you tell the webclient you want to catch when a url is about to load
 
@@ -360,7 +360,7 @@ public class ListingEtapesActivity extends AppCompatActivity {
                 progress.setProgressDrawable(progressImg);
                 // On indique que la valeur maximum est 100
                 progress.setMax(100);
-                progress.setBackgroundColor(Color.rgb(202,203,182));
+                progress.setBackgroundColor(Color.rgb(202, 203, 182));
 
                 double progression = ((double)dao.getEpreuve(pseudo)/getNbEpreuveTotal(doc))*100;
                 progress.setProgress ((int)progression);
@@ -488,6 +488,7 @@ public class ListingEtapesActivity extends AppCompatActivity {
             DocumentBuilder builder = facto.newDocumentBuilder();
             doc = builder.parse(in);
 
+            // source : http://stackoverflow.com/questions/4650878/how-to-remove-text-from-my-node-parsing-in-java-dom-xml-parsing
             XPathFactory xpathFactory = XPathFactory.newInstance();
             // XPath to find empty text nodes.
             XPathExpression xpathExp = xpathFactory.newXPath().compile(
