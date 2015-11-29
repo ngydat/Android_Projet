@@ -23,10 +23,8 @@ public class EpreuveTexteATrousActivity extends AppCompatActivity {
     private String pseudo;
     private EditText reponse1;
     private EditText reponse2;
-    private EditText reponse3;
     private String[] reponses;
     private String aide;
-
     private TextView timerValue;
     private long startTime = 0L;
     long timeInMilliseconds = 0L;
@@ -138,7 +136,6 @@ public class EpreuveTexteATrousActivity extends AppCompatActivity {
             int secs = (int) (updatedTime / 1000);
             int mins = secs / 60;
             secs = secs % 60;
-            int milliseconds = (int) (updatedTime % 1000);
             timerValue.setText("" + mins + ":"
                     + String.format("%02d", secs));
             customHandler.postDelayed(this, 0);

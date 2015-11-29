@@ -9,7 +9,6 @@ import android.widget.CursorAdapter;
 import android.widget.TextView;
 
 import ipl.android_projet.dao.Dao;
-import ipl.android_projet.domaine.Epreuve;
 import ipl.android_projet.domaine.Joueur;
 
 /**

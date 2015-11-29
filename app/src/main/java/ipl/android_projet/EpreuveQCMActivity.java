@@ -100,11 +100,7 @@ public class EpreuveQCMActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_epreuve, menu);
-
-
-
         return true;
     }
 
@@ -115,10 +111,7 @@ public class EpreuveQCMActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(),aide, Toast.LENGTH_LONG).show();
                 point = 0;
                 return true;
-
             default:
-                // If we got here, the user's action was not recognized.
-                // Invoke the superclass to handle it.
                 return super.onOptionsItemSelected(item);
 
         }

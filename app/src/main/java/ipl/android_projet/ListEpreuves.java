@@ -22,7 +22,6 @@ public class ListEpreuves extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.list_epreuves);
         Toolbar toolbar = (Toolbar) findViewById(R.id.my_toolbar);
-        //setSupportActionBar(toolbar);
         toolbar.setTitle("Liste des epreuves");
         toolbar.setTitleTextColor(Color.WHITE);
 
@@ -54,12 +53,7 @@ public class ListEpreuves extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
         return super.onOptionsItemSelected(item);
     }
 

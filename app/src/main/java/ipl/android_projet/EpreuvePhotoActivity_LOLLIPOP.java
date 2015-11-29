@@ -12,7 +12,6 @@ import android.os.SystemClock;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -135,7 +134,6 @@ public class EpreuvePhotoActivity_LOLLIPOP extends AppCompatActivity {
                     Intent itnt = new Intent(EpreuvePhotoActivity_LOLLIPOP.this, ListingEtapesActivity.class);
                     itnt.putExtra("etape", etape);
                     itnt.putExtra("epreuve", epreuve);
-                    itnt.putExtra("point", point);
                     itnt.putExtra("pseudo", pseudo);
 
 
@@ -164,14 +162,8 @@ public class EpreuvePhotoActivity_LOLLIPOP extends AppCompatActivity {
                             float[] results = new float[1];
                             Location.distanceBetween(latitudeEpreuve, longtitudeEpreuve, latitudeDouble, longtitudeDouble, results);
 
-                            Log.d("latitude photo", String.valueOf(latitudeDouble));
-                            Log.d("longitude photo", String.valueOf(longtitudeDouble));
-                            Log.d("lat_epreuve", String.valueOf(latitudeEpreuve));
-                            Log.d("long_epreuve", String.valueOf(longtitudeEpreuve));
-                            Log.d("rayon_epreuve", String.valueOf(rayonEpreuve));
                             float distanceInMeters = results[0];
 
-                            Log.d("distance", String.valueOf(distanceInMeters));
                             boolean isWithin = distanceInMeters <= rayonEpreuve;
 
                             if (isWithin) {
@@ -179,8 +171,10 @@ public class EpreuvePhotoActivity_LOLLIPOP extends AppCompatActivity {
                                 itnt.putExtra("epreuveOK_KO", "OK");
                             } else {
                                 msg = "Vous n'êtes pas dans la zone de la photo";
+                                point=0;
                                 itnt.putExtra("epreuveOK_KO", "KO");
                             }
+                            itnt.putExtra("point", point);
                             itnt.putExtra("duree", updatedTime);
 
                         }

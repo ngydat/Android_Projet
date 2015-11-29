@@ -23,7 +23,6 @@ import android.os.SystemClock;
 import android.speech.RecognizerIntent;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -236,12 +235,8 @@ public class ListingEtapesActivity extends AppCompatActivity {
 
                         String[] reponses = new String[2];
                         for (int i = 1; i < 3; i++) {
-                            Element elem = (Element) epreuve.getChildNodes().item(i);
                             reponses[i - 1] = epreuve.getChildNodes().item(i).getTextContent();
-                            Log.i("REP", epreuve.getChildNodes().item(i).getTextContent());
-
                         }
-
 
                         Intent intentTrou = new Intent(ListingEtapesActivity.this, EpreuveTexteATrousActivity.class);
                         intentTrou.putExtra("question", question);
@@ -319,7 +314,6 @@ public class ListingEtapesActivity extends AppCompatActivity {
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
@@ -334,7 +328,6 @@ public class ListingEtapesActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.action_point:
 
-                // 1. Instantiate an AlertDialog.Builder with its constructor
                 Dialog stat = new Dialog(this);
                 stat.setContentView(R.layout.layout_dialog_stat);
                 stat.setCancelable(true);
@@ -356,7 +349,6 @@ public class ListingEtapesActivity extends AppCompatActivity {
                 tvTempsTotal.setText("" + mins + ":"
                         + String.format("%02d", secs));
 
-                /*Progress bar*/
                 roundedCorners = new float[] { 10, 10, 10, 10, 10, 10, 10, 10 };
                 pgDrawable = new ShapeDrawable (new RoundRectShape(roundedCorners, null, null));
 
@@ -371,7 +363,6 @@ public class ListingEtapesActivity extends AppCompatActivity {
                 progress.setBackgroundColor(Color.rgb(202,203,182));
 
                 double progression = ((double)dao.getEpreuve(pseudo)/getNbEpreuveTotal(doc))*100;
-                Log.i("CC", "" + progression);
                 progress.setProgress ((int)progression);
 
 
@@ -566,7 +557,6 @@ public class ListingEtapesActivity extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
-        Log.i("TEMPS stop", "" + updatedTime);
         dao.updateJoueur(pseudo, updatedTime);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -586,8 +576,6 @@ public class ListingEtapesActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        dao.updateJoueur(pseudo, updatedTime);
-        Log.i("TEMPS pause", "" + updatedTime);
     }
 
     @Override
@@ -621,7 +609,6 @@ public class ListingEtapesActivity extends AppCompatActivity {
 
 
         public void onLocationChanged(Location location) {
-            Log.d("GPS", "Latitude " + location.getLatitude() + " et longitude " + location.getLongitude());
         }
 
     }
@@ -640,8 +627,6 @@ public class ListingEtapesActivity extends AppCompatActivity {
             urlEtape = ListingEtapesActivity.this.getUrlEtape(doc, (etapeEnCours - 1));
             if (state) {
                 webView.loadUrl(urlEtape);
-
-
             } else {
                 webView.loadUrl("file:///android_asset/html/EtapeEnAttente.html");
             }

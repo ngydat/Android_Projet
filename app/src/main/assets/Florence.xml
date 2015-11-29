@@ -1,8 +1,8 @@
 <Jeu>
     <Etape num="1" url="file:///android_asset/html/Etape1.html" >
         <Zone>
-            <Latitude>49.4945848</Latitude>
-            <Longitude>5.9812854</Longitude>
+            <Latitude>50.8494611</Latitude>
+            <Longitude>4.4507495</Longitude>
              <Rayon>100</Rayon>
          </Zone>
          <Epreuves>
@@ -18,8 +18,8 @@
              <Epreuve points="6" type="Photo" uri="http://epreuve2_etape1.photo">
                  <Question>Prenez en photo la facade avant du dôme</Question>
                  <Zone>
-                     <Latitude>49.4945848</Latitude>
-                     <Longitude>5.9812854</Longitude>
+                     <Latitude>50.8494611</Latitude>
+                     <Longitude>4.4507495</Longitude>
                      <Rayon>10</Rayon>
                  </Zone>
                  <Aide>Adresse : Piazza del Duomo</Aide>
@@ -29,13 +29,13 @@
 
      <Etape num="2" url="file:///android_asset/html/Etape2.html">
          <Zone>
-             <Latitude>49.4945848</Latitude>
-             <Longitude>5.9812854</Longitude>
+             <Latitude>50.8494611</Latitude>
+             <Longitude>4.4507495</Longitude>
              <Rayon>100</Rayon>
          </Zone>
          <Epreuves>
              <Epreuve points="3" type="Texte_Trou" uri="http://epreuve3_etape2.texte_trou">
-                 <Question>J'ai peint "la création d'adam", qui suis-je ?[1]. Le terme "machiavélisme" vient de moi, qui suis-je ?[2].</Question>
+                 <Question>J'ai peint "la création d'adam", qui suis-je ?[1]."machiavélisme" vient de moi, qui suis-je ?[2].</Question>
                  <Reponse>Michel-ange</Reponse>
                  <Reponse>Machiavel</Reponse>
              </Epreuve>

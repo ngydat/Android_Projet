@@ -104,11 +104,6 @@ public class PlanActivity extends AppCompatActivity {
         });
 
 
-
-
-
-
-
     }
 
 }

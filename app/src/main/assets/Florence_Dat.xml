@@ -35,8 +35,7 @@
         </Zone>
         <Epreuves>
             <Epreuve points="3" type="Texte_Trou" uri="http://epreuve3_etape2.texte_trou">
-                <Question>J'ai peint "la création d'adam", qui suis-je ?[1]. Le terme
-                    "machiavélisme" vient de moi, qui suis-je ?[2].
+                <Question>J'ai peint "la création d'adam", qui suis-je ?[1]."machiavélisme" vient de moi, qui suis-je ?[2].
                 </Question>
                 <Reponse>Michel-ange</Reponse>
                 <Reponse>Machiavel</Reponse>
