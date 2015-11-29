@@ -123,7 +123,7 @@ public class ListingEtapesActivity extends AppCompatActivity {
         dao.open();
 
         // pour le parsing, source : http://www.mkyong.com/java/how-to-read-xml-file-in-java-dom-parser
-        doc = this.parseAsset("Florence_Dat.xml");
+        doc = this.parseAsset("Florence.xml");
         doc.getDocumentElement().normalize();
 
         final Intent intent = getIntent();
@@ -447,7 +447,6 @@ public class ListingEtapesActivity extends AppCompatActivity {
         }
 
 
-
         /*****************************************************************/
         registerReceiver(new ProximityReceiver(), new IntentFilter(ACTION_FILTER));
 
@@ -584,7 +583,9 @@ public class ListingEtapesActivity extends AppCompatActivity {
 
     @Override
     protected void onPause() {
+
         super.onPause();
+        dao.updateJoueur(pseudo, updatedTime);
     }
 
     @Override
