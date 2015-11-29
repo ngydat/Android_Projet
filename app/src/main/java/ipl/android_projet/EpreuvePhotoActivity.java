@@ -2,13 +2,18 @@ package ipl.android_projet;
 
 import android.app.Dialog;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.location.Location;
+import android.media.ExifInterface;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.SystemClock;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -16,6 +21,8 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.io.IOException;
 
 public class EpreuvePhotoActivity extends AppCompatActivity {
 
@@ -31,6 +38,10 @@ public class EpreuvePhotoActivity extends AppCompatActivity {
     private String pseudo;
     private String aide;
     private TextView timerValue;
+    private Uri uri;
+    private double latitudeEpreuve;
+    private double longtitudeEpreuve;
+    private float rayonEpreuve;
     private long startTime = 0L;
     private Handler customHandler = new Handler();
     private Runnable updateTimerThread = new Runnable() {
@@ -71,8 +82,11 @@ public class EpreuvePhotoActivity extends AppCompatActivity {
         point = intent.getIntExtra("point", 0);
         pseudo = intent.getStringExtra("pseudo");
 
-        etape = intent.getIntExtra("etape",0);
+        etape = intent.getIntExtra("etape", 0);
         epreuve = intent.getIntExtra("epreuve",0);
+        latitudeEpreuve = intent.getDoubleExtra("latitudeEpreuve", 0.0);
+        longtitudeEpreuve = intent.getDoubleExtra("longitudeEpreuve", 0.0);
+        rayonEpreuve = intent.getFloatExtra("rayonEpreuve", 0);
 
         TextView questionTv = (TextView) findViewById(R.id.question_content_epreuve_photo);
 
@@ -104,6 +118,7 @@ public class EpreuvePhotoActivity extends AppCompatActivity {
 
         if(data!=null) {
             if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
+                uri = data.getData();
                 Bitmap bp = (Bitmap) data.getExtras().get("data");
                 if (bp != null) {
                     iv.setImageBitmap(bp);
@@ -120,13 +135,107 @@ public class EpreuvePhotoActivity extends AppCompatActivity {
                     itnt.putExtra("epreuve", epreuve);
                     itnt.putExtra("point", point);
                     itnt.putExtra("pseudo", pseudo);
-                    itnt.putExtra("epreuveOK_KO", "OK");
-                    itnt.putExtra("duree",updatedTime);
+
+                    //pour confirmer la photo, on récupère les coordonnées gps de la photo
+                    //http://stackoverflow.com/questions/9868158/get-gps-location-of-a-photo
+                    String path = getPath(uri);
+                    ExifInterface exif = null;
+                    String latitude = "";
+                    String longitude = "";
+                    String msg = "";
+
+                    try {
+                        exif = new ExifInterface(path);
+                        latitude = exif.getAttribute(ExifInterface.TAG_GPS_LATITUDE);
+                        longitude = exif.getAttribute(ExifInterface.TAG_GPS_LONGITUDE);
+
+                        //La location GPS de l'appareil photo n'a pas été activé
+                        if (latitude == null || longitude == null) {
+                            msg = "Veuillez activer la localisation GPS sur votre appareil photo";
+                        } else {
+                            //la latitude ou la longitude est présentée sous la forme : voir url source
+                            double latitudeDouble = getCoordonnee(latitude);
+                            double longtitudeDouble = getCoordonnee(longitude);
+
+                            //http://stackoverflow.com/questions/22063842/check-if-a-latitude-and-longitude-is-within-a-circle
+                            float[] results = new float[1];
+                            Location.distanceBetween(latitudeEpreuve, longtitudeEpreuve, latitudeDouble, longtitudeDouble, results);
+
+                            Log.d("latitude photo", String.valueOf(latitudeDouble));
+                            Log.d("longitude photo", String.valueOf(longtitudeDouble));
+                            Log.d("lat_epreuve", String.valueOf(latitudeEpreuve));
+                            Log.d("long_epreuve", String.valueOf(longtitudeEpreuve));
+                            Log.d("rayon_epreuve", String.valueOf(rayonEpreuve));
+                            float distanceInMeters = results[0];
+
+                            Log.d("distance", String.valueOf(distanceInMeters));
+                            boolean isWithin = distanceInMeters <= rayonEpreuve;
+
+                            if (isWithin) {
+                                msg = "Photo accepté";
+                                itnt.putExtra("epreuveOK_KO", "OK");
+                            } else {
+                                msg = "Vous n'êtes pas dans la zone de la photo";
+                                itnt.putExtra("epreuveOK_KO", "KO");
+                            }
+                            itnt.putExtra("duree", updatedTime);
+
+                        }
+                        Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
+
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
                     startActivity(itnt);
                 }
             });
         }
 
+    }
+
+    private String getPath(Uri uri) {
+
+        String[] projection = {MediaStore.Images.Media.DATA};
+        Cursor cursor = getContentResolver().query(uri, projection, null, null, null);
+
+        int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+        cursor.moveToFirst();
+
+        return cursor.getString(column_index);
+    }
+
+    /*
+     * @param exif : la latitude ou la longitude exprimée sous la
+     * forme d'une chaine de caractères avec 3 quotients séparés par une virgule
+     *
+     * @return : la latitude ou la longitude exprimée sous
+     * la forme d'un nombre décimale
+     */
+    private double getCoordonnee(String exif) {
+        String[] tab = exif.split(",");
+
+        String degres = tab[0];
+        String minutes = tab[1];
+        String secondes = tab[2];
+        double resultat = 0;
+
+        //Traitement des degrés
+        String[] degresTab = degres.split("/");
+        double degre = Double.valueOf(degresTab[0]) / Double.valueOf(degresTab[1]);
+
+        //Traitement des minutes
+        String[] minutesTab = minutes.split("/");
+        double minute = Double.valueOf(minutesTab[0]) / Double.valueOf(minutesTab[1]);
+
+        //Traitement des secondes
+        String[] secondesTab = secondes.split("/");
+        double seconde = Double.valueOf(secondesTab[0]) / Double.valueOf(secondesTab[1]);
+
+
+        resultat = (minute * 60 + seconde) / 3600 + degre;
+
+        return resultat;
     }
 
     @Override

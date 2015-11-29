@@ -137,7 +137,7 @@ public class EpreuvePhotoActivity_LOLLIPOP extends AppCompatActivity {
                     itnt.putExtra("epreuve", epreuve);
                     itnt.putExtra("point", point);
                     itnt.putExtra("pseudo", pseudo);
-                    itnt.putExtra("duree", updatedTime);
+
 
                     //pour confirmer la photo, on récupère les coordonnées gps de la photo
                     //http://stackoverflow.com/questions/9868158/get-gps-location-of-a-photo
@@ -181,7 +181,7 @@ public class EpreuvePhotoActivity_LOLLIPOP extends AppCompatActivity {
                                 msg = "Vous n'êtes pas dans la zone de la photo";
                                 itnt.putExtra("epreuveOK_KO", "KO");
                             }
-
+                            itnt.putExtra("duree", updatedTime);
 
                         }
                         Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_SHORT).show();

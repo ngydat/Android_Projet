@@ -30,7 +30,7 @@ http://stackoverflow.com/questions/10093462/android-camera-stuck-cant-catch-the-
 
 http://stackoverflow.com/questions/3551959/possible-to-only-load-specific-lines-of-code-according-to-android-os-version
 
-http://stackoverflow.com/questions/12555420/how-to-get-a-uri-object-from-bitmap
+http://w3stack.org/question/how-to-get-path-of-a-captured-image-in-android/
 
 http://stackoverflow.com/questions/22063842/check-if-a-latitude-and-longitude-is-within-a-circle
 
