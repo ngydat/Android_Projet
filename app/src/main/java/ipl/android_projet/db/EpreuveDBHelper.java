@@ -45,16 +45,4 @@ public class EpreuveDBHelper  extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    public void insertEpreuve(Epreuve epreuve, SQLiteDatabase db){
-        ContentValues valeurs = new ContentValues();
-        valeurs.put(ModelContract.EpreuveDBEntry.COLUMN_NAME_PSEUDO,epreuve.getPseudo());
-        valeurs.put(ModelContract.EpreuveDBEntry.COLUMN_NAME_POINT,epreuve.getPoint());
-        valeurs.put(ModelContract.EpreuveDBEntry.COLUMN_NAME_NUM,epreuve.getNumero());
-        valeurs.put(ModelContract.EpreuveDBEntry.COLUMN_NAME_ETAPE_EPREUVE,epreuve.getEtapeEpreuve());
-        valeurs.put(ModelContract.EpreuveDBEntry.COLUMN_NAME_DUREE,epreuve.getDuree());
-
-
-        db.insert(ModelContract.JoueurDBEntry.TABLE_NAME, null, valeurs);
-    }
-
 }

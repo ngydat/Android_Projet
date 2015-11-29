@@ -51,20 +51,6 @@ public class Dao {
         mEpreuvesDB.close();
     }
 
-    public static Epreuve getEpreuveFromCursor(Cursor cursor) {
-
-        if (cursor == null || cursor.getCount() == 0) {
-            return null;
-        }
-
-        int numero = cursor.getInt(cursor.getColumnIndex(COLUMN_NAME_NUM));
-        String pseudo = cursor.getString(cursor.getColumnIndex(COLUMN_NAME_PSEUDO));
-        int etape = cursor.getInt(cursor.getColumnIndex(COLUMN_NAME_ETAPE_EPREUVE));
-        int point = cursor.getInt(cursor.getColumnIndex(COLUMN_NAME_POINT));
-        long duree = cursor.getLong(cursor.getColumnIndex(COLUMN_NAME_DUREE));
-
-        return new Epreuve(numero, pseudo, point, etape, duree);
-    }
 
     public static Joueur getJoueurFromCursor(Cursor cursor) {
 
@@ -150,6 +136,21 @@ public class Dao {
 
     /*DB Epreuves*/
 
+    public static Epreuve getEpreuveFromCursor(Cursor cursor) {
+
+        if (cursor == null || cursor.getCount() == 0) {
+            return null;
+        }
+
+        int numero = cursor.getInt(cursor.getColumnIndex(COLUMN_NAME_NUM));
+        String pseudo = cursor.getString(cursor.getColumnIndex(COLUMN_NAME_PSEUDO));
+        int etape = cursor.getInt(cursor.getColumnIndex(COLUMN_NAME_ETAPE_EPREUVE));
+        int point = cursor.getInt(cursor.getColumnIndex(COLUMN_NAME_POINT));
+        long duree = cursor.getLong(cursor.getColumnIndex(COLUMN_NAME_DUREE));
+
+        return new Epreuve(numero, pseudo, point, etape, duree);
+    }
+
     public long getTempsTotal(String pseudo){
         Cursor c = dbJoueur.rawQuery("select * from joueurs where pseudo like '" + pseudo + "'", null);
 
@@ -166,22 +167,6 @@ public class Dao {
         valeurs.put(ModelContract.EpreuveDBEntry.COLUMN_NAME_ETAPE_EPREUVE,epreuve.getEtapeEpreuve());
         valeurs.put(ModelContract.EpreuveDBEntry.COLUMN_NAME_DUREE,epreuve.getDuree());
         dbEpreuve.insert(ModelContract.EpreuveDBEntry.TABLE_NAME, null, valeurs);
-    }
-
-    public long getDuree(String pseudo){
-        Cursor c = dbEpreuve.rawQuery("select * from epreuves where pseudo like '" + pseudo + "'", null);
-
-        c.moveToFirst(); // On se positionne sur le premier
-
-        return c.getLong(c.getColumnIndex("duree"));
-    }
-
-    public void updateEpreuve(String pseudo,long duree){
-        ContentValues valeurs = new ContentValues();
-
-        valeurs.put(ModelContract.EpreuveDBEntry.COLUMN_NAME_DUREE,duree);
-
-        dbEpreuve.update(ModelContract.EpreuveDBEntry.TABLE_NAME, valeurs, ModelContract.EpreuveDBEntry.COLUMN_NAME_PSEUDO + "='" + pseudo + "'", null);
     }
 
     public Cursor getAllEpreuves(String pseudo){

@@ -30,7 +30,7 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/icon_app"
         android:label="@string/app_titre"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar" >
         <activity

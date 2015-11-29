@@ -58,21 +58,27 @@ import ipl.android_projet.domaine.Epreuve;
 public class ListingEtapesActivity extends AppCompatActivity {
 
     Dao dao;
-    String ACTION_FILTER = "com.example.proximity";
-    long timeInMilliseconds = 0L;
-    long timeSwapBuff = 0L;
-    long updatedTime = 0L;
     private Document doc;
+    private String pseudo = "";
     private String urlEtape;
     private WebView webView;
+
+    /*Pour le gps*/
     private LocationManager objgps;
     private LocationListener objlistener;
-    private String pseudo = "";
     private PendingIntent pi;
+    String ACTION_FILTER = "com.example.proximity";
+
+    /*Pour la progress bar*/
     private ProgressBar progress;
     private ClipDrawable progressImg;
     private float[] roundedCorners;
     private ShapeDrawable pgDrawable;
+
+    /*Pour le timer*/
+    long timeInMilliseconds = 0L;
+    long timeSwapBuff = 0L;
+    long updatedTime = 0L;
     private TextView timerValue;
     private long startTime = 0L;
     private Handler customHandler = new Handler();
@@ -101,7 +107,7 @@ public class ListingEtapesActivity extends AppCompatActivity {
         dao.open();
 
 
-        doc = this.parseAsset("Florence_Dat.xml");
+        doc = this.parseAsset("Florence.xml");
         doc.getDocumentElement().normalize();
 
         final Intent intent = getIntent();

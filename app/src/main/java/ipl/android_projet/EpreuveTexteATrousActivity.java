@@ -69,7 +69,7 @@ public class EpreuveTexteATrousActivity extends AppCompatActivity {
     public void confirmer(View v) {
         Context context = getApplicationContext();
         CharSequence text;
-        int duration = Toast.LENGTH_SHORT;
+        int duration = Toast.LENGTH_LONG;
         Intent itnt = new Intent(EpreuveTexteATrousActivity.this, ListingEtapesActivity.class);
 
         if(!(reponse1.getText().toString().equals(reponses[0])) && !(reponse2.getText().toString().equals(reponses[1])) ){
