@@ -142,6 +142,7 @@ public class EpreuvePhotoActivity extends AppCompatActivity {
                     String longitude = "";
                     String msg = "";
 
+
                     try {
                         exif = new ExifInterface(path);
                         latitude = exif.getAttribute(ExifInterface.TAG_GPS_LATITUDE);
@@ -173,6 +174,7 @@ public class EpreuvePhotoActivity extends AppCompatActivity {
                             }
                             itnt.putExtra("point", point);
                             itnt.putExtra("duree", updatedTime);
+                            startActivity(itnt);
 
                         }
                         Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
@@ -181,7 +183,7 @@ public class EpreuvePhotoActivity extends AppCompatActivity {
                         e.printStackTrace();
                     }
 
-                    startActivity(itnt);
+
                 }
             });
         }

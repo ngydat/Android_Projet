@@ -59,8 +59,8 @@ public class JoueurDBHelper extends SQLiteOpenHelper{
     }
 
     private void peuplement(SQLiteDatabase db){
-        insertJoueur(new Joueur("dat"),db);
-        insertJoueur(new Joueur("gio"),db);
+        insertJoueur(new Joueur("dat",2000,20),db);
+        insertJoueur(new Joueur("gio",2200,15),db);
     }
 
 }

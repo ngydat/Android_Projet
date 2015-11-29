@@ -176,6 +176,7 @@ public class EpreuvePhotoActivity_LOLLIPOP extends AppCompatActivity {
                             }
                             itnt.putExtra("point", point);
                             itnt.putExtra("duree", updatedTime);
+                            startActivity(itnt);
 
                         }
                         Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
@@ -185,9 +186,6 @@ public class EpreuvePhotoActivity_LOLLIPOP extends AppCompatActivity {
                     }
 
 
-
-
-                    startActivity(itnt);
                 }
             });
 
