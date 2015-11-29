@@ -101,7 +101,7 @@ public class ListingEtapesActivity extends AppCompatActivity {
         dao.open();
 
 
-        doc = this.parseAsset("Florence_Dat.xml");
+        doc = this.parseAsset("Florence.xml");
         doc.getDocumentElement().normalize();
 
         final Intent intent = getIntent();
@@ -228,8 +228,8 @@ public class ListingEtapesActivity extends AppCompatActivity {
                         aide = epreuve.getLastChild().getTextContent();
 
 
-                        String[] reponses = new String[3];
-                        for (int i = 1; i < 4; i++) {
+                        String[] reponses = new String[2];
+                        for (int i = 1; i < 3; i++) {
                             Element elem = (Element) epreuve.getChildNodes().item(i);
                             reponses[i - 1] = epreuve.getChildNodes().item(i).getTextContent();
                             Log.i("REP", epreuve.getChildNodes().item(i).getTextContent());

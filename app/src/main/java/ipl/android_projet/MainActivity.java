@@ -40,6 +40,8 @@ public class MainActivity extends AppCompatActivity {
         toolBar.setTitle(R.string.app_titre);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.addUser);
+
+
         fab.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -54,8 +56,6 @@ public class MainActivity extends AppCompatActivity {
         WebSettings webSettings = webView.getSettings();
         webSettings.setJavaScriptEnabled(true);
         webView.loadUrl(htmlUrl);
-
-
     }
 
     //http://stackoverflow.com/questions/12402983/i-want-to-show-my-login-form-in-dialog-box-or-in-pop-up-box-using-android

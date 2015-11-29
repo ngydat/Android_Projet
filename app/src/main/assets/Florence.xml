@@ -35,10 +35,9 @@
          </Zone>
          <Epreuves>
              <Epreuve points="3" type="Texte_Trou" uri="http://epreuve3_etape2.texte_trou">
-                 <Question>L'adresse de l'IPL est Clos [1]-aux-[2] 43 1200 [3]</Question>
-                 <Reponse>Chapelle</Reponse>
-                 <Reponse>Champs</Reponse>
-                 <Reponse>Bruxelles</Reponse>
+                 <Question>J'ai peint "la création d'adam", qui suis-je ?[1]. Le terme "machiavélisme" vient de moi, qui suis-je ?[2].</Question>
+                 <Reponse>Michel-ange</Reponse>
+                 <Reponse>Machiavel</Reponse>
              </Epreuve>
              <Epreuve points="2" type="QCM" uri="http://epreuve4_etape2.qcm">
                  <Question>Lequel de ces personnage célébres est nés à Florence </Question>

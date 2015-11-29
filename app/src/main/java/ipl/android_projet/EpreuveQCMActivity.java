@@ -24,6 +24,7 @@ public class EpreuveQCMActivity extends AppCompatActivity {
     private int epreuve;
     private int point;
     private String pseudo;
+    private String bonneRep;
     private TextView timerValue;
     private long startTime = 0L;
     long timeInMilliseconds = 0L;
@@ -57,7 +58,7 @@ public class EpreuveQCMActivity extends AppCompatActivity {
 
         questionTv.setText(question + " (" + point + " points)");
 
-        String bonneRep = intent.getStringExtra("bonneRep");
+        bonneRep = intent.getStringExtra("bonneRep");
         bonneRepRb = (RadioButton) findViewById(R.id.reponse1_epreuveQCM);
         bonneRepRb.setText(bonneRep);
 
@@ -77,13 +78,13 @@ public class EpreuveQCMActivity extends AppCompatActivity {
         Intent itnt = new Intent(EpreuveQCMActivity.this, ListingEtapesActivity.class);
 
        if(bonneRepRb.isChecked()){
-           text = "Bonne reponse !";
+           text = "Bonne réponse !";
            Toast.makeText(getApplicationContext(),text, Toast.LENGTH_LONG).show();
            itnt.putExtra("epreuveOK_KO", "OK");
 
 
        }else{
-           text = "Mauvaise reponse !";
+           text = "Mauvaise réponse ! La réponse etait : "+bonneRep;
            Toast.makeText(getApplicationContext(),text, Toast.LENGTH_LONG).show();
            point=0;
            itnt.putExtra("epreuveOK_KO","KO");

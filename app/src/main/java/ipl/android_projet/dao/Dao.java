@@ -82,7 +82,7 @@ public class Dao {
 
     public Cursor getAllPlayers(){
 
-        return dbJoueur.rawQuery("select * from joueurs j order by j.points",null);
+        return dbJoueur.rawQuery("select * from joueurs j order by j.points DESC",null);
     }
 
     /*
