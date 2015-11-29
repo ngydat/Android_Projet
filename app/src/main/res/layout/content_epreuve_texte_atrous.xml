@@ -1,7 +1,24 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?><!--
+
+  Hunter Game : a treasure hunt app
+  Copyright (C) 2015 AGNELLO Giordano, NGUYEN Quoc Dat
+   This file is part of Hunter Game.
+  Hunter Game is free software: you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
+
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+
+ You should have received a copy of the GNU General Public License
+ along with this program.  If not, see <http://www.gnu.org/licenses.
+
+-->
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingBottom="@dimen/activity_vertical_margin"
@@ -14,15 +31,15 @@
         android:id="@+id/question_t_a_t"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="@style/Question_style"
-        android:layout_below="@id/my_toolbar" />
+        android:layout_below="@id/my_toolbar"
+        android:textAppearance="@style/Question_style" />
 
     <EditText
         android:id="@+id/reponse_texte_a_t_1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
         android:layout_below="@id/question_t_a_t"
+        android:layout_centerInParent="true"
         android:hint="Reponse 1"
         android:maxLength="20"
         />
@@ -31,8 +48,8 @@
         android:id="@+id/reponse_texte_a_t_2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
         android:layout_below="@id/reponse_texte_a_t_1"
+        android:layout_centerInParent="true"
         android:hint="Reponse 2"
         android:maxLength="20"
         />
@@ -42,12 +59,12 @@
         android:id="@+id/confirmer_epreuveTexte_a_t"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
         android:layout_below="@id/reponse_texte_a_t_2"
+        android:layout_centerHorizontal="true"
         android:layout_marginTop="40dp"
-        android:textAppearance="@style/Button_style"
         android:onClick="confirmer"
-        android:text="Confirmer" />
+        android:text="Confirmer"
+        android:textAppearance="@style/Button_style" />
 
 
 </RelativeLayout>

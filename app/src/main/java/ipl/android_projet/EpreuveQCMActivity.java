@@ -13,9 +13,29 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+/**
+ * Hunter Game : a treasure hunt app
+ * Copyright (C) 2015 AGNELLO Giordano, NGUYEN Quoc Dat
+ *  This file is part of Hunter Game.
+ * Hunter Game is free software: you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
+
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+
+ You should have received a copy of the GNU General Public License
+ along with this program.  If not, see <http://www.gnu.org/licenses.
+ */
 public class EpreuveQCMActivity extends AppCompatActivity {
 
 
+    long timeInMilliseconds = 0L;
+    long timeSwapBuff = 0L;
+    long updatedTime = 0L;
     private RadioButton bonneRepRb;
     private RadioButton reponse2Rb;
     private RadioButton reponse3Rb;
@@ -27,10 +47,25 @@ public class EpreuveQCMActivity extends AppCompatActivity {
     private String bonneRep;
     private TextView timerValue;
     private long startTime = 0L;
-    long timeInMilliseconds = 0L;
-    long timeSwapBuff = 0L;
-    long updatedTime = 0L;
     private Handler customHandler = new Handler();
+    // source : http://examples.javacodegeeks.com/android/core/os/handler/android-timer-example/
+    private Runnable updateTimerThread = new Runnable() {
+
+        public void run() {
+
+            timeInMilliseconds = SystemClock.uptimeMillis() - startTime;
+
+            updatedTime = timeSwapBuff + timeInMilliseconds;
+
+            int secs = (int) (updatedTime / 1000);
+            int mins = secs / 60;
+            secs = secs % 60;
+            timerValue.setText("" + mins + ":"
+                    + String.format("%02d", secs));
+            customHandler.postDelayed(this, 0);
+        }
+
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,7 +106,6 @@ public class EpreuveQCMActivity extends AppCompatActivity {
 
 
     }
-
 
     public void confirmer(View v){
         CharSequence text ;
@@ -117,25 +151,6 @@ public class EpreuveQCMActivity extends AppCompatActivity {
         }
 
     }
-
-    // source : http://examples.javacodegeeks.com/android/core/os/handler/android-timer-example/
-    private Runnable updateTimerThread = new Runnable() {
-
-        public void run() {
-
-            timeInMilliseconds = SystemClock.uptimeMillis() - startTime;
-
-            updatedTime = timeSwapBuff + timeInMilliseconds;
-
-            int secs = (int) (updatedTime / 1000);
-            int mins = secs / 60;
-            secs = secs % 60;
-            timerValue.setText("" + mins + ":"
-                    + String.format("%02d", secs));
-            customHandler.postDelayed(this, 0);
-        }
-
-    };
 
 
 

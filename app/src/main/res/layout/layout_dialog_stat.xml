@@ -1,67 +1,85 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?><!--
+
+  Hunter Game : a treasure hunt app
+  Copyright (C) 2015 AGNELLO Giordano, NGUYEN Quoc Dat
+   This file is part of Hunter Game.
+  Hunter Game is free software: you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
+
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+
+ You should have received a copy of the GNU General Public License
+ along with this program.  If not, see <http://www.gnu.org/licenses.
+
+-->
 <GridLayout
 
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:alignmentMode="alignBounds"
+    android:columnCount="4"
+    android:columnOrderPreserved="true"
     android:paddingBottom="@dimen/activity_vertical_margin"
+
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-
-    android:columnCount="4"
-    android:alignmentMode="alignBounds"
-    android:columnOrderPreserved="true"
     >
 
 
 
     <TextView
+        android:layout_column="0"
+        android:layout_gravity="right"
         android:text="Vos points :"
-        android:layout_column="0"
-        android:layout_gravity="right"
         />
 
     <TextView
-        android:layout_column="2"
         android:id="@+id/pointJoueurTextView"
+        android:layout_column="2"
         />
 
     <TextView
+        android:layout_column="0"
+        android:layout_gravity="right"
         android:text="Etape courante :"
-        android:layout_column="0"
-        android:layout_gravity="right"
         />
 
     <TextView
-        android:layout_column="2"
         android:id="@+id/derniereEtapeTextView"
+        android:layout_column="2"
         />
     <TextView
-        android:text="Temps total :"
         android:layout_column="0"
         android:layout_gravity="right"
+        android:text="Temps total :"
         />
 
     <TextView
-        android:layout_column="2"
         android:id="@+id/tempsTotalTextView"
+        android:layout_column="2"
         />
 
     <TextView
-        android:text="Nb d'epreuves realisées :"
         android:layout_column="0"
-        android:gravity="right"/>
+        android:gravity="right"
+        android:text="Nb d'epreuves realisées :" />
 
     <TextView
-        android:layout_column="2"
-        android:id="@+id/derniereEpreuveTextView" />
+        android:id="@+id/derniereEpreuveTextView"
+        android:layout_column="2" />
 
 
     <TextView
-        android:text="Votre progression :"
         android:layout_column="0"
         android:layout_gravity="left"
+        android:text="Votre progression :"
         />
     <Space
         android:layout_width="60dp"
@@ -69,12 +87,12 @@
         android:layout_gravity="fill_vertical"/>
 
     <ProgressBar android:id="@+id/progressbar"
-        android:layout_column="0"
-        android:layout_columnSpan="3"
+        style="?android:attr/progressBarStyleHorizontal"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:layout_column="0"
+        android:layout_columnSpan="3"
         android:layout_marginTop="10dp"
-        style="?android:attr/progressBarStyleHorizontal"
         />
 
 

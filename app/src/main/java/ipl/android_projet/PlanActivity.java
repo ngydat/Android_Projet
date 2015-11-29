@@ -4,24 +4,41 @@ import android.annotation.SuppressLint;
 import android.graphics.Matrix;
 import android.graphics.PointF;
 import android.os.Bundle;
-
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
 
+/**
+ * Hunter Game : a treasure hunt app
+ * Copyright (C) 2015 AGNELLO Giordano, NGUYEN Quoc Dat
+ * This file is part of Hunter Game.
+ * Hunter Game is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * <p/>
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * <p/>
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses.
+ */
+
 public class PlanActivity extends AppCompatActivity {
 
+    static final int NONE = 0;
+    static final int DRAG = 1;
+    static final int ZOOM = 2;
     ImageView imageDetail;
     Matrix matrix = new Matrix();
     Matrix savedMatrix = new Matrix();
     PointF startPoint = new PointF();
     PointF midPoint = new PointF();
     float oldDist = 1f;
-    static final int NONE = 0;
-    static final int DRAG = 1;
-    static final int ZOOM = 2;
     int mode = NONE;
 
 
