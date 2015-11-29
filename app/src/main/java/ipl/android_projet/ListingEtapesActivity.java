@@ -57,27 +57,24 @@ import ipl.android_projet.domaine.Epreuve;
 public class ListingEtapesActivity extends AppCompatActivity {
 
     Dao dao;
+    String ACTION_FILTER = "com.example.proximity";
+    /*Pour le timer*/
+    long timeInMilliseconds = 0L;
+    long timeSwapBuff = 0L;
+    long updatedTime = 0L;
     private Document doc;
     private String pseudo = "";
     private String urlEtape;
     private WebView webView;
-
     /*Pour le gps*/
     private LocationManager objgps;
     private LocationListener objlistener;
     private PendingIntent pi;
-    String ACTION_FILTER = "com.example.proximity";
-
     /*Pour la progress bar*/
     private ProgressBar progress;
     private ClipDrawable progressImg;
     private float[] roundedCorners;
     private ShapeDrawable pgDrawable;
-
-    /*Pour le timer*/
-    long timeInMilliseconds = 0L;
-    long timeSwapBuff = 0L;
-    long updatedTime = 0L;
     private TextView timerValue;
     private long startTime = 0L;
     private Handler customHandler = new Handler();
@@ -105,7 +102,7 @@ public class ListingEtapesActivity extends AppCompatActivity {
         dao = new Dao(this);
         dao.open();
 
-         // pour le parsing, source : http://www.mkyong.com/java/how-to-read-xml-file-in-java-dom-parser
+        // pour le parsing, source : http://www.mkyong.com/java/how-to-read-xml-file-in-java-dom-parser
         doc = this.parseAsset("Florence_Dat.xml");
         doc.getDocumentElement().normalize();
 
@@ -435,20 +432,12 @@ public class ListingEtapesActivity extends AppCompatActivity {
         /*****************************************************************/
         registerReceiver(new ProximityReceiver(), new IntentFilter(ACTION_FILTER));
 
-        //---utilisation  de la class LocationManager pour le gps---
+        // souce : http://houssem-lahiani.blogspot.be/2015/04/la-geolocalisation-et-les-alerte-de.html
         objgps = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        //*************ecouteur ou listener*********************
         objlistener = new Myobjlistener();
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                // TODO: Consider calling
-                //    public void requestPermissions(@NonNull String[] permissions, int requestCode)
-                // here to request the missing permissions, and then overriding
-                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-                //                                          int[] grantResults)
-                // to handle the case where the user grants the permission. See the documentation
-                // for Activity#requestPermissions for more details.
                 return;
             }
         }
