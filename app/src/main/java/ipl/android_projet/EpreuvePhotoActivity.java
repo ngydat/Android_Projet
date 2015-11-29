@@ -43,6 +43,8 @@ public class EpreuvePhotoActivity extends AppCompatActivity {
     private float rayonEpreuve;
     private long startTime = 0L;
     private Handler customHandler = new Handler();
+
+    // source : http://examples.javacodegeeks.com/android/core/os/handler/android-timer-example/
     private Runnable updateTimerThread = new Runnable() {
 
         public void run() {

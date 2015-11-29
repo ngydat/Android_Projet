@@ -43,6 +43,8 @@ public class EpreuvePhotoActivity_LOLLIPOP extends AppCompatActivity {
     private long startTime = 0L;
     private Handler customHandler = new Handler();
     private Uri uriSaved;
+
+    // source : http://examples.javacodegeeks.com/android/core/os/handler/android-timer-example/
     private Runnable updateTimerThread = new Runnable() {
 
         public void run() {

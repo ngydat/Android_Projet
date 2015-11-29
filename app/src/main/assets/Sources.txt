@@ -4,8 +4,6 @@ https://openclassrooms.com/courses/creez-des-applications-pour-android/la-locali
 
 http://stackoverflow.com/questions/7203668/how-permission-can-be-checked-at-runtime-without-throwing-securityexception
 
-
-
 http://www.mkyong.com/java/how-to-read-xml-file-in-java-dom-parser
 
 http://stackoverflow.com/questions/3250034/android-webview-intercept-clicks

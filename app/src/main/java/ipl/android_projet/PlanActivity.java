@@ -36,6 +36,7 @@ public class PlanActivity extends AppCompatActivity {
         imageDetail = (ImageView) findViewById(R.id.plan_ville);
         imageDetail.setOnTouchListener(new View.OnTouchListener(){
 
+            //source : http://www.androidhub4you.com/2013/05/zoom-image-demo-in-android-zoom-image.html
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 ImageView view = (ImageView) v;

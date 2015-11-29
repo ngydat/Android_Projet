@@ -118,6 +118,7 @@ public class EpreuveQCMActivity extends AppCompatActivity {
 
     }
 
+    // source : http://examples.javacodegeeks.com/android/core/os/handler/android-timer-example/
     private Runnable updateTimerThread = new Runnable() {
 
         public void run() {

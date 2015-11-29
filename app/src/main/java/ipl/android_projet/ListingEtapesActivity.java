@@ -78,6 +78,8 @@ public class ListingEtapesActivity extends AppCompatActivity {
     private TextView timerValue;
     private long startTime = 0L;
     private Handler customHandler = new Handler();
+
+    // source : http://examples.javacodegeeks.com/android/core/os/handler/android-timer-example/
     private Runnable updateTimerThread = new Runnable() {
 
         public void run() {
@@ -346,16 +348,15 @@ public class ListingEtapesActivity extends AppCompatActivity {
                 tvTempsTotal.setText("" + mins + ":"
                         + String.format("%02d", secs));
 
+
+                // source : http://easy-android.over-blog.com/2013/12/changer-la-couleur-d-une-barre-de-progression.html
                 roundedCorners = new float[] { 10, 10, 10, 10, 10, 10, 10, 10 };
                 pgDrawable = new ShapeDrawable (new RoundRectShape(roundedCorners, null, null));
 
                 pgDrawable.getPaint ().setColor (Color.rgb(102,0,102));
-                // On crée l'image de la progress bar
                 progressImg = new ClipDrawable (pgDrawable, Gravity.LEFT, ClipDrawable.HORIZONTAL);
-                // On intégre l'image et Android s'occupe de dimensionner comme il faut
                 progress=(ProgressBar) stat.findViewById(R.id.progressbar);
                 progress.setProgressDrawable(progressImg);
-                // On indique que la valeur maximum est 100
                 progress.setMax(100);
                 progress.setBackgroundColor(Color.rgb(202, 203, 182));
 
