@@ -15,28 +15,28 @@
 
 
     <TextView
+        android:id="@+id/question_content_epreuve_photo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/question_content_epreuve_photo"
         android:textAppearance="@style/Question_style"
         />
 
     <ImageView
-        android:layout_width="150dp"
-        android:layout_height="wrap_content"
         android:id="@+id/imageView_content_epreuve_photo"
-        android:src="@drawable/app_photo"
+        android:layout_width="320dp"
+        android:layout_height="320dp"
         android:layout_below="@+id/question_content_epreuve_photo"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:src="@drawable/app_photo" />
 
     <Button
+        android:id="@+id/button_content_epreuve_photo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="@style/Button_style"
-        android:text="camera"
-        android:id="@+id/button_content_epreuve_photo"
         android:layout_below="@+id/imageView_content_epreuve_photo"
         android:layout_centerHorizontal="true"
+        android:text="camera"
+        android:textAppearance="@style/Button_style"
         />
 
 </RelativeLayout>

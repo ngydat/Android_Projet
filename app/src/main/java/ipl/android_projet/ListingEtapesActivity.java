@@ -179,6 +179,9 @@ public class ListingEtapesActivity extends AppCompatActivity {
                     }
 
                 } else if (url.contains("http://epreuve2_etape1.photo")) {
+                    double latitudeEpreuve = 0;
+                    double longitudeEpreuve = 0;
+                    float rayonEpreuve = 0;
 
                     if (dao.getEtape(pseudo) == 1 && dao.getEpreuve(pseudo) < 1) {
                         Toast.makeText(getApplicationContext(), "Veuillez terminer l'epreuve 1", Toast.LENGTH_SHORT).show();
@@ -187,10 +190,16 @@ public class ListingEtapesActivity extends AppCompatActivity {
                     } else {
 
                         epreuve = ListingEtapesActivity.this.getEpreuve(doc, 0, 1);
+                        latitudeEpreuve = Double.valueOf(epreuve.getElementsByTagName("Zone").item(0).getFirstChild().getTextContent());
+                        longitudeEpreuve = Double.valueOf(epreuve.getElementsByTagName("Zone").item(0).getFirstChild().getNextSibling().getTextContent());
+                        rayonEpreuve = Float.valueOf(epreuve.getElementsByTagName("Zone").item(0).getLastChild().getTextContent());
+
+
                         question = epreuve.getFirstChild().getTextContent();
                         point = Integer.parseInt(epreuve.getAttribute("points"));
                         aide = epreuve.getLastChild().getTextContent();
                         Intent intentPhoto = null;
+                        //http://stackoverflow.com/questions/3551959/possible-to-only-load-specific-lines-of-code-according-to-android-os-version
                         if (Build.VERSION.RELEASE.compareTo("5.0") >= 0) {
                             intentPhoto = new Intent(ListingEtapesActivity.this, EpreuvePhotoActivity_LOLLIPOP.class);
                         } else {
@@ -202,7 +211,9 @@ public class ListingEtapesActivity extends AppCompatActivity {
                         intentPhoto.putExtra("etape", 1);
                         intentPhoto.putExtra("point", point);
                         intentPhoto.putExtra("aide", aide);
-
+                        intentPhoto.putExtra("latitudeEpreuve", latitudeEpreuve);
+                        intentPhoto.putExtra("longitudeEpreuve", longitudeEpreuve);
+                        intentPhoto.putExtra("rayonEpreuve", rayonEpreuve);
                         startActivity(intentPhoto);
                     }
                 } else if (url.contains("http://epreuve1_etape2.texte_trou")) {

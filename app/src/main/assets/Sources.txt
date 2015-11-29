@@ -27,3 +27,9 @@ http://easy-android.over-blog.com/2013/12/changer-la-couleur-d-une-barre-de-prog
 http://www.androidhub4you.com/2013/05/zoom-image-demo-in-android-zoom-image.html
 
 http://stackoverflow.com/questions/10093462/android-camera-stuck-cant-catch-the-picture
+
+http://stackoverflow.com/questions/3551959/possible-to-only-load-specific-lines-of-code-according-to-android-os-version
+
+http://stackoverflow.com/questions/12555420/how-to-get-a-uri-object-from-bitmap
+
+http://stackoverflow.com/questions/22063842/check-if-a-latitude-and-longitude-is-within-a-circle
