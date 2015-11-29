@@ -30,7 +30,7 @@
         android:layout_marginBottom="50dp"
         android:layout_marginRight="20dp"
         android:clickable="true"
-        android:src="@drawable/ic_person_add_black_16dp_2x"
+        android:src="@drawable/ic_person_add_white_24dp"
         app:backgroundTint="@color/colorMauve" />
 
 
